@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function MainSideBar() {
   return (
-    <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-800 to-gray-900 border border-gray-600/20">
+    <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
       <div className="flex justify-between px-2 sm:px-4 py-3 border-b border-gray-700/50">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center">
@@ -14,7 +14,7 @@ export default function MainSideBar() {
           </div>
           <h1 className="font-semibold">SetPlan</h1>
         </div>
-        <div className="w-8 h-8 rounded-full bg-gray-700 hover:bg-gray-600 transition-colors cursor-pointer" />
+        <div className="w-8 h-8 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors cursor-pointer" />
       </div>
 
       <div className="px-2 mt-3">
