@@ -2,13 +2,16 @@ import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 interface SideBarEventProps {
+  id: string,
   name: string;
   startDate: string; // ISO format: YYYY-MM-DD
   endDate: string;
 }
 
 export default function SideBarEvent({
+  id,
   name,
   startDate,
   endDate,
@@ -23,14 +26,14 @@ export default function SideBarEvent({
       ) : (
         <CiHeart className="text-lg hover:text-pink-500 transition-colors" onClick={() => setIsFavorited(true)} />
       )}
-      <div className="flex flex-col justify-center font-semibold">
+      <Link to={`/events/${id}`} className="flex flex-col justify-center font-semibold">
         <h1 className="text-md text-gray-400 group-hover:text-white transition-colors">
           {name}
         </h1>
         <p className="text-xs text-gray-400 group-hover:text-gray-300">
           {startDay.toDateString()} - {endDay.toDateString()}
         </p>
-      </div>
+      </Link>
       <HiOutlineArrowLongRight className="ml-auto text-gray-400 text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </div>
   );

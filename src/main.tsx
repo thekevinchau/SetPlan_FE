@@ -4,9 +4,11 @@ import './index.css'
 import App from './App.tsx'
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import LoginPage from './pages/LoginPage.tsx'
+import NotFoundPage from './pages/NotFoundPage.tsx'
 
 const router = createBrowserRouter([
   {path: '/', element: <App />},
+  {path: '/*', element: <NotFoundPage/>}
   //{path: '/login', element: <LoginPage />},
   //{path: '/events'},
   //{path: '/events/:id'}

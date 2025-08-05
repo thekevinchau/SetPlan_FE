@@ -1,6 +1,6 @@
 export default function MainComponent() {
   return (
-    <div className="w-full h-[calc(100vh-theme('spacing.6'))] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
+    <div className="w-full h-full rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
           <p className="text-gray-400 mb-1 text-sm">Festivals</p>
@@ -28,10 +28,14 @@ export default function MainComponent() {
         </div>
         <input
           type="search"
-          placeholder="Search events.."
-          className="border border-gray-600 rounded-md min-w-1/4 max-w-1/2 h-1/2 p-2 bg-gray-800/50 text-gray-400 text-sm placeholder-gray-400"
+          placeholder="Search events..."
+          className="border border-gray-600 rounded-md min-w-1/4 max-w-1/2 h-1/2 p-3 bg-gray-800/50 text-gray-400 text-sm placeholder-gray-400"
           name="eventSearch"
         />
+      </div>
+
+      <div className="mt-4">
+        <h1 className="text-lg text-gray-400 border-b-1">April 2025</h1>
       </div>
     </div>
   );
