@@ -1,28 +1,44 @@
+import { useEffect } from "react";
 import { MdOutlineFestival } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { FaBullhorn } from "react-icons/fa6";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
-export default function MainSideBar() {
-  const [selected, setSelected] = useState<number>(1);
+interface MainSideBarProps {
+  selected?: number;
+  setSelected: (value: number) => void;
+}
+
+export default function MainSideBar({ selected, setSelected }: MainSideBarProps) {
+  useEffect(() => {
+    const savedSelected = localStorage.getItem("sidebar-selected");
+    if (savedSelected) {
+      setSelected(Number(savedSelected));
+    }
+  }, [setSelected]);
+
+  const handleSelection = (value: number) => {
+    localStorage.setItem("sidebar-selected", value.toString());
+    setSelected(value);
+  };
+
   return (
     <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
       <div className="flex justify-between px-2 sm:px-4 py-3 border-b border-gray-700/50">
         <Link to={"/"} className="flex items-center gap-3">
-            <img
-              className="w-8 h-8 rounded-full flex items-center justify-center"
-              src="src/assets/SetPlan.png"
-              alt="SetPlan Logo"
-            ></img>
+          <img
+            className="w-8 h-8 rounded-full"
+            src="src/assets/SetPlan.png"
+            alt="SetPlan Logo"
+          />
           <h1 className="font-semibold">SetPlan</h1>
         </Link>
         <Link to={"/users"}>
           <img
-            className="w-8 h-8 rounded-full flex items-center justify-center"
+            className="w-8 h-8 rounded-full"
             src="src/assets/SetPlan.png"
             alt="SetPlan Logo"
-          ></img>
+          />
         </Link>
       </div>
 
@@ -34,26 +50,22 @@ export default function MainSideBar() {
               className={`flex items-center p-2 rounded-md transition-all duration-300 cursor-pointer group ${
                 selected === 1 ? "bg-gray-800" : ""
               }`}
-              onClick={() => setSelected(1)}
+              onClick={() => handleSelection(1)}
             >
               <MdOutlineFestival className="mr-3 text-lg text-indigo-400" />
-              <span className="text-gray-400 transition-colors duration-300 group-hover:text-white">
-                Festivals
-              </span>
+              <span className="text-gray-400 group-hover:text-white">Events</span>
             </Link>
           </li>
           <li>
             <Link
-              to="/past-festivals"
+              to="/past-events"
               className={`flex items-center p-2 rounded-md transition-all duration-300 cursor-pointer group ${
                 selected === 2 ? "bg-gray-800" : ""
               }`}
-              onClick={() => setSelected(2)}
+              onClick={() => handleSelection(2)}
             >
               <IoMdTime className="mr-3 text-lg text-indigo-400" />
-              <span className="text-gray-400 transition-colors duration-300 group-hover:text-white">
-                Past Festivals
-              </span>
+              <span className="text-gray-400 group-hover:text-white">Past Events</span>
             </Link>
           </li>
           <li>
@@ -62,12 +74,10 @@ export default function MainSideBar() {
               className={`flex items-center p-2 rounded-md transition-all duration-300 cursor-pointer group ${
                 selected === 3 ? "bg-gray-800" : ""
               }`}
-              onClick={() => setSelected(3)}
+              onClick={() => handleSelection(3)}
             >
               <FaBullhorn className="mr-3 text-lg text-indigo-400" />
-              <span className="text-gray-400 transition-colors duration-300 group-hover:text-white">
-                Announcements
-              </span>
+              <span className="text-gray-400 group-hover:text-white">Announcements</span>
             </Link>
           </li>
         </ul>

@@ -15,7 +15,9 @@ export default function NotFoundPage() {
           <p className="text-sm text-gray-500">Time to find another party! 🎉</p>
         </div>
         
-        <Link to="/" className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-gradient-to-r from-gray-800 to-slate-800 hover:from-gray-700 hover:to-slate-700 border border-gray-700/20 transition-colors text-white font-medium group">
+        <Link to="/" className="inline-flex items-center justify-center px-6 py-3 rounded-md bg-gradient-to-r from-gray-800 to-slate-800 hover:from-gray-700 hover:to-slate-700 border border-gray-700/20 transition-colors text-white font-medium group"
+        onClick={() => localStorage.setItem("sidebar-selected", "1")}
+        >
           <span>Back to Festivals</span>
           <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
         </Link>

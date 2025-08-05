@@ -35,7 +35,7 @@ export default function MainComponent() {
       </div>
 
       <div className="mt-4">
-        <h1 className="text-lg text-gray-400 border-b-1">April 2025</h1>
+        <h1 className="text-lg text-gray-400 border-b border-gray-600/50">April 2025</h1>
       </div>
     </div>
   );
