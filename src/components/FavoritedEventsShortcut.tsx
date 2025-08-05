@@ -28,7 +28,7 @@ export default function FavoritedEventsShortcut(){
     return (
         <div className="mb-2">
             <div className="px-2 sm:px-4">
-                <h3 className="text-xs text-gray-400 mb-1">Favorited Events</h3>
+                <h3 className="text-xs text-white mb-1">Favorited Events</h3>
                 {musicEvents.length > 0 ? (
                     musicEvents.map((event) => (
                         <SideBarEvent

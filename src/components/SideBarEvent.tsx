@@ -26,11 +26,11 @@ export default function SideBarEvent({
       ) : (
         <CiHeart className="text-lg hover:text-pink-500 transition-colors" onClick={() => setIsFavorited(true)} />
       )}
-      <Link to={`/events/${id}`} className="flex flex-col justify-center font-semibold">
-        <h1 className="text-md text-gray-400 group-hover:text-white transition-colors">
+      <Link to={`/events/${id}`} className="flex flex-col justify-center font-light">
+        <h1 className="text-xs text-gray-400 group-hover:text-white transition-colors truncate">
           {name}
         </h1>
-        <p className="text-xs text-gray-400 group-hover:text-gray-300">
+        <p className="text-xs text-gray-400 group-hover:text-gray-300 truncate">
           {startDay.toDateString()} - {endDay.toDateString()}
         </p>
       </Link>
