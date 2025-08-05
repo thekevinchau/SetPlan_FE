@@ -25,7 +25,7 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
   return (
     <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
       <div className="flex justify-between px-2 sm:px-4 py-3 border-b border-gray-700/50">
-        <Link to={"/"} className="flex items-center gap-3">
+        <Link to={"/"} className="flex items-center gap-3" onClick={() => handleSelection(1)}>
           <img
             className="w-8 h-8 rounded-full"
             src="src/assets/SetPlan.png"

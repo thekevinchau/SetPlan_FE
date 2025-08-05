@@ -9,9 +9,9 @@ import PastEvents from './pages/PastEvents.tsx'
 
 const router = createBrowserRouter([
   {path: '/', element: <App />},
-  {path: '/*', element: <NotFoundPage/>},
   {path: '/announcements', element: <Announcements/> },
   {path: '/past-events', element: <PastEvents/>},
+  {path: '/*', element: <NotFoundPage/>},
   //{path: '/login', element: <LoginPage />},
   //{path: '/events'},
   //{path: '/events/:id'}
