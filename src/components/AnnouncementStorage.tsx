@@ -19,12 +19,30 @@ const announcements: AnnouncementDetails[] = [
     header: "Welcome to the website",
     content:
       "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
+  },  {
+    announcer: "kevster",
+    header: "Welcome to the website",
+    content:
+      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
   },
+  {
+    announcer: "kevster",
+    header: "Welcome to the website",
+    content:
+      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
+  },
+  {
+    announcer: "kevster",
+    header: "Welcome to the website",
+    content:
+      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
+  }
 ];
 
 export default function AnnouncementStorage() {
   return (
-    <div className="w-full h-full rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
+    <div className="w-full h-[95vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
+      {/* Header section (fixed height) */}
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
           <p className="text-gray-400 mb-1 text-sm">Announcements</p>
@@ -44,15 +62,11 @@ export default function AnnouncementStorage() {
             Here you will find general site updates, new features, and any
             random shits and gigs I want to post.
           </p>
-          <p className="text-sm text-gray-400">
-            Don't see a festival here?
-            <span className="text-blue-500 cursor-pointer ml-1 hover:underline">
-              Let me know!
-            </span>
-          </p>
         </div>
       </div>
-      <div className="mt-4 text-white">
+
+      {/* Scrollable announcement list */}
+      <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1">
         {announcements.map((announcement: AnnouncementDetails, idx) => (
           <Announcement key={idx} announcement={announcement} />
         ))}
