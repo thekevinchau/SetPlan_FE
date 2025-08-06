@@ -1,6 +1,6 @@
 export default function MainComponent() {
   return (
-    <div className="w-full h-full rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
+    <div className="w-full rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
           <p className="text-gray-400 mb-1 text-sm">Festivals</p>

@@ -4,7 +4,7 @@ import { FaHeart } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 interface SideBarEventProps {
-  id: string,
+  id: string;
   name: string;
   startDate: string; // ISO format: YYYY-MM-DD
   endDate: string;
@@ -22,15 +22,24 @@ export default function SideBarEvent({
   return (
     <div className="group flex items-center gap-2 text-xs w-full transition-colors duration-300 cursor-pointer mt-1 rounded-md h-12">
       {isFavorited ? (
-        <FaHeart className="text-lg text-pink-500 transition-colors" onClick={() => setIsFavorited(false)} />
+        <FaHeart
+          className="text-base sm:text-lg md:text-xl text-pink-500 transition-colors"
+          onClick={() => setIsFavorited(false)}
+        />
       ) : (
-        <CiHeart className="text-lg hover:text-pink-500 transition-colors" onClick={() => setIsFavorited(true)} />
+        <CiHeart
+          className="text-base sm:text-lg md:text-xl hover:text-pink-500 transition-colors"
+          onClick={() => setIsFavorited(true)}
+        />
       )}
-      <Link to={`/events/${id}`} className="flex flex-col justify-center font-light">
+      <Link
+        to={`/events/${id}`}
+        className="flex flex-col justify-center font-light"
+      >
         <h1 className="text-xs text-gray-400 group-hover:text-white transition-colors truncate">
           {name}
         </h1>
-        <p className="text-xs text-gray-400 group-hover:text-gray-300 truncate">
+        <p className="text-[0.6rem] sm:text-xs text-gray-400 group-hover:text-gray-300 truncate">
           {startDay.toDateString()} - {endDay.toDateString()}
         </p>
       </Link>
