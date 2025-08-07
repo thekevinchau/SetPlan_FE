@@ -1,45 +1,19 @@
 import { FaBullhorn } from "react-icons/fa";
+import { getAnnouncements } from "../api/announcements";
+import { useQuery } from "@tanstack/react-query";
+import type {
+  AnnouncementDetails,
+  AnnouncementResponse,
+} from "../types/announcementTypes";
 import Announcement from "./Announcement";
 
-type AnnouncementDetails = {
-  announcer: string;
-  header: string;
-  content: string;
-};
-
-const announcements: AnnouncementDetails[] = [
-  {
-    announcer: "kevster",
-    header: "Welcome to the website",
-    content:
-      "Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!Awesome website!!",
-  },
-  {
-    announcer: "kevster",
-    header: "Welcome to the website",
-    content:
-      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
-  },  {
-    announcer: "kevster",
-    header: "Welcome to the website",
-    content:
-      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
-  },
-  {
-    announcer: "kevster",
-    header: "Welcome to the website",
-    content:
-      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
-  },
-  {
-    announcer: "kevster",
-    header: "Welcome to the website",
-    content:
-      "Appreciate those of you who have reached out. It's been difficult for me to find time lately to update lineup data, and this will likely be true for the next few months. Haven't forgotten about this/dropped it altogether, but I'll need a bit of time before I can get back to timely lineup updates. Love you all 🫶",
-  }
-];
-
 export default function AnnouncementStorage() {
+  const { data, isPending } = useQuery<AnnouncementResponse>({
+    queryKey: ["announcements"],
+    queryFn: getAnnouncements,
+  });
+  const announcements2: AnnouncementDetails[] | undefined = data?.content;
+
   return (
     <div className="w-full h-[95vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
       {/* Header section (fixed height) */}
@@ -64,13 +38,16 @@ export default function AnnouncementStorage() {
           </p>
         </div>
       </div>
-
-      {/* Scrollable announcement list */}
-      <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1">
-        {announcements.map((announcement: AnnouncementDetails, idx) => (
-          <Announcement key={idx} announcement={announcement} />
-        ))}
-      </div>
+      {isPending ? (
+        <div>Loading announcements...</div>
+      ) : (
+        // Scrollable announcement list
+        <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1">
+          {announcements2?.map((announcement: AnnouncementDetails, idx) => (
+            <Announcement key={idx} announcement={announcement} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

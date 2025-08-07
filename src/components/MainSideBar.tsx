@@ -27,7 +27,7 @@ export default function MainSideBar({
 
   return (
     <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
-      <div className="flex items-center justify-between px-2 sm:px-4 py-3 border-b border-gray-700/50">
+      <div className="flex items-center justify-between px-2 sm:px-4 py-3">
         {/* Left side: Logo + Brand name */}
         <Link
           to="/"
@@ -35,7 +35,7 @@ export default function MainSideBar({
           onClick={() => handleSelection(1)}
         >
           <img
-            className="w-8 h-8 rounded-full"
+            className="w-6 h-6 rounded-full"
             src="src/assets/SetPlan.png"
             alt="SetPlan Logo"
           />
@@ -46,7 +46,7 @@ export default function MainSideBar({
         {/* Right side: User/profile icon */}
         <Link to="/users" className="shrink-0">
           <img
-            className="w-8 h-8 rounded-full"
+            className="w-6 h-6 rounded-full"
             src="src/assets/SetPlan.png"
             alt="User"
           />

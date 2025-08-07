@@ -1,15 +1,30 @@
 import { Link } from "react-router-dom";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
-
-type AnnouncementDetails = {
-  announcer: string;
-  header: string;
-  content: string;
-};
+import type { AnnouncementDetails } from "../types/announcementTypes";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
+}
+
+function getWeeksBetweenDates(date1: Date, date2: Date) {
+  const diffInMs = Math.abs(date1.getTime() - date2.getTime());
+  console.log(date1);
+  console.log(date2);
+  const msInOneWeek = 1000 * 60 * 60 * 24 * 7;
+  const weeks = Math.floor(diffInMs / msInOneWeek);
+  return weeks;
+}
+
+function isWithinWeek(date1: Date, date2: Date) {
+  const diffInMs = Math.abs(date1.getTime() - date2.getTime());
+  const msInOneWeek = 1000 * 60 * 60 * 24 * 7;
+
+  if (diffInMs < msInOneWeek) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export default function Announcement({ announcement }: AnnouncementProps) {
@@ -25,8 +40,20 @@ export default function Announcement({ announcement }: AnnouncementProps) {
             />
           </Link>
           <div className="text-[0.75rem]">
-            <p>{announcement.announcer}</p>
-            <p className="text-gray-400 pb-[0.1rem]">4w</p>
+            <p>{announcement.announcer.name}</p>
+            {isWithinWeek(new Date(), new Date(announcement.createdAt)) ? (
+              <p className="text-gray-400 pb-[0.1rem]">
+                {announcement.createdAt}
+              </p>
+            ) : (
+              <p className="text-gray-400 pb-[0.1rem]">
+                {getWeeksBetweenDates(
+                  new Date(),
+                  new Date(announcement.createdAt)
+                )}
+                w
+              </p>
+            )}
           </div>
         </div>
         <h2 className="font-extrabold text-gray-100 mb-2">
