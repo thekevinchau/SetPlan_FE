@@ -2,32 +2,21 @@ import { Link } from "react-router-dom";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
 import type { AnnouncementDetails } from "../types/announcementTypes";
+import { useState } from "react";
+import React from 'react';
+import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
 }
 
-function getWeeksBetweenDates(date1: Date, date2: Date) {
-  const diffInMs = Math.abs(date1.getTime() - date2.getTime());
-  console.log(date1);
-  console.log(date2);
-  const msInOneWeek = 1000 * 60 * 60 * 24 * 7;
-  const weeks = Math.floor(diffInMs / msInOneWeek);
-  return weeks;
-}
-
-function isWithinWeek(date1: Date, date2: Date) {
-  const diffInMs = Math.abs(date1.getTime() - date2.getTime());
-  const msInOneWeek = 1000 * 60 * 60 * 24 * 7;
-
-  if (diffInMs < msInOneWeek) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 export default function Announcement({ announcement }: AnnouncementProps) {
+  const [comment, setComment] = useState('');
+  const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(event.target.value);
+    console.log(comment);
+  }
+
   return (
     <div className="w-full flex flex-col p-3 rounded-lg mb-4 border-gray-600 border">
       <div className="border-b-1 border-b-gray-700">
@@ -43,7 +32,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
             <p>{announcement.announcer.name}</p>
             {isWithinWeek(new Date(), new Date(announcement.createdAt)) ? (
               <p className="text-gray-400 pb-[0.1rem]">
-                {announcement.createdAt}
+                {new Date(announcement.createdAt).toLocaleDateString()}
               </p>
             ) : (
               <p className="text-gray-400 pb-[0.1rem]">
@@ -75,6 +64,8 @@ export default function Announcement({ announcement }: AnnouncementProps) {
         <input
           className="flex-1 border border-gray-400 rounded-md p-3 text-xs"
           placeholder="Write a comment..."
+          value={comment}
+          onChange={handleCommentInput}
         />
         <button className="text-blue-500 hover:text-blue-600 transition duration-200 cursor-pointer">
           <IoArrowUpCircleSharp className="w-7 h-7" />
