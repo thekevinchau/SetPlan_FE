@@ -15,7 +15,7 @@ export default function AnnouncementStorage() {
   const announcements2: AnnouncementDetails[] | undefined = data?.content;
 
   return (
-    <div className="w-full h-[95vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
+    <div className="w-full h-[94vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
       {/* Header section (fixed height) */}
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>

@@ -64,7 +64,7 @@ export default function MainSideBar({
               onClick={() => handleSelection(1)}
             >
               <MdOutlineFestival className="mr-3 text-lg text-gray-400" />
-              <span className="text-gray-400 group-hover:text-white">
+              <span className="text-gray-400 group-hover:text-white transition duration-300">
                 Events
               </span>
             </Link>
@@ -78,7 +78,7 @@ export default function MainSideBar({
               onClick={() => handleSelection(2)}
             >
               <IoMdTime className="mr-3 text-xl" />
-              <span className="text-gray-400 group-hover:text-white">
+              <span className="text-gray-400 group-hover:text-white transition duration-300">
                 Past Events
               </span>
             </Link>
@@ -91,8 +91,8 @@ export default function MainSideBar({
               }`}
               onClick={() => handleSelection(3)}
             >
-              <FaBullhorn className="mr-3 text-lg pl-1" />
-              <span className="text-gray-400 group-hover:text-white">
+              <FaBullhorn className="mr-3 text-lg" />
+              <span className="text-gray-400 group-hover:text-white transition duration-300">
                 Announcements
               </span>
             </Link>

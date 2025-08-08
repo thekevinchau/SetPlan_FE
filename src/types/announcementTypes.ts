@@ -14,3 +14,15 @@ export type AnnouncementResponse = {
   content: AnnouncementDetails[];
   page: PageMetadata;
 };
+
+export type AnnouncementComment = {
+    id: string,
+    announcementId: string,
+    commenter: SimpleUserProfile,
+    content: string,
+    createdAt: string 
+}
+
+export type AnnouncementCommentResponse = {
+    content: AnnouncementComment[];
+}

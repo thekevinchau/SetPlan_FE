@@ -1,20 +1,25 @@
 import { Link } from "react-router-dom";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
-import type { AnnouncementDetails } from "../types/announcementTypes";
+import { AnnouncementCommentResponse, type AnnouncementDetails } from "../types/announcementTypes";
 import { useState } from "react";
 import React from 'react';
 import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
+import { useQuery } from "@tanstack/react-query";
+import { getCommentsByAnnouncement } from "../api/announcements";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
 }
 
 export default function Announcement({ announcement }: AnnouncementProps) {
+  const {data} = useQuery<AnnouncementCommentResponse>({
+    queryKey: ["announcementComments", announcement.id],
+    queryFn: () => getCommentsByAnnouncement(announcement.id)
+  })
   const [comment, setComment] = useState('');
   const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
-    console.log(comment);
   }
 
   return (
@@ -55,10 +60,12 @@ export default function Announcement({ announcement }: AnnouncementProps) {
         </p>
       </div>
 
-      <p className="flex items-center text-sm mt-3 w-1/2 text-gray-400">
+      <button className="flex items-center text-sm mt-3 w-1/2 text-gray-400 cursor-pointer hover:text-white transition duration-300">
         <TfiCommentAlt className="mr-2" />
         <span className="pb-1">Show 4 comments</span>
-      </p>
+      </button>
+
+            {JSON.stringify(data)}
 
       <div className="flex items-center gap-2 mt-2">
         <input
