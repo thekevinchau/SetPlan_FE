@@ -1,29 +1,37 @@
 import { Link } from "react-router-dom";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
-import { AnnouncementCommentResponse, type AnnouncementDetails } from "../types/announcementTypes";
+import type {
+  AnnouncementCommentResponse,
+  AnnouncementComment,
+  AnnouncementDetails,
+} from "../types/announcementTypes";
 import { useState } from "react";
-import React from 'react';
+import React from "react";
 import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
 import { useQuery } from "@tanstack/react-query";
 import { getCommentsByAnnouncement } from "../api/announcements";
+import Comment from "./Comment";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
 }
 
 export default function Announcement({ announcement }: AnnouncementProps) {
-  const {data} = useQuery<AnnouncementCommentResponse>({
+  const { data, isPending } = useQuery({
     queryKey: ["announcementComments", announcement.id],
-    queryFn: () => getCommentsByAnnouncement(announcement.id)
-  })
-  const [comment, setComment] = useState('');
+    queryFn: () => getCommentsByAnnouncement(announcement.id),
+    enabled: !!announcement.id,
+  });
+  const comments: AnnouncementComment[] = data;
+  const [comment, setComment] = useState("");
+  const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
   const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
-  }
+  };
 
   return (
-    <div className="w-full flex flex-col p-3 rounded-lg mb-4 border-gray-600 border">
+    <div className="w-1/2 flex flex-col p-3 rounded-lg mb-4 border-gray-600 border">
       <div className="border-b-1 border-b-gray-700">
         <div id="header" className="mb-2 flex">
           <Link to={"/users"} className="flex items-center gap-3">
@@ -60,12 +68,25 @@ export default function Announcement({ announcement }: AnnouncementProps) {
         </p>
       </div>
 
-      <button className="flex items-center text-sm mt-3 w-1/2 text-gray-400 cursor-pointer hover:text-white transition duration-300">
+      <button
+        className="flex items-center text-sm mt-3 w-1/2 text-gray-400 cursor-pointer hover:text-white transition duration-300"
+        onClick={() => setCommentsVisible(!commentsVisible)}
+      >
         <TfiCommentAlt className="mr-2" />
         <span className="pb-1">Show 4 comments</span>
       </button>
 
-            {JSON.stringify(data)}
+      {commentsVisible && (
+        <div>
+          {comments?.length ? (
+            comments.map((comment: AnnouncementComment) => (
+              <Comment key={comment.id} comment={comment} />
+            ))
+          ) : (
+            <p className="text-gray-500 text-sm">No comments yet</p>
+          )}
+        </div>
+      )}
 
       <div className="flex items-center gap-2 mt-2">
         <input

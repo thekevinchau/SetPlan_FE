@@ -1,5 +1,6 @@
 import EventShortcutListing from "./EventShortcutListing";
 import FavoritedEventsShortcut from "./FavoritedEventsShortcut";
+import LoginModal from "./LoginModal";
 
 export default function Shortcuts() {
   return (
@@ -11,6 +12,7 @@ export default function Shortcuts() {
         <FavoritedEventsShortcut />
         <EventShortcutListing />
       </div>
+      <LoginModal/>
     </div>
   );
 }

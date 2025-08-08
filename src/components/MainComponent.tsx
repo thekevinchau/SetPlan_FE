@@ -1,6 +1,15 @@
+import { useQuery } from "@tanstack/react-query";
+import { getAllEvents } from "../api/events";
+import type { AllEventsResponse, Event } from "../types/eventTypes";
+
 export default function MainComponent() {
+  const {data, isPending} = useQuery({
+    queryKey: ["events"],
+    queryFn: getAllEvents
+  })
+  const events: Event[] | undefined = data;
   return (
-    <div className="w-full rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
+    <div className="w-full h-[94vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
           <p className="text-gray-400 mb-1 text-sm">Festivals</p>
@@ -12,6 +21,8 @@ export default function MainComponent() {
             here!
           </h1>
         </div>
+
+        {isPending ? <p>Loading</p> : JSON.stringify(events)}
 
         <div className="space-y-1">
           <h2 className="text-xl font-semibold">Upcoming festivals</h2>

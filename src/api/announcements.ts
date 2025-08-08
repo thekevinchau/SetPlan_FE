@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AnnouncementCommentResponse, AnnouncementResponse } from '../types/announcementTypes';
+import type { AnnouncementComment, AnnouncementResponse } from '../types/announcementTypes';
 
 export async function getAnnouncements(): Promise<AnnouncementResponse> {
   try {
@@ -21,16 +21,15 @@ export async function getAnnouncements(): Promise<AnnouncementResponse> {
   }
 }
 
-export async function getCommentsByAnnouncement(id: string){
-    try{
-        const response = await axios.get<AnnouncementCommentResponse>(`http://localhost:8080/announcements/${id}/comments`)
-        console.log(response.data);
-        return response.data;
-    }
-    catch(err){
-        console.error('Error fetching comments', err);
-        return {
-            content: []
-        }
-    }
+export async function getCommentsByAnnouncement(id: string) {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/announcements/${id}/comments`
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    console.error("Error fetching comments", err);
+    return { content: [] };
+  }
 }
