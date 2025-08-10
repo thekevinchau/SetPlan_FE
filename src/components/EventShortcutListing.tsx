@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import SideBarEvent from "./SideBarEvent";
-import { getAllEvents } from "../api/events";
+import {getFutureEvents } from "../api/events";
 import type { Event } from "../types/eventTypes";
 
 export default function EventShortcutListing() {
   const { data, isPending } = useQuery({
     queryKey: ["events"],
-    queryFn: getAllEvents,
+    queryFn: getFutureEvents,
     staleTime: 300000,
     refetchOnWindowFocus: true
   });

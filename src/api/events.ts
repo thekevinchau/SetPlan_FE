@@ -13,3 +13,14 @@ export async function getAllEvents(): Promise<Event[]>{
         return [];
     }
 }
+
+export async function getFutureEvents(): Promise<Event[]>{
+    try {
+        console.log('sent request')
+        const response = await axios.get('http://localhost:8080/events?page=0&size=10&future=true')
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+}
