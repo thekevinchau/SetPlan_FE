@@ -42,7 +42,7 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
         </Link>
       </div>
 
-      <div className="px-2 mt-3 font-light">
+      <div className="px-2 mt-3 font-light text-sm">
         <ul className="flex flex-col gap-1 pb-2">
           <li>
             <Link

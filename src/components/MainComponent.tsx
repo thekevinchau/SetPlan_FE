@@ -52,8 +52,7 @@ export default function MainComponent() {
         ) : (
           <div className="flex flex-wrap gap-4">
             {events?.map((event: Event) => (
-              <div key={event.id} className="w-72">
-                {" "}
+              <div key={event.id} className="">
                 {/* fixed width */}
                 <EventCard event={event} />
               </div>
