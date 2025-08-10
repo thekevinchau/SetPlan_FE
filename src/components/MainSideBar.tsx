@@ -24,7 +24,7 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
 
   return (
     <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
-      <div className="flex justify-between px-2 sm:px-4 py-3 border-b border-gray-700/50">
+      <div className="flex justify-between px-2 sm:px-4 py-3 border-gray-700/50">
         <Link to={"/"} className="flex items-center gap-3" onClick={() => handleSelection(1)}>
           <img
             className="w-8 h-8 rounded-full"
@@ -52,7 +52,7 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
               }`}
               onClick={() => handleSelection(1)}
             >
-              <MdOutlineFestival className="mr-3 text-lg text-indigo-400" />
+              <MdOutlineFestival className="mr-3 text-lg" />
               <span className="text-gray-400 group-hover:text-white">Events</span>
             </Link>
           </li>
@@ -64,7 +64,7 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
               }`}
               onClick={() => handleSelection(2)}
             >
-              <IoMdTime className="mr-3 text-lg text-indigo-400" />
+              <IoMdTime className="mr-3 text-lg" />
               <span className="text-gray-400 group-hover:text-white">Past Events</span>
             </Link>
           </li>
@@ -76,8 +76,8 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
               }`}
               onClick={() => handleSelection(3)}
             >
-              <FaBullhorn className="mr-3 text-lg text-indigo-400" />
-              <span className="text-gray-400 group-hover:text-white">Announcements</span>
+              <FaBullhorn className="mr-3 text-lg" />
+              <span className="text-gray-400 group-hover:text-white">Updates</span>
             </Link>
           </li>
         </ul>

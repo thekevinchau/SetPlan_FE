@@ -10,7 +10,7 @@ export default function EventCard({ event }: EventCardProps) {
   const startDate: Date = new Date(event.details.startDate);
   const endDate: Date = new Date(event.details.endDate);
   return (
-    <div className="mr-1 p-2 hover:border flex flex-col justify-between transition duration-700 rounded-md hover:scale-105 transform hover:opacity-80 h-98 w-66">
+    <div className="mr-1 p-2 hover:border flex flex-col justify-between transition duration-500 rounded-md hover:scale-103 transform hover:opacity-80 h-98 w-66">
       <img
         src="src/assets/SetPlan.png"
         className=" flex-1 mb-2 rounded-md object-fit"

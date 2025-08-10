@@ -8,6 +8,7 @@ export default function EventShortcutListing() {
     queryKey: ["events"],
     queryFn: getAllEvents,
     staleTime: 300000,
+    refetchOnWindowFocus: true
   });
   const musicEvents: Event[] | undefined = data;
   return (

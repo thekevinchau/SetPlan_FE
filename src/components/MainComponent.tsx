@@ -8,6 +8,7 @@ export default function MainComponent() {
     queryKey: ["events"],
     queryFn: getAllEvents,
     staleTime: 300000,
+    refetchOnWindowFocus: true,
   });
   const events: Event[] | undefined = data;
   return (
