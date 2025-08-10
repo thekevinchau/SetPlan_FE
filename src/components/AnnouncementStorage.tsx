@@ -42,7 +42,7 @@ export default function AnnouncementStorage() {
         <div>Loading announcements...</div>
       ) : (
         // Scrollable announcement list
-        <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1">
+        <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1 flex flex-col items-center">
           {announcements2?.map((announcement: AnnouncementDetails, idx) => (
             <Announcement key={idx} announcement={announcement} />
           ))}

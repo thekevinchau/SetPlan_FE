@@ -31,7 +31,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
   };
 
   return (
-    <div className="w-1/2 flex flex-col p-3 rounded-lg mb-4 border-gray-600 border">
+    <div className="w-3/5 flex flex-col p-3 rounded-lg mb-4 border-gray-600 border">
       <div className="border-b-1 border-b-gray-700">
         <div id="header" className="mb-2 flex">
           <Link to={"/users"} className="flex items-center gap-3">
@@ -69,15 +69,19 @@ export default function Announcement({ announcement }: AnnouncementProps) {
       </div>
 
       <button
-        className="flex items-center text-sm mt-3 w-1/2 text-gray-400 cursor-pointer hover:text-white transition duration-300"
+        className="flex items-center text-sm mt-3 w-1/2 mb-1 text-gray-400 cursor-pointer hover:text-white transition duration-300"
         onClick={() => setCommentsVisible(!commentsVisible)}
       >
         <TfiCommentAlt className="mr-2" />
-        <span className="pb-1">Show 4 comments</span>
+        {commentsVisible ? (
+          <span className="pb-1">Hide comments</span>
+        ) : (
+          <span className="pb-1">Show {comments.length} comments</span>
+        )}
       </button>
 
       {commentsVisible && (
-        <div>
+        <div className="transition duration-300 ease-out">
           {comments?.length ? (
             comments.map((comment: AnnouncementComment) => (
               <Comment key={comment.id} comment={comment} />
