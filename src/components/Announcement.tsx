@@ -18,20 +18,19 @@ interface AnnouncementProps {
 }
 
 export default function Announcement({ announcement }: AnnouncementProps) {
+  const [comment, setComment] = useState("");
+  const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
   const { data, isPending } = useQuery({
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
-    enabled: !!announcement.id,
   });
   const comments: AnnouncementComment[] = data;
-  const [comment, setComment] = useState("");
-  const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
   const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   };
 
   return (
-    <div className="w-3/5 flex flex-col p-3 rounded-lg mb-4 border-gray-600 border">
+    <div className="w-3/5 flex flex-col p-3 rounded-lg mb-4 border">
       <div className="border-b-1 border-b-gray-700">
         <div id="header" className="mb-2 flex">
           <Link to={"/users"} className="flex items-center gap-3">
@@ -69,14 +68,22 @@ export default function Announcement({ announcement }: AnnouncementProps) {
       </div>
 
       <button
-        className="flex items-center text-sm mt-3 w-1/2 mb-1 text-gray-400 cursor-pointer hover:text-white transition duration-300"
+        className="flex items-center text-sm mt-3 w-1/2 mb-1 text-gray-400"
         onClick={() => setCommentsVisible(!commentsVisible)}
+        disabled={comments?.length === 0}
       >
         <TfiCommentAlt className="mr-2" />
-        {commentsVisible ? (
-          <span className="pb-1">Hide comments</span>
+
+        {comments?.length === 0 ? (
+          <span className="pb-1">Be the first to comment!</span>
+        ) : commentsVisible ? (
+          <span className="pb-1 hover:text-white transition duration-300 cursor-pointer">
+            Hide comments
+          </span>
         ) : (
-          <span className="pb-1">Show {comments.length} comments</span>
+          <span className="pb-1 hover:text-white transition duration-300 cursor-pointer">
+            Show {comments?.length} comments
+          </span>
         )}
       </button>
 

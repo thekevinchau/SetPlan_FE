@@ -24,7 +24,3 @@ export type Event = {
         avatarUrl: string
     }
 }
-
-export type AllEventsResponse = {
-    events: Event[]
-}

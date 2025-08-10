@@ -1,15 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllEvents } from "../api/events";
 import type { AllEventsResponse, Event } from "../types/eventTypes";
+import EventCard from "./EventCard";
 
 export default function MainComponent() {
-  const {data, isPending} = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["events"],
-    queryFn: getAllEvents
-  })
+    queryFn: getAllEvents,
+    staleTime: 300000,
+  });
   const events: Event[] | undefined = data;
   return (
-    <div className="w-full h-[94vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3">
+    <div className="w-full h-[94vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 overflow-scroll">
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
           <p className="text-gray-400 mb-1 text-sm">Festivals</p>
@@ -21,8 +23,6 @@ export default function MainComponent() {
             here!
           </h1>
         </div>
-
-        {isPending ? <p>Loading</p> : JSON.stringify(events)}
 
         <div className="space-y-1">
           <h2 className="text-xl font-semibold">Upcoming festivals</h2>
@@ -46,7 +46,19 @@ export default function MainComponent() {
       </div>
 
       <div className="mt-4">
-        <h1 className="text-lg text-gray-400 border-b border-gray-600/50">April 2025</h1>
+        {isPending ? (
+          <p>Loading</p>
+        ) : (
+          <div className="flex flex-wrap gap-4">
+            {events?.map((event: Event) => (
+              <div key={event.id} className="w-72">
+                {" "}
+                {/* fixed width */}
+                <EventCard event={event} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

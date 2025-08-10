@@ -15,3 +15,7 @@ export function isWithinWeek(todayDate: Date, createdDate: Date) {
     return false;
   }
 }
+
+export function parseDateRange(){
+  
+}

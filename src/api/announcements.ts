@@ -21,15 +21,14 @@ export async function getAnnouncements(): Promise<AnnouncementResponse> {
   }
 }
 
-export async function getCommentsByAnnouncement(id: string) {
+export async function getCommentsByAnnouncement(id: string): Promise<AnnouncementComment[]> {
   try {
     const response = await axios.get(
       `http://localhost:8080/announcements/${id}/comments`
     );
-    console.log(response.data);
     return response.data;
   } catch (err) {
     console.error("Error fetching comments", err);
-    return { content: [] };
+    return [];
   }
 }
