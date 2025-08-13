@@ -1,6 +1,8 @@
 export interface SimpleEvent {
     id: string,
     name: string
+    startDate: string,
+    endDate: string
 }
 
 type eventLocation = {

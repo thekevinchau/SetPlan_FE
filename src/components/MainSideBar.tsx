@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import SetPlanTextWhite from "../assets/SetPlanTextWhite.png";
 import SetPlan from "../assets/SetPlan.png";
 import { useSelector } from "react-redux";
-import type { UserProfile } from "@/types/userTypes";
 import type { RootState } from "@/redux/store";
 
 interface MainSideBarProps {
@@ -21,7 +20,9 @@ export default function MainSideBar({
   const currentUserId: string | null | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.id
   );
-  const isLoggedIn: boolean = useSelector((state: RootState) => state.currentUser.isLoggedIn)
+  const isLoggedIn: boolean = useSelector(
+    (state: RootState) => state.currentUser.isLoggedIn
+  );
   useEffect(() => {
     const savedSelected = localStorage.getItem("sidebar-selected");
     if (savedSelected) {
@@ -36,7 +37,7 @@ export default function MainSideBar({
 
   return (
     <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
-      <div className="flex justify-between py-3 pr-2 border-gray-700/50">
+      <div className="flex justify-between items-center py-3 pr-2 border-gray-700/50">
         <Link
           to={"/"}
           className="pl-1 cursor-pointer"
@@ -48,15 +49,17 @@ export default function MainSideBar({
             alt="SetPlan Logo"
           />
         </Link>
-        { isLoggedIn &&
-        <Link to={`/users/${currentUserId}`}>
-          <img
-            className="w-8 h-8 rounded-full"
-            src={SetPlan}
-            alt="SetPlan Logo"
-          />
-        </Link>
-}
+        {isLoggedIn ? (
+          <Link to={`/users/${currentUserId}`}>
+            <img
+              className="w-8 h-8 rounded-full"
+              src={SetPlan}
+              alt="SetPlan Logo"
+            />
+          </Link>
+        ) : (
+          <Link to="/login" className="text-xs">Log in</Link>
+        )}
       </div>
 
       <div className="px-2 font-light text-sm">

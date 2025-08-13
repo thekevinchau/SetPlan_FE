@@ -1,36 +1,17 @@
-import { v4 as uuidv4 } from 'uuid';
 import SideBarEvent from "./SideBarEvent";
-
-type MusicEvent = {
-  id: string;
-  name: string;
-  startDate: string; // ISO format: YYYY-MM-DD
-  endDate: string;
-};
-
-const musicEvents: MusicEvent[] = [
-  {
-    id: uuidv4(),
-    name: "Coachella",
-    startDate: "2025-04-11",
-    endDate: "2025-04-20",
-  },
-  {
-    id: uuidv4(),
-    name: "Tomorrowland",
-    startDate: "2025-07-18",
-    endDate: "2025-07-27",
-  }
-];
+import type { SimpleEvent } from '@/types/eventTypes';
+import { useSelector } from 'react-redux';
+import type { RootState } from '@/redux/store';
 
 
 export default function FavoritedEventsShortcut(){
+  const userFavoritedEvents: SimpleEvent[] | null | undefined = useSelector((state: RootState ) => state.currentUser.userProfile?.favoriteEvents )
     return (
         <div className="mb-2">
             <div className="px-2 sm:px-4">
                 <h3 className="text-xs text-white mb-1">Favorited Events</h3>
-                {musicEvents.length > 0 ? (
-                    musicEvents.map((event) => (
+                {userFavoritedEvents && userFavoritedEvents?.length > 0 ? (
+                    userFavoritedEvents?.map((event) => (
                         <SideBarEvent
                             key={event.id}
                             id={event.id}
