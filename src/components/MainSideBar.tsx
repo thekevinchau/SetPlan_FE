@@ -50,7 +50,7 @@ export default function MainSideBar({
           />
         </Link>
         {isLoggedIn ? (
-          <Link to={`/users/${currentUserId}`}>
+          <Link to={`/users/me`}>
             <img
               className="w-8 h-8 rounded-full"
               src={SetPlan}
