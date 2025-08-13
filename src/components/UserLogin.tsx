@@ -8,6 +8,7 @@ import { login } from "@/api/users";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import { setUser } from "@/redux/currentUserSlice";
+import SetPlanLogo2 from '../assets/SetPlanLogo2.png'
 
 interface UserLoginProps {
   setPageType: (pageType: string) => void
@@ -40,7 +41,7 @@ export function UserLogin({setPageType}: UserLoginProps) {
       <div className="absolute top-4 left-4 sm:top-6 sm:left-6 w-24 sm:w-32">
         <Link to="/">
           <img
-            src="src/assets/SetPlanLogo2.png"
+            src={SetPlanLogo2}
             className="object-contain cursor-pointer rounded-4xl"
             alt="SetPlan logo"
           />

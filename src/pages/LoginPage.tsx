@@ -1,5 +1,6 @@
 import { UserSignUp } from "@/components/UserSignUp";
 import { UserLogin } from "@/components/UserLogin";
+import SetPlanLogin from '../assets/SetPlanLogin.jpg'
 import {useState, type JSX } from "react";
 
 export default function LoginPage(): JSX.Element {
@@ -15,7 +16,7 @@ export default function LoginPage(): JSX.Element {
       </div>
       <div className="w-3/5">
         <img
-          src="src/assets/SetPlanLogin.jpg"
+          src={SetPlanLogin}
           className="h-full w-full object-cover"
         />
       </div>
