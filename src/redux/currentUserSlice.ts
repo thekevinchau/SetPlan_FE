@@ -1,15 +1,19 @@
 import type { UserProfile } from "@/types/userTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: UserState = {
-  isLoggedIn: false,
-  userProfile: null,
-};
-
 interface UserState {
   isLoggedIn: boolean;
   userProfile: UserProfile | null;
 }
+
+// Safely load user from localStorage
+const savedUser = localStorage.getItem("currentUser");
+const initialUser: UserProfile | null = savedUser ? JSON.parse(savedUser) : null;
+
+const initialState: UserState = {
+  isLoggedIn: initialUser !== null,
+  userProfile: initialUser,
+};
 
 const currentUserSlice = createSlice({
   name: "currentUser",
@@ -20,8 +24,9 @@ const currentUserSlice = createSlice({
       state.isLoggedIn = true;
     },
     clearUser: (state) => {
-      state.isLoggedIn = false;
       state.userProfile = null;
+      state.isLoggedIn = false;
+      localStorage.removeItem("currentUser");
     },
   },
 });

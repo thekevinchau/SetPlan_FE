@@ -9,7 +9,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch} from "react-redux";
 import { setUser } from "@/redux/currentUserSlice";
 
-export function UserLogin() {
+interface UserLoginProps {
+  setPageType: (pageType: string) => void
+}
+
+export function UserLogin({setPageType}: UserLoginProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -124,9 +128,9 @@ export function UserLogin() {
         {/* Register Prompt */}
         <h4 className="text-sm text-muted-foreground text-center">
           Don’t have an account?
-          <Link to="/register" className="text-blue-500 underline ml-1">
+          <Button onClick={() => setPageType('register')} className="text-blue-500 underline ml-1">
             Register here
-          </Link>
+          </Button>
         </h4>
       </div>
     </div>

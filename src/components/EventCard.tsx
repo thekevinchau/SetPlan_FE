@@ -1,4 +1,3 @@
-import { FaHeart } from "react-icons/fa";
 import type { Event } from "../types/eventTypes";
 import { GrMapLocation } from "react-icons/gr";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";

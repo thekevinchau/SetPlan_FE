@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { TfiCommentAlt } from "react-icons/tfi";
 import { IoArrowUpCircleSharp } from "react-icons/io5";
 import type {
-  AnnouncementCommentResponse,
   AnnouncementComment,
   AnnouncementDetails,
 } from "../types/announcementTypes";
@@ -12,6 +11,8 @@ import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
 import { useQuery } from "@tanstack/react-query";
 import { getCommentsByAnnouncement } from "../api/announcements";
 import Comment from "./Comment";
+import type { RootState } from "@/redux/store";
+import { useSelector } from "react-redux";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
@@ -20,7 +21,10 @@ interface AnnouncementProps {
 export default function Announcement({ announcement }: AnnouncementProps) {
   const [comment, setComment] = useState("");
   const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
-  const { data, isPending } = useQuery({
+  const isLoggedIn: boolean = useSelector(
+    (state: RootState) => state.currentUser.isLoggedIn
+  );
+  const { data } = useQuery({
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
   });
@@ -74,7 +78,8 @@ export default function Announcement({ announcement }: AnnouncementProps) {
       >
         <TfiCommentAlt className="mr-2" />
 
-        {comments?.length === 0 ? (
+
+        {comments?.length === 0 && isLoggedIn ? (
           <span className="pb-1">Be the first to comment!</span>
         ) : commentsVisible ? (
           <span className="pb-1 hover:text-white transition duration-300 cursor-pointer">
@@ -99,17 +104,19 @@ export default function Announcement({ announcement }: AnnouncementProps) {
         </div>
       )}
 
-      <div className="flex items-center gap-2 mt-2">
-        <input
-          className="flex-1 border border-gray-400 rounded-md p-3 text-xs"
-          placeholder="Write a comment..."
-          value={comment}
-          onChange={handleCommentInput}
-        />
-        <button className="text-blue-500 hover:text-blue-600 transition duration-200 cursor-pointer">
-          <IoArrowUpCircleSharp className="w-7 h-7" />
-        </button>
-      </div>
+      {isLoggedIn && (
+        <div className="flex items-center gap-2 mt-2">
+          <input
+            className="flex-1 border border-gray-400 rounded-md p-3 text-xs"
+            placeholder="Write a comment..."
+            value={comment}
+            onChange={handleCommentInput}
+          />
+          <button className="text-blue-500 hover:text-blue-600 transition duration-200 cursor-pointer">
+            <IoArrowUpCircleSharp className="w-7 h-7" />
+          </button>
+        </div>
+      )}
     </div>
   );
 }

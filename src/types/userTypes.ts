@@ -13,6 +13,14 @@ export const emptyProfile: UserProfile = {
 
 }
 
+export interface UserRegistration {
+  email: string,
+  password: string,
+  displayName: string,
+  birthday: string,
+  phoneNumber: string
+}
+
 export type SimpleUserProfile = {
   id: string;
   name: string;

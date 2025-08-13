@@ -1,4 +1,4 @@
-import { emptyProfile, type UserProfile } from "@/types/userTypes";
+import { emptyProfile, type UserProfile, type UserRegistration } from "@/types/userTypes";
 import axios from "axios";
 
 const api = axios.create({
@@ -10,10 +10,31 @@ export async function login(email: string, password: string): Promise<UserProfil
     try {
         const credentials = { email: email, password: password}
         const response = await api.post('/auth/login', credentials);
-        console.log(response.data)
+        console.log(response.data);
+        localStorage.setItem("currentUser", JSON.stringify(response.data))
         return response.data;
     } catch (error) {
         console.error(error);
         return {...emptyProfile} ;
+    }
+}
+
+export async function logout(){
+    try {
+        const response = await api.post('/auth/logout');
+        console.log(response.data);
+    } catch (error) {
+        console.error(error);
+
+    }
+}
+
+export async function registerUser(data: UserRegistration){
+    try {
+        const response = await api.post('/auth/register', data);
+        return {success: true, data: response.data};
+    } catch (error) {
+        console.error(error);
+        return {success: false, error: String(error)}
     }
 }
