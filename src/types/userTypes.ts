@@ -1,5 +1,18 @@
 import type { SimpleEvent } from "./eventTypes";
 
+export const emptyProfile: UserProfile = {
+    id: null,
+    displayName: null,
+    gender: null,
+    bio: null,
+    personalDetails: null,
+    favoriteEvents: null,
+    externalLinks: null,
+    createdAt: null,
+    updatedAt:null
+
+}
+
 export type SimpleUserProfile = {
   id: string;
   name: string;

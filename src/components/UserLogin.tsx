@@ -6,12 +6,14 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { login } from "@/api/users";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch} from "react-redux";
+import { setUser } from "@/redux/currentUserSlice";
 
 export function UserLogin() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -20,7 +22,8 @@ export function UserLogin() {
     setPassword(event.target.value);
   };
   const submitForm = async (email: string, password: string) => {
-    await login(email, password);
+    const userProfile = await login(email, password);
+    dispatch(setUser(userProfile));
     navigate("/");
   };
 

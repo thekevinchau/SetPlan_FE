@@ -1,3 +1,4 @@
+import { emptyProfile, type UserProfile } from "@/types/userTypes";
 import axios from "axios";
 
 const api = axios.create({
@@ -5,7 +6,7 @@ const api = axios.create({
     withCredentials: true
 })
 
-export async function login(email: string, password: string): Promise<string> {
+export async function login(email: string, password: string): Promise<UserProfile> {
     try {
         const credentials = { email: email, password: password}
         const response = await api.post('/auth/login', credentials);
@@ -13,6 +14,6 @@ export async function login(email: string, password: string): Promise<string> {
         return response.data;
     } catch (error) {
         console.error(error);
-        return 'Incorrect email or password.';
+        return {...emptyProfile} ;
     }
 }

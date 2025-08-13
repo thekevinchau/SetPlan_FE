@@ -5,11 +5,17 @@ import MainComponent from '../components/MainComponent';
 import { useQuery } from '@tanstack/react-query';
 import {getFutureEvents } from '@/api/events';
 import { filterEventsByMonth } from '@/utils/dateUtils';
+import { UserProfile, emptyProfile } from '@/types/userTypes';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 export default function LandingPage(){
     const [selected, setSelected] = React.useState<number>(Number(localStorage.getItem("sidebar-selected")));
+      const user: UserProfile = useSelector((state: UserProfile) => state);
+  console.log(user);
+  console.log(user === emptyProfile);
     const { data, isPending } = useQuery({
+        
     queryKey: ["events"],
     queryFn: getFutureEvents,
     staleTime: 300000,
