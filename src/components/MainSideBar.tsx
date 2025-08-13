@@ -17,9 +17,6 @@ export default function MainSideBar({
   selected,
   setSelected,
 }: MainSideBarProps) {
-  const currentUserId: string | null | undefined = useSelector(
-    (state: RootState) => state.currentUser.userProfile?.id
-  );
   const isLoggedIn: boolean = useSelector(
     (state: RootState) => state.currentUser.isLoggedIn
   );
