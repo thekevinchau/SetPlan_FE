@@ -7,9 +7,11 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 import Announcements from "./pages/Announcements.tsx";
 import PastEvents from "./pages/PastEvents.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import LoginPage from "./pages/LoginPage.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
+  { path:'/login', element: <LoginPage/>},
   { path: "/announcements", element: <Announcements /> },
   { path: "/past-events", element: <PastEvents /> },
   { path: "/*", element: <NotFoundPage /> },

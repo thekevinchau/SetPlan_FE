@@ -45,7 +45,12 @@ export default function SideBarEvent({
           {name}
         </h1>
         <p className="sm:text-xs text-gray-400 group-hover:text-gray-300 truncate">
-          {startDay.toDateString()} - {endDay.toDateString()}
+          {startDay.toDateString()} -{" "}
+          {endDay.toLocaleDateString(undefined, {
+            month: "short",
+            day: "numeric",
+            weekday: "short",
+          })}
         </p>
       </Link>
 

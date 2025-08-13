@@ -24,14 +24,13 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
 
   return (
     <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
-      <div className="flex justify-between px-2 sm:px-4 py-3 border-gray-700/50">
-        <Link to={"/"} className="flex items-center gap-3" onClick={() => handleSelection(1)}>
+      <div className="flex justify-between py-3 pr-2 border-gray-700/50 cursor-pointer">
+        <Link to={"/"} className="pl-1 cursor-pointer" onClick={() => handleSelection(1)}>
           <img
-            className="w-8 h-8 rounded-full"
-            src="src/assets/SetPlan.png"
+            className="w-24 h-8 object-cover"
+            src="src/assets/SetPlanTextWhite.png"
             alt="SetPlan Logo"
           />
-          <h1 className="font-semibold">SetPlan</h1>
         </Link>
         <Link to={"/users"}>
           <img
@@ -42,7 +41,7 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
         </Link>
       </div>
 
-      <div className="px-2 mt-3 font-light text-sm">
+      <div className="px-2 font-light text-sm">
         <ul className="flex flex-col gap-1 pb-2">
           <li>
             <Link

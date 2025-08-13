@@ -22,7 +22,3 @@ export type AnnouncementComment = {
     content: string,
     createdAt: string 
 }
-
-export type AnnouncementCommentResponse = {
-    content: AnnouncementComment[];
-}

@@ -1,23 +1,24 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAllEvents } from "../api/events";
-import type { AllEventsResponse, Event } from "../types/eventTypes";
+import type { Event } from "../types/eventTypes";
 import EventCard from "./EventCard";
 
-export default function MainComponent() {
-  const { data, isPending } = useQuery({
-    queryKey: ["events"],
-    queryFn: getAllEvents,
-    staleTime: 300000,
-    refetchOnWindowFocus: true,
-  });
-  const events: Event[] | undefined = data;
+interface MainComponentProps {
+  events: Event[] | undefined;
+  isPending: boolean;
+  isFuture: boolean;
+}
+
+export default function MainComponent({
+  events,
+  isPending,
+  isFuture,
+}: MainComponentProps) {
   return (
     <div className="w-full h-[94vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 overflow-scroll">
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
           <p className="text-gray-400 mb-1 text-sm">Festivals</p>
           <h1 className="text-3xl font-bold">
-            🥳 Explore new{" "}
+            🥳 Explore {isFuture ? "new " : "past "}
             <span className="bg-gradient-to-r from-yellow-500 via-red-500 via-pink-500 to-blue-500 text-transparent bg-clip-text">
               festivals
             </span>{" "}
@@ -25,19 +26,29 @@ export default function MainComponent() {
           </h1>
         </div>
 
-        <div className="space-y-1">
-          <h2 className="text-xl font-semibold">Upcoming festivals</h2>
-          <p className="text-sm text-gray-400">
-            Festivals will appear below once the official lineup is released.
-            Artists by day and set times are added as they become available.
-          </p>
-          <p className="text-sm text-gray-400">
-            Don't see a festival here?
-            <span className="text-blue-500 cursor-pointer ml-1 hover:underline">
-              Let me know!
-            </span>
-          </p>
-        </div>
+        {isFuture ? (
+          <div className="space-y-1">
+            <h2 className="text-xl font-semibold">Upcoming festivals</h2>
+            <p className="text-sm text-gray-400">
+              Festivals will appear below once the official lineup is released.
+              Artists by day and set times are added as they become available.
+            </p>
+            <p className="text-sm text-gray-400">
+              Don't see a festival here?
+              <span className="text-blue-500 cursor-pointer ml-1 hover:underline">
+                Let me know!
+              </span>
+            </p>
+          </div>
+        ) : (
+          <div className="1">
+            <h2 className="text-xl font-semibold">Past Festivals</h2>
+            <p className="text-sm text-gray-400">
+              Browse through all the past festivals listed on SetPlan!
+            </p>
+          </div>
+        )}
+
         <input
           type="search"
           placeholder="Search events..."

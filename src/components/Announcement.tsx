@@ -24,7 +24,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
   });
-  const comments: AnnouncementComment[] = data;
+  const comments: AnnouncementComment[] | undefined = data;
   const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   };

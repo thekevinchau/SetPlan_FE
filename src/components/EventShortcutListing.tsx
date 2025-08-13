@@ -5,7 +5,7 @@ import type { Event } from "../types/eventTypes";
 
 export default function EventShortcutListing() {
   const { data, isPending } = useQuery({
-    queryKey: ["events"],
+    queryKey: ["future-events"],
     queryFn: getFutureEvents,
     staleTime: 300000,
     refetchOnWindowFocus: true
