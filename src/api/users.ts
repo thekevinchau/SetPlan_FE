@@ -9,6 +9,7 @@ export async function login(email: string, password: string): Promise<string> {
     try {
         const credentials = { email: email, password: password}
         const response = await api.post('/auth/login', credentials);
+        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error(error);

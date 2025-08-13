@@ -56,7 +56,6 @@ export default function MainComponent({
           name="eventSearch"
         />
       </div>
-
       <div className="mt-4">
         {isPending ? (
           <p>Loading</p>

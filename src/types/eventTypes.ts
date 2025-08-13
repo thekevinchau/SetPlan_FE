@@ -1,3 +1,8 @@
+export interface SimpleEvent {
+    id: string,
+    name: string
+}
+
 type eventLocation = {
     venueName: string,
     address: string,

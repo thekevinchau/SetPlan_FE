@@ -4,6 +4,7 @@ import MainSideBar from '../components/MainSideBar';
 import MainComponent from '../components/MainComponent';
 import { useQuery } from '@tanstack/react-query';
 import {getFutureEvents } from '@/api/events';
+import { filterEventsByMonth } from '@/utils/dateUtils';
 
 
 export default function LandingPage(){
@@ -14,6 +15,7 @@ export default function LandingPage(){
     staleTime: 300000,
     refetchOnWindowFocus: true,
   });
+
     return (
         <div className='min-h-screen w-full bg-slate-950 flex flex-col md:flex-row items-start pl-3 pr-3 overflow-hidden'>
             <div className='w-full md:w-1/5 lg:w-1/6 md:mr-3'>

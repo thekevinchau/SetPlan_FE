@@ -3,6 +3,8 @@ import { MdOutlineFestival } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { FaBullhorn } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import SetPlanTextWhite from "../assets/SetPlanTextWhite.png"
+import SetPlan from "../assets/SetPlan.png"
 
 interface MainSideBarProps {
   selected?: number;
@@ -28,14 +30,14 @@ export default function MainSideBar({ selected, setSelected }: MainSideBarProps)
         <Link to={"/"} className="pl-1 cursor-pointer" onClick={() => handleSelection(1)}>
           <img
             className="w-24 h-8 object-cover"
-            src="src/assets/SetPlanTextWhite.png"
+            src={SetPlanTextWhite}
             alt="SetPlan Logo"
           />
         </Link>
         <Link to={"/users"}>
           <img
             className="w-8 h-8 rounded-full"
-            src="src/assets/SetPlan.png"
+            src={SetPlan}
             alt="SetPlan Logo"
           />
         </Link>

@@ -9,7 +9,6 @@ const api = axios.create({
 
 export async function getFutureEvents(): Promise<Event[]>{
     try {
-        console.log('sent request')
         const response = await api.get('/events?page=0&size=10&isFuture=true')
         return response.data;
     } catch (error) {
