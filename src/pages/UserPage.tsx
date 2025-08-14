@@ -1,19 +1,12 @@
-import { logout } from "@/api/users";
+
 import MainSideBar from "@/components/MainSideBar";
 import Shortcuts from "@/components/Shortcuts";
-import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { clearUser } from "@/redux/currentUserSlice";
-import { Link, useNavigate } from "react-router-dom";
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
-import { CiLogout } from "react-icons/ci";
-import { CiEdit } from "react-icons/ci";
+import {useSelector } from "react-redux";
+import {useNavigate } from "react-router-dom";
 import type { UserProfile } from "@/types/userTypes";
 import type { RootState } from "@/redux/store";
-import type { SimpleEvent } from "@/types/eventTypes";
-import { RiCalendarScheduleLine } from "react-icons/ri";
 import ProfileComponent from "@/components/ProfileComponent";
 
 export default function UserPage() {

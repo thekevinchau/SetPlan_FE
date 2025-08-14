@@ -13,11 +13,14 @@ import { deleteComment } from "@/api/announcements";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface AnnouncementCommentProps {
-  comment: AnnouncementComment,
-  announcementId: string,
+  comment: AnnouncementComment;
+  announcementId: string;
 }
 
-export default function Comment({ comment, announcementId }: AnnouncementCommentProps) {
+export default function Comment({
+  comment,
+  announcementId,
+}: AnnouncementCommentProps) {
   const queryClient = useQueryClient();
   const currentUserId: string | null | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.id
@@ -25,14 +28,14 @@ export default function Comment({ comment, announcementId }: AnnouncementComment
 
   const deleteCommentFn = async () => {
     try {
-        await deleteComment(comment.id);
-        queryClient.invalidateQueries({
+      await deleteComment(comment.id);
+      queryClient.invalidateQueries({
         queryKey: ["announcementComments", announcementId] as const,
       });
     } catch (error) {
-      console.error("Failed to delete comment:", error)
+      console.error("Failed to delete comment:", error);
     }
-  }
+  };
   return (
     <div className="bg-gray-800/60 rounded-sm p-3 shadow-sm hover:bg-gray-700 transition-colors duration-200 flex items-center justify-between">
       <div className="flex">
@@ -44,10 +47,10 @@ export default function Comment({ comment, announcementId }: AnnouncementComment
           />
         </Link>
         <div>
-          <p className="font-semibold text-gray-100">
+          <p className="font-semibold text-gray-100 text-sm">
             {comment.commenter.name || "Unknown User"}
           </p>
-          <p className="text-sm text-gray-300 break-words whitespace-pre-wrap">
+          <p className="text-xs text-gray-300 break-words whitespace-pre-wrap">
             {comment.content || "No content"}
           </p>
         </div>
@@ -57,7 +60,10 @@ export default function Comment({ comment, announcementId }: AnnouncementComment
         <Tooltip>
           <TooltipTrigger>
             {" "}
-            <button className="hover:text-red-500 transition duration-300 cursor-pointer" onClick={deleteCommentFn}>
+            <button
+              className="hover:text-red-500 transition duration-300 cursor-pointer"
+              onClick={deleteCommentFn}
+            >
               <FaRegTrashCan />
             </button>
           </TooltipTrigger>
