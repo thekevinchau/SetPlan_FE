@@ -27,6 +27,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
   const { data } = useQuery({
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
+    refetchOnMount: true
   });
   const queryClient = useQueryClient();
   const comments: AnnouncementComment[] | undefined = data;
@@ -34,11 +35,19 @@ export default function Announcement({ announcement }: AnnouncementProps) {
     setComment(event.target.value);
   };
 
-  const submitComment = () => {
-    commentOnPost(announcement.id, { content: comment });
-    queryClient.invalidateQueries({
-      queryKey: ["announcementComments", announcement.id] as const,
-    });
+  const submitComment = async () => {
+    if (comment.trim() === "") return;
+
+    try {
+      await commentOnPost(announcement.id, { content: comment }); // wait for backend
+      queryClient.invalidateQueries({
+        queryKey: ["announcementComments", announcement.id] as const,
+      });
+      setComment(""); // clear input
+      setCommentsVisible(true);
+    } catch (error) {
+      console.error("Failed to post comment:", error);
+    }
   };
 
   return (
