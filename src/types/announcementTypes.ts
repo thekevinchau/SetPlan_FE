@@ -22,3 +22,8 @@ export type AnnouncementComment = {
     content: string,
     createdAt: string 
 }
+
+export type AnnouncementPayload = {
+  header: string
+  content: string
+}

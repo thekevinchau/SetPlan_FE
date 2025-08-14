@@ -43,8 +43,8 @@ export default function ProfileComponent({
             Favorited Festivals
           </span>
           <div className="overflow-hidden w-full">
-            {currentUser?.favoriteEvents?.map((event: SimpleEvent) => (
-              <h2 className="flex justify-between items-center w-full">
+            {currentUser?.favoriteEvents?.map((event: SimpleEvent, idx: number) => (
+              <h2 className="flex justify-between items-center w-full" key={idx}>
                 <p className="text-sm py-0.25">{event.name}</p>
                 <Link to="/schedules">
                   <RiCalendarScheduleLine className="text-md" />

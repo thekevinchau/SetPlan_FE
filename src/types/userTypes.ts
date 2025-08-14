@@ -45,6 +45,7 @@ export type UserProfile = {
   bio: string | null,
   personalDetails: personalDetailsDTO | null,
   favoriteEvents: SimpleEvent[] | null,
+  admin: boolean,
   externalLinks: profileExternalLink | null,
   createdAt: string | null,
   updatedAt: string | null

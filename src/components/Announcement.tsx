@@ -27,7 +27,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
   const { data } = useQuery({
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
-    refetchOnMount: true
+    refetchOnMount: true,
   });
   const queryClient = useQueryClient();
   const comments: AnnouncementComment[] | undefined = data;
@@ -51,7 +51,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
   };
 
   return (
-    <div className="w-3/5 flex flex-col p-3 rounded-lg mb-4 border">
+    <div className="w-full flex flex-col p-3 rounded-lg mb-4 border">
       <div className="border-b-1 border-b-gray-700">
         <div id="header" className="mb-2 flex">
           <Link to={"/users"} className="flex items-center gap-3">
@@ -112,7 +112,11 @@ export default function Announcement({ announcement }: AnnouncementProps) {
         <div className="transition duration-300 ease-out">
           {comments?.length ? (
             comments.map((comment: AnnouncementComment) => (
-              <Comment key={comment.id} comment={comment} announcementId={announcement.id} />
+              <Comment
+                key={comment.id}
+                comment={comment}
+                announcementId={announcement.id}
+              />
             ))
           ) : (
             <p className="text-gray-500 text-sm">No comments yet</p>

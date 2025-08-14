@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AnnouncementComment, AnnouncementResponse } from '../types/announcementTypes';
+import type { AnnouncementComment, AnnouncementPayload, AnnouncementResponse } from '../types/announcementTypes';
 
 const api = axios.create({
     baseURL: 'http://localhost:8080',
@@ -7,6 +7,7 @@ const api = axios.create({
 })
 
 export async function getAnnouncements(): Promise<AnnouncementResponse> {
+  console.log('fetching')
   try {
     const response = await api.get<AnnouncementResponse>(
       '/announcements/all?page=0&size=10'
@@ -24,6 +25,17 @@ export async function getAnnouncements(): Promise<AnnouncementResponse> {
       },
     }; // fallback to empty data
   }
+}
+
+export async function createAnnouncement(payload: AnnouncementPayload){
+  try{
+    const response = await api.post('/announcements', payload);
+    return response.data;
+  }catch(err){
+    console.error(err);
+    return {};
+  }
+
 }
 
 export async function getCommentsByAnnouncement(id: string): Promise<AnnouncementComment[]> {

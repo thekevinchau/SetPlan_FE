@@ -1,7 +1,6 @@
 
 import MainSideBar from "@/components/MainSideBar";
 import Shortcuts from "@/components/Shortcuts";
-import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import {useSelector } from "react-redux";
 import {useNavigate } from "react-router-dom";
@@ -22,7 +21,7 @@ export default function UserPage() {
     }
   }, [currentUser, navigate]);
   return (
-    <div className="min-h-screen w-full bg-slate-950 flex flex-col md:flex-row items-start gap-4 p-3">
+    <div className="min-h-screen w-full bg-slate-950 flex flex-col md:flex-row items-start pl-3 pr-3">
       {/* Sidebar */}
       <div className="w-full md:w-1/5 lg:w-1/6 md:mr-3">
         <MainSideBar selected={selected} setSelected={setSelected} />
