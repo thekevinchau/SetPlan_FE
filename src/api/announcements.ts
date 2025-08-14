@@ -47,3 +47,13 @@ export async function commentOnPost(postId: string, payload: {content: string}){
     return {};
   }
 }
+
+export async function deleteComment(commentId: string){
+  try {
+    const response = await api.delete(`/announcements/comments/${commentId}`)
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting a comment", error)
+    return {};
+  }
+}

@@ -4,7 +4,7 @@ import { IoMdTime } from "react-icons/io";
 import { FaBullhorn } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import SetPlanTextWhite from "../assets/SetPlanTextWhite.png";
-import SetPlan from "../assets/SetPlan.png";
+
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 
@@ -50,7 +50,7 @@ export default function MainSideBar({
           <Link to={`/users/me`}>
             <img
               className="w-8 h-8 rounded-full"
-              src={SetPlan}
+              src={"https://github.com/shadcn.png"}
               alt="SetPlan Logo"
             />
           </Link>

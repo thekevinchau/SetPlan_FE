@@ -3,20 +3,24 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { login } from "@/api/users";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "@/redux/currentUserSlice";
-import SetPlanLogo2 from '../assets/SetPlanLogo2.png'
+import SetPlanLogo2 from "../assets/SetPlanLogo2.png";
+import type { RootState } from "@/redux/store";
 
 interface UserLoginProps {
-  setPageType: (pageType: string) => void
+  setPageType: (pageType: string) => void;
 }
 
-export function UserLogin({setPageType}: UserLoginProps) {
+export function UserLogin({ setPageType }: UserLoginProps) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const isLoggedIn: boolean = useSelector(
+    (state: RootState) => state.currentUser.isLoggedIn
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,6 +35,10 @@ export function UserLogin({setPageType}: UserLoginProps) {
     dispatch(setUser(userProfile));
     navigate("/");
   };
+
+  useEffect(() => {
+    if (isLoggedIn) navigate('/')
+  }, [navigate, isLoggedIn]);
 
   return (
     <div
@@ -128,10 +136,14 @@ export function UserLogin({setPageType}: UserLoginProps) {
 
         {/* Register Prompt */}
         <h4 className="text-sm text-muted-foreground text-center">
-          Don’t have an account?
-          <Button onClick={() => setPageType('register')} className="text-blue-500 underline ml-1">
+          Not a user?{" "}
+          <button
+            onClick={() => setPageType("register")}
+            className="text-blue-500 underline"
+            type="button"
+          >
             Register here
-          </Button>
+          </button>
         </h4>
       </div>
     </div>

@@ -1,29 +1,42 @@
 import { Link } from "react-router-dom";
 import type { AnnouncementComment } from "../types/announcementTypes";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
 
 interface AnnouncementCommentProps {
   comment: AnnouncementComment;
 }
 
 export default function Comment({ comment }: AnnouncementCommentProps) {
+  const currentUserId: string | null | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.id
+  );
   return (
-    <div className="bg-gray-800/60 rounded-sm p-3 shadow-sm hover:bg-gray-700 transition-colors duration-200 flex items-center">
-      <Link to={"/users"} className="mr-2">
-        <img
-          className="w-8 h-8 rounded-full"
-          src="src/assets/SetPlan.png"
-          alt="SetPlan Logo"
-        />
-      </Link>
-
-      <div>
-        <p className="font-semibold text-gray-100">
-          {comment.commenter.name || "Unknown User"}
-        </p>
-        <p className="text-sm text-gray-300 break-words whitespace-pre-wrap">
-          {comment.content || "No content"}
-        </p>
+    <div className="bg-gray-800/60 rounded-sm p-3 shadow-sm hover:bg-gray-700 transition-colors duration-200 flex items-center justify-between">
+      <div className="flex">
+        <Link to={"/users"} className="mr-2">
+          <img
+            className="w-8 h-8 rounded-full"
+            src="src/assets/SetPlan.png"
+            alt="SetPlan Logo"
+          />
+        </Link>
+        <div>
+          <p className="font-semibold text-gray-100">
+            {comment.commenter.name || "Unknown User"}
+          </p>
+          <p className="text-sm text-gray-300 break-words whitespace-pre-wrap">
+            {comment.content || "No content"}
+          </p>
+        </div>
       </div>
+
+      {currentUserId === comment.commenter.id && (
+        <button className="hover:text-red-500 transition duration-300 cursor-pointer">
+          <FaRegTrashCan />
+        </button>
+      )}
     </div>
   );
 }
