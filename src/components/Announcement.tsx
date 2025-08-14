@@ -8,8 +8,8 @@ import type {
 import { useState } from "react";
 import React from "react";
 import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
-import { useQuery } from "@tanstack/react-query";
-import { getCommentsByAnnouncement } from "../api/announcements";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { commentOnPost, getCommentsByAnnouncement } from "../api/announcements";
 import Comment from "./Comment";
 import type { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -28,9 +28,17 @@ export default function Announcement({ announcement }: AnnouncementProps) {
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
   });
+  const queryClient = useQueryClient();
   const comments: AnnouncementComment[] | undefined = data;
   const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
+  };
+
+  const submitComment = () => {
+    commentOnPost(announcement.id, { content: comment });
+    queryClient.invalidateQueries({
+      queryKey: ["announcementComments", announcement.id] as const,
+    });
   };
 
   return (
@@ -78,7 +86,6 @@ export default function Announcement({ announcement }: AnnouncementProps) {
       >
         <TfiCommentAlt className="mr-2" />
 
-
         {comments?.length === 0 && isLoggedIn ? (
           <span className="pb-1">Be the first to comment!</span>
         ) : commentsVisible ? (
@@ -112,7 +119,11 @@ export default function Announcement({ announcement }: AnnouncementProps) {
             value={comment}
             onChange={handleCommentInput}
           />
-          <button className="text-blue-500 hover:text-blue-600 transition duration-200 cursor-pointer">
+          <button
+            disabled={comment.trim() === ""}
+            className="text-blue-500 hover:text-blue-600 transition duration-200 cursor-pointer"
+            onClick={submitComment}
+          >
             <IoArrowUpCircleSharp className="w-7 h-7" />
           </button>
         </div>

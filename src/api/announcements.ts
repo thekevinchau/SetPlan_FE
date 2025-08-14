@@ -1,10 +1,15 @@
 import axios from 'axios';
 import type { AnnouncementComment, AnnouncementResponse } from '../types/announcementTypes';
 
+const api = axios.create({
+    baseURL: 'http://localhost:8080',
+    withCredentials: true
+})
+
 export async function getAnnouncements(): Promise<AnnouncementResponse> {
   try {
-    const response = await axios.get<AnnouncementResponse>(
-      'http://localhost:8080/announcements/all?page=0&size=10'
+    const response = await api.get<AnnouncementResponse>(
+      '/announcements/all?page=0&size=10'
     );
     return response.data;
   } catch (error) {
@@ -23,12 +28,22 @@ export async function getAnnouncements(): Promise<AnnouncementResponse> {
 
 export async function getCommentsByAnnouncement(id: string): Promise<AnnouncementComment[]> {
   try {
-    const response = await axios.get(
-      `http://localhost:8080/announcements/${id}/comments`
+    const response = await api.get(
+      `/announcements/${id}/comments`
     );
     return response.data;
   } catch (err) {
     console.error("Error fetching comments", err);
     return [];
+  }
+}
+
+export async function commentOnPost(postId: string, payload: {content: string}){
+  try {
+    const response = await api.post(`/announcements/${postId}/comments`, payload);
+    return response.data;
+  } catch (error) {
+    console.error("Error creating a comment ", error);
+    return {};
   }
 }
