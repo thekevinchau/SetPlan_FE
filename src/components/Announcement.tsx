@@ -112,7 +112,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
         <div className="transition duration-300 ease-out">
           {comments?.length ? (
             comments.map((comment: AnnouncementComment) => (
-              <Comment key={comment.id} comment={comment} />
+              <Comment key={comment.id} comment={comment} announcementId={announcement.id} />
             ))
           ) : (
             <p className="text-gray-500 text-sm">No comments yet</p>

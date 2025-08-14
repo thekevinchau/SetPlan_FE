@@ -3,15 +3,36 @@ import type { AnnouncementComment } from "../types/announcementTypes";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { deleteComment } from "@/api/announcements";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AnnouncementCommentProps {
-  comment: AnnouncementComment;
+  comment: AnnouncementComment,
+  announcementId: string,
 }
 
-export default function Comment({ comment }: AnnouncementCommentProps) {
+export default function Comment({ comment, announcementId }: AnnouncementCommentProps) {
+  const queryClient = useQueryClient();
   const currentUserId: string | null | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.id
   );
+
+  const deleteCommentFn = async () => {
+    try {
+        await deleteComment(comment.id);
+        queryClient.invalidateQueries({
+        queryKey: ["announcementComments", announcementId] as const,
+      });
+    } catch (error) {
+      console.error("Failed to delete comment:", error)
+    }
+  }
   return (
     <div className="bg-gray-800/60 rounded-sm p-3 shadow-sm hover:bg-gray-700 transition-colors duration-200 flex items-center justify-between">
       <div className="flex">
@@ -33,9 +54,17 @@ export default function Comment({ comment }: AnnouncementCommentProps) {
       </div>
 
       {currentUserId === comment.commenter.id && (
-        <button className="hover:text-red-500 transition duration-300 cursor-pointer">
-          <FaRegTrashCan />
-        </button>
+        <Tooltip>
+          <TooltipTrigger>
+            {" "}
+            <button className="hover:text-red-500 transition duration-300 cursor-pointer" onClick={deleteCommentFn}>
+              <FaRegTrashCan />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Delete Comment</p>
+          </TooltipContent>
+        </Tooltip>
       )}
     </div>
   );
