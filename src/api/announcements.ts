@@ -33,9 +33,18 @@ export async function createAnnouncement(payload: AnnouncementPayload){
     return response.data;
   }catch(err){
     console.error(err);
-    return {};
+    return;
   }
+}
 
+export async function deleteAnnouncement(announcementId: string): Promise<void>{
+  try{
+    const response = await api.delete(`/announcements/${announcementId}`)
+    return response.data;
+  }catch(err){
+    console.error(err);
+    return;
+  }
 }
 
 export async function getCommentsByAnnouncement(id: string): Promise<AnnouncementComment[]> {
@@ -56,7 +65,7 @@ export async function commentOnPost(postId: string, payload: {content: string}){
     return response.data;
   } catch (error) {
     console.error("Error creating a comment ", error);
-    return {};
+    return;
   }
 }
 
@@ -66,6 +75,6 @@ export async function deleteComment(commentId: string){
     return response.data;
   } catch (error) {
     console.error("Error deleting a comment", error)
-    return {};
+    return;
   }
 }

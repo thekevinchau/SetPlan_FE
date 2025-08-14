@@ -27,7 +27,7 @@ export default function ProfileComponent({
   return (
     <div className="h-[95.75vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-4 flex flex-col items-center justify-center">
       {/* Profile section */}
-      <div className="flex flex-col justify-evenly items-center gap-6 w-full h-3/5 max-w-sm border p-3">
+      <div className="flex flex-col justify-evenly items-center gap-6 w-full h-3/5 max-w-sm max-h-sm min-h-sm rounded-md p-5 bg-white/3 border border-white/6">
         <Avatar className="h-32 w-32">
           <AvatarImage
             src="https://github.com/shadcn.png"
@@ -36,21 +36,31 @@ export default function ProfileComponent({
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h1 className="font-extrabold text-3xl">{currentUser?.displayName}</h1>
-        <p>{currentUser?.bio}</p>
+        <div className="flex flex-col items-center">
+          <span className="mx-4 text-xs font-semibold tracking-widest text-gray-300 uppercase mb-2">
+            Biography
+          </span>
+          <p>{currentUser?.bio}</p>
+        </div>
 
         <div className="w-full flex flex-col items-center">
           <span className="mx-4 text-xs font-semibold tracking-widest text-gray-300 uppercase mb-2">
             Favorited Festivals
           </span>
           <div className="overflow-hidden w-full">
-            {currentUser?.favoriteEvents?.map((event: SimpleEvent, idx: number) => (
-              <h2 className="flex justify-between items-center w-full" key={idx}>
-                <p className="text-sm py-0.25">{event.name}</p>
-                <Link to="/schedules">
-                  <RiCalendarScheduleLine className="text-md" />
-                </Link>
-              </h2>
-            ))}
+            {currentUser?.favoriteEvents?.map(
+              (event: SimpleEvent, idx: number) => (
+                <h2
+                  className="flex justify-between items-center w-full"
+                  key={idx}
+                >
+                  <p className="text-sm py-0.25">{event.name}</p>
+                  <Link to="/schedules">
+                    <RiCalendarScheduleLine className="text-md" />
+                  </Link>
+                </h2>
+              )
+            )}
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import type { AnnouncementComment } from "../types/announcementTypes";
-import { FaRegTrashCan } from "react-icons/fa6";
+
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import {

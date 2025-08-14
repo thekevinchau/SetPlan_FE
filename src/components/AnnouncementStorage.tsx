@@ -36,7 +36,7 @@ export default function AnnouncementStorage() {
   const [header, setHeader] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const announcements2: AnnouncementDetails[] | undefined = data?.content;
+  const announcements: AnnouncementDetails[] | undefined = data?.content;
 
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +51,7 @@ export default function AnnouncementStorage() {
   };
 
   return (
-    <div className="w-full h-[94vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
+    <div className="w-full h-[95.75vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
       {/* Header section (fixed height) */}
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
@@ -61,16 +61,17 @@ export default function AnnouncementStorage() {
               <Dialog
                 open={isModalOpen}
                 onOpenChange={() => setModalOpen(!isModalOpen)}
-
               >
-                <DialogTrigger className="flex items-center cursor-pointer hover:text-green-500 transition duration-300">
-                  Add Announcement <IoCreateOutline className="ml-2 text-3xl" />
+                <DialogTrigger className="flex items-center cursor-pointer hover:text-green-500 transition duration-300 text-sm">
+                  Add Announcement <IoCreateOutline className="ml-2 text-xl" />
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle className="mb-2">
-                      Create an Announcement
-                    </DialogTitle>
+                    <DialogTitle>Create an Announcement</DialogTitle>
+                    <DialogDescription>
+                      Create an announcement for any site updates or new
+                      features!
+                    </DialogDescription>
                     <form className="flex flex-col" onSubmit={submitForm}>
                       <Label className="mb-1">Header</Label>
                       <Input
@@ -92,16 +93,12 @@ export default function AnnouncementStorage() {
                         onChange={(event) => setContent(event.target.value)}
                       />
                       <Button
-                        className="bg-blue-500 text-white hover:bg-green-500"
+                        className="bg-blue-500 text-white hover:bg-green-500 cursor-pointer"
                         type="submit"
                       >
                         Create
                       </Button>
                     </form>
-                    <DialogDescription>
-                      This action cannot be undone. This will permanently delete
-                      your account and remove your data from our servers.
-                    </DialogDescription>
                   </DialogHeader>
                 </DialogContent>
               </Dialog>
@@ -130,9 +127,11 @@ export default function AnnouncementStorage() {
       ) : (
         // Scrollable announcement list
         <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1 flex flex-col items-center">
-          {announcements2?.map((announcement: AnnouncementDetails, idx) => (
+          {
+          announcements?.map((announcement: AnnouncementDetails, idx) => (
             <Announcement key={idx} announcement={announcement} />
-          ))}
+          ))
+          }
         </div>
       )}
     </div>

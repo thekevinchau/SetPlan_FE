@@ -9,10 +9,24 @@ import { useState } from "react";
 import React from "react";
 import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { commentOnPost, getCommentsByAnnouncement } from "../api/announcements";
+import {
+  commentOnPost,
+  deleteAnnouncement,
+  getCommentsByAnnouncement,
+} from "../api/announcements";
 import Comment from "./Comment";
 import type { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
@@ -21,6 +35,10 @@ interface AnnouncementProps {
 export default function Announcement({ announcement }: AnnouncementProps) {
   const [comment, setComment] = useState("");
   const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const isAnnouncer: boolean =
+    useSelector((state: RootState) => state.currentUser.userProfile?.id) ===
+    announcement.announcer.id;
   const isLoggedIn: boolean = useSelector(
     (state: RootState) => state.currentUser.isLoggedIn
   );
@@ -34,7 +52,6 @@ export default function Announcement({ announcement }: AnnouncementProps) {
   const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
   };
-
   const submitComment = async () => {
     if (comment.trim() === "") return;
 
@@ -50,33 +67,69 @@ export default function Announcement({ announcement }: AnnouncementProps) {
     }
   };
 
+  const deleteAnnouncementFn = async () => {
+    await deleteAnnouncement(announcement.id);
+    queryClient.invalidateQueries({
+      queryKey: ["announcements"] as const,
+    });
+    setModalOpen(false)
+  };
+
   return (
-    <div className="w-full flex flex-col p-3 rounded-lg mb-4 border">
+    <div className="w-full flex flex-col p-3 rounded-lg mb-4 bg-white/4">
       <div className="border-b-1 border-b-gray-700">
-        <div id="header" className="mb-2 flex">
-          <Link to={"/users"} className="flex items-center gap-3">
-            <img
-              className="w-7 h-7 rounded-full mr-2"
-              src="src/assets/SetPlan.png"
-              alt="SetPlan Logo"
-            />
-          </Link>
-          <div className="text-[0.75rem]">
-            <p>{announcement.announcer.name}</p>
-            {isWithinWeek(new Date(), new Date(announcement.createdAt)) ? (
-              <p className="text-gray-400 pb-[0.1rem]">
-                {new Date(announcement.createdAt).toLocaleDateString()}
-              </p>
-            ) : (
-              <p className="text-gray-400 pb-[0.1rem]">
-                {getWeeksBetweenDates(
-                  new Date(),
-                  new Date(announcement.createdAt)
-                )}
-                w
-              </p>
-            )}
+        <div id="header" className="mb-2 flex items-center justify-between">
+          <div className="flex">
+            <Link to={"/users"} className="flex items-center gap-3">
+              <img
+                className="w-7 h-7 rounded-full mr-2"
+                src="src/assets/SetPlan.png"
+                alt="SetPlan Logo"
+              />
+            </Link>
+            <div className="text-[0.75rem]">
+              <p>{announcement.announcer.name}</p>
+              {isWithinWeek(new Date(), new Date(announcement.createdAt)) ? (
+                <p className="text-gray-400 pb-[0.1rem]">
+                  {new Date(announcement.createdAt).toLocaleDateString()}
+                </p>
+              ) : (
+                <p className="text-gray-400 pb-[0.1rem]">
+                  {getWeeksBetweenDates(
+                    new Date(),
+                    new Date(announcement.createdAt)
+                  )}
+                  w
+                </p>
+              )}
+            </div>
           </div>
+          {isAnnouncer && (
+            <Dialog
+              onOpenChange={() => setModalOpen(!isModalOpen)}
+              open={isModalOpen}
+            >
+              <DialogTrigger className="hover:text-red-500 transition duration-300">
+                {" "}
+                <FaRegTrashCan className="text-xl" />
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Are you absolutely sure?</DialogTitle>
+                  <DialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    the announcement and remove it from the database.
+                  </DialogDescription>
+                  <Button
+                    className="bg-red-500 hover:text-red-500 hover:bg-white hover:border hover:border-red-500 transition duration-300 cursor-pointer w-1/4"
+                    onClick={deleteAnnouncementFn}
+                  >
+                    <FaRegTrashCan className="text-xl" />
+                  </Button>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
         <h2 className="font-extrabold text-gray-100 mb-2">
           {" "}
