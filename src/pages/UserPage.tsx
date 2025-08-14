@@ -21,11 +21,6 @@ export default function UserPage() {
       navigate("/");
     }
   }, [currentUser, navigate]);
-
-  const { data, isPending } = useQuery({
-    queryKey: ["currentUser"],
-    refetchInterval: 5 * 60 * 1000,
-  });
   return (
     <div className="min-h-screen w-full bg-slate-950 flex flex-col md:flex-row items-start gap-4 p-3">
       {/* Sidebar */}
