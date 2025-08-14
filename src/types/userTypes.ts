@@ -5,6 +5,7 @@ export const emptyProfile: UserProfile = {
     displayName: null,
     gender: null,
     bio: null,
+    admin: false,
     personalDetails: null,
     favoriteEvents: null,
     externalLinks: null,
