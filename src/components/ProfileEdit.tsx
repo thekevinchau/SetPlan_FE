@@ -1,10 +1,9 @@
-import type { SimpleEvent } from "@/types/eventTypes";
+
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { CiLogout } from "react-icons/ci";
-import { RiCalendarScheduleLine } from "react-icons/ri";
-import { Link } from "react-router-dom";
+
 import { Button } from "./ui/button";
-import type { profileExternalLink, UserProfile } from "@/types/userTypes";
+import type { UserProfile } from "@/types/userTypes";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";

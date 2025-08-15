@@ -13,10 +13,10 @@ export default function EventCard({ event }: EventCardProps) {
   const endDate: Date = new Date(event.details.endDate);
   return (
     <Link to={`/events/${event.id}`}>
-    <div className="mr-1 p-2 flex flex-col justify-between transition duration-300 rounded-md hover:scale-103 transform h-98 w-66 shadow-2xl hover:bg-white/15">
+    <div className="mr-1 p-2 flex flex-col justify-between transition duration-300 rounded-md hover:scale-103 transform h-98 w-66 hover:bg-white/15">
       <img
         src={event.imageUrls.avatarUrl}
-        className=" flex-1 mb-2 rounded-md object-cover"
+        className=" flex-1 mb-2 rounded-md object-cover shadow-2xl shadow-blue-900/60"
       />
       <div className="font-semibold text-white flex items-center justify-between">
         <h2 className="w-full truncate">{event.details.eventName} </h2>

@@ -20,7 +20,6 @@ const router = createBrowserRouter([
   { path: "/past-events", element: <PastEvents /> },
   { path: "/users/*", element: <NotFoundPage /> },
   { path: "/*", element: <NotFoundPage /> },
-  //{path: '/login', element: <LoginPage />},
   //{path: '/events'},
   //{path: '/events/:id'}
 ]);
