@@ -7,7 +7,8 @@ import { Button } from "./ui/button";
 import type { UserProfile } from "@/types/userTypes";
 import { logout } from "@/api/users";
 import { clearUser } from "@/redux/currentUserSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
@@ -24,17 +25,27 @@ export default function ProfileComponent({
     navigate("/");
   };
 
+  const currentUserAvatar: string | undefined | null = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.avatarUrl
+  );
+
   return (
     <div className="h-[95.75vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-4 flex flex-col items-center justify-center">
       {/* Profile section */}
       <div className="flex flex-col justify-evenly items-center gap-6 w-full h-3/5 max-w-sm max-h-sm min-h-sm rounded-md p-5 bg-white/3 border border-white/6">
-        <Avatar className="h-32 w-32">
-          <AvatarImage
-            src="https://github.com/shadcn.png"
-            className="rounded-full object-cover"
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+        {currentUserAvatar !== null ? (
+          <Avatar>
+            <AvatarImage
+              src={currentUserAvatar ?? undefined}
+              className="rounded-full object-cover w-18 h-18 border border-white/40"
+            />
+          </Avatar>
+        ) : (
+          <div className="border border-white/40 bg-blue-400 w-18 h-18 flex justify-center items-center rounded-full font-bold">
+            {currentUser?.displayName?.charAt(0).toUpperCase()}
+          </div>
+        )}
+
         <h1 className="font-extrabold text-3xl">{currentUser?.displayName}</h1>
         <div className="flex flex-col items-center w-3/4">
           <span className="mx-4 text-xs font-semibold tracking-widest text-gray-300 uppercase mb-2">

@@ -2,7 +2,7 @@ import React from "react";
 import Shortcuts from "../components/Shortcuts";
 import MainSideBar from "../components/MainSideBar";
 import MainComponent from "../components/MainComponent";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getFutureEvents } from "@/api/events";
 
 export default function LandingPage() {

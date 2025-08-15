@@ -7,6 +7,7 @@ import SetPlanTextWhite from "../assets/SetPlanTextWhite.png";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 
 interface MainSideBarProps {
   selected?: number;
@@ -19,6 +20,12 @@ export default function MainSideBar({
 }: MainSideBarProps) {
   const isLoggedIn: boolean = useSelector(
     (state: RootState) => state.currentUser.isLoggedIn
+  );
+  const currentUserAvatar: string | null | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.avatarUrl
+  );
+  const currentUserDisplayName: string | null | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.displayName
   );
   useEffect(() => {
     const savedSelected = localStorage.getItem("sidebar-selected");
@@ -48,14 +55,23 @@ export default function MainSideBar({
         </Link>
         {isLoggedIn ? (
           <Link to={`/users/me`}>
-            <img
-              className="w-8 h-8 rounded-full"
-              src={"https://github.com/shadcn.png"}
-              alt="SetPlan Logo"
-            />
+            {currentUserAvatar !== null ? (
+              <Avatar>
+                <AvatarImage
+                  src={currentUserAvatar ?? undefined}
+                  className="rounded-full object-cover w-8 h-8 border border-white/40"
+                />
+              </Avatar>
+            ) : (
+              <div className="border border-white/40 w-8 h-8 flex justify-center items-center rounded-full bg-blue-500 font-bold">
+                {currentUserDisplayName?.charAt(0).toUpperCase()}
+              </div>
+            )}
           </Link>
         ) : (
-          <Link to="/login" className="text-xs">Log in</Link>
+          <Link to="/login" className="text-xs">
+            Log in
+          </Link>
         )}
       </div>
 

@@ -44,6 +44,7 @@ export type UserProfile = {
   displayName: string | null,
   gender: string | null,
   bio: string | null,
+  avatarUrl: string | null | undefined
   personalDetails: personalDetailsDTO | null,
   favoriteEvents: SimpleEvent[] | null,
   admin: boolean,
