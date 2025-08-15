@@ -41,7 +41,7 @@ export default function SideBarEvent({
         to={`/events/${id}`}
         className="flex flex-col justify-center font-light flex-grow min-w-0"
       >
-        <h1 className="text-xs text-gray-400 group-hover:text-white transition-colors">
+        <h1 className="text-xs text-gray-400 group-hover:text-white transition-colors truncate">
           {name}
         </h1>
         <p className="sm:text-xs text-gray-400 group-hover:text-gray-300 truncate">

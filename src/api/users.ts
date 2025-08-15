@@ -15,7 +15,7 @@ export async function login(email: string, password: string): Promise<UserProfil
         return response.data;
     } catch (error) {
         console.error(error);
-        return {...emptyProfile} ;
+        return {...emptyProfile}
     }
 }
 

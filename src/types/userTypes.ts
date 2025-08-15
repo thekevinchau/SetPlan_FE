@@ -33,7 +33,7 @@ interface personalDetailsDTO {
   phoneNumber: string
 }
 
-interface profileExternalLink {
+export interface profileExternalLink {
   id: string,
   platform: string,
   link: string,
@@ -48,7 +48,7 @@ export type UserProfile = {
   personalDetails: personalDetailsDTO | null,
   favoriteEvents: SimpleEvent[] | null,
   admin: boolean,
-  externalLinks: profileExternalLink | null,
+  externalLinks: profileExternalLink[] | null,
   createdAt: string | null,
   updatedAt: string | null
 }

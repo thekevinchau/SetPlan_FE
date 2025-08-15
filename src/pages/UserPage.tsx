@@ -1,15 +1,16 @@
-
 import MainSideBar from "@/components/MainSideBar";
 import Shortcuts from "@/components/Shortcuts";
-import React, { useEffect } from "react";
-import {useSelector } from "react-redux";
-import {useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import type { UserProfile } from "@/types/userTypes";
 import type { RootState } from "@/redux/store";
 import ProfileComponent from "@/components/ProfileComponent";
+import ProfileEdit from "@/components/ProfileEdit";
 
 export default function UserPage() {
   const [selected, setSelected] = React.useState<number>(4);
+  const [isEditMode, setEditMode] = useState<boolean>(false);
   localStorage.setItem("sidebar-selected", "4");
   const navigate = useNavigate();
   const currentUser: UserProfile | null = useSelector(
@@ -30,7 +31,14 @@ export default function UserPage() {
 
       {/* Main content */}
       <div className="w-full md:w-3/5 md:flex-1">
-      <ProfileComponent currentUser={currentUser} />
+        {isEditMode ? (
+          <ProfileEdit currentUser={currentUser} setEditMode={() => setEditMode(!isEditMode)} />
+        ) : (
+          <ProfileComponent
+            currentUser={currentUser}
+            setEditMode={() => setEditMode(!isEditMode)}
+          />
+        )}
       </div>
     </div>
   );

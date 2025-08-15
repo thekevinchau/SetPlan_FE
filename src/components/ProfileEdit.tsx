@@ -1,36 +1,27 @@
 import type { SimpleEvent } from "@/types/eventTypes";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
-import { CiLogout, CiEdit } from "react-icons/ci";
+import { CiLogout } from "react-icons/ci";
 import { RiCalendarScheduleLine } from "react-icons/ri";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
-import type { UserProfile } from "@/types/userTypes";
-import { logout } from "@/api/users";
-import { clearUser } from "@/redux/currentUserSlice";
-import { useDispatch, useSelector } from "react-redux";
+import type { profileExternalLink, UserProfile } from "@/types/userTypes";
+
+import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import { Input } from "./ui/input";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
   setEditMode: () => void;
 }
 
-export default function ProfileComponent({
+export default function ProfileEdit({
   currentUser,
   setEditMode,
 }: ProfileComponentProps) {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const currentUserAvatar: string | undefined | null = useSelector(
     (state: RootState) => state.currentUser.userProfile?.avatarUrl
   );
-
-  const logoutFn = async () => {
-    await logout();
-    dispatch(clearUser());
-    navigate("/");
-  };
 
   if (!currentUser) {
     return (
@@ -69,71 +60,25 @@ export default function ProfileComponent({
 
           {/* Biography Section */}
           {currentUser.bio && (
-            <div className="mb-6">
+            <div>
               <h3 className="text-xs font-semibold tracking-wider text-gray-300 uppercase mb-3">
                 Biography
               </h3>
               <p className="text-gray-100 text-sm leading-relaxed">
-                {currentUser.bio}
+                <Input className="mb-6" value={currentUser.bio} />
               </p>
             </div>
           )}
-
-          {/* Favorite Events Section */}
-          <div className="mb-8">
-            <h3 className="text-xs font-semibold tracking-wider text-gray-300 uppercase mb-3">
-              Favorite Festivals
-            </h3>
-
-            {!currentUser.favoriteEvents?.length ? (
-              <div className="text-center py-6">
-                <p className="text-gray-400 text-sm">No favorite events yet</p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Start exploring festivals to add favorites!
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-h-32 overflow-y-auto">
-                {currentUser.favoriteEvents.map(
-                  (event: SimpleEvent, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
-                    >
-                      <span className="text-xs text-gray-100 truncate flex-1">
-                        {event.name}
-                      </span>
-                      <Link
-                        to={`/schedules/${event.id}`}
-                        className="ml-2 p-1 hover:text-blue-400 transition-colors"
-                      >
-                        <RiCalendarScheduleLine className="w-4 h-4 text-gray-400" />
-                      </Link>
-                    </div>
-                  )
-                )}
-              </div>
-            )}
-          </div>
 
           {/* Action Buttons */}
           <div className="flex gap-3">
             <Button
               variant="ghost"
-              onClick={logoutFn}
               className="flex-1 text-gray-300 hover:text-red-400 hover:bg-red-500/10 border border-white/10 transition-colors"
-            >
-              <CiLogout className="mr-2 h-4 w-4" />
-              Sign Out
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="flex-1 text-gray-300 hover:text-blue-400 hover:bg-blue-500/10 border border-white/10 transition-colors"
               onClick={setEditMode}
             >
-              <CiEdit className="mr-2 h-4 w-4" />
-              Edit Profile
+              <CiLogout className="mr-2 h-4 w-4" />
+              Cancel
             </Button>
           </div>
         </div>

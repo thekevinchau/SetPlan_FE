@@ -78,6 +78,7 @@ export function UserLogin({ setPageType }: UserLoginProps) {
               placeholder="Email Address"
               className="w-full border-gray-200 mt-2"
               onChange={handleEmailChange}
+              required
             />
           </div>
 
@@ -100,6 +101,7 @@ export function UserLogin({ setPageType }: UserLoginProps) {
             <Input
               type="password"
               id="password"
+              required
               placeholder="Enter your password"
               className="w-full border border-gray-200 mt-2"
               onChange={handlePasswordChange}
@@ -119,6 +121,7 @@ export function UserLogin({ setPageType }: UserLoginProps) {
             type="button"
             className="w-full mt-2 bg-blue-500 text-white hover:opacity-80 transition-opacity duration-300 cursor-pointer"
             onClick={() => submitForm(email, password)}
+            disabled={email.trim() === "" || password.trim() == ""}
           >
             Sign In
           </Button>
