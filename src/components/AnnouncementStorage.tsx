@@ -51,7 +51,7 @@ export default function AnnouncementStorage() {
   };
 
   return (
-    <div className="w-full h-[95.75vh] rounded-lg mt-4 text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-3 flex flex-col">
+    <div className="w-full h-[95.75vh] rounded-lg mt-4 text-white bg-gray-900/50 border border-gray-700/20 p-3 flex flex-col">
       {/* Header section (fixed height) */}
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
@@ -127,11 +127,9 @@ export default function AnnouncementStorage() {
       ) : (
         // Scrollable announcement list
         <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1 flex flex-col items-center">
-          {
-          announcements?.map((announcement: AnnouncementDetails, idx) => (
+          {announcements?.map((announcement: AnnouncementDetails, idx) => (
             <Announcement key={idx} announcement={announcement} />
-          ))
-          }
+          ))}
         </div>
       )}
     </div>

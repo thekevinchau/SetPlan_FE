@@ -8,8 +8,8 @@ export default function Shortcuts() {
     (state: RootState) => state.currentUser.isLoggedIn
   );
   return (
-    <div className="mt-3 h-[calc(100vh-14.5rem)] flex flex-col rounded-lg bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 text-white">
-      <h2 className="sticky top-0 p-2 sm:p-4 text-white font-light text-lg sm:text-xl z-10 bg-gray-900">
+    <div className="mt-3 h-[calc(100vh-14.5rem)] flex flex-col rounded-lg bg-gray-900/70 border border-gray-700/20 text-white">
+      <h2 className="sticky top-0 p-2 sm:p-4 text-white font-light text-lg sm:text-xl z-10">
         Shortcuts
       </h2>
       <div className="flex-1 overflow-y-auto">

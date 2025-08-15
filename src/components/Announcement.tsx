@@ -72,11 +72,11 @@ export default function Announcement({ announcement }: AnnouncementProps) {
     queryClient.invalidateQueries({
       queryKey: ["announcements"] as const,
     });
-    setModalOpen(false)
+    setModalOpen(false);
   };
 
   return (
-    <div className="w-full flex flex-col p-3 rounded-lg mb-4 bg-white/4">
+    <div className="w-full flex flex-col p-3 rounded-lg mb-4 bg-gray-900/80">
       <div className="border-b-1 border-b-gray-700">
         <div id="header" className="mb-2 flex items-center justify-between">
           <div className="flex">
@@ -140,28 +140,26 @@ export default function Announcement({ announcement }: AnnouncementProps) {
           {announcement.content}
         </p>
       </div>
-
       <button
-        className="flex items-center text-sm mt-3 w-1/2 mb-1 text-gray-400"
+        className={`flex items-center text-sm mt-3 w-1/2 mb-1 transition duration-300 ${
+          comments?.length === 0
+            ? "text-gray-500 cursor-not-allowed"
+            : "text-gray-400 hover:text-white cursor-pointer"
+        }`}
         onClick={() => setCommentsVisible(!commentsVisible)}
         disabled={comments?.length === 0}
       >
         <TfiCommentAlt className="mr-2" />
 
-        {comments?.length === 0 && isLoggedIn ? (
-          <span className="pb-1">Be the first to comment!</span>
+        {comments?.length === 0 ? (
+          <span className="pb-1">No comments yet</span>
         ) : commentsVisible ? (
-          <span className="pb-1 hover:text-white transition duration-300 cursor-pointer">
-            Hide comments
-          </span>
+          <span className="pb-1">Hide comments</span>
         ) : (
-          <span className="pb-1 hover:text-white transition duration-300 cursor-pointer">
-            Show {comments?.length} comments
-          </span>
+          <span className="pb-1">Show {comments?.length} comments</span>
         )}
       </button>
-
-      {commentsVisible && (
+      {commentsVisible && comments && (
         <div className="transition duration-300 ease-out">
           {comments?.length ? (
             comments.map((comment: AnnouncementComment) => (
@@ -176,8 +174,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
           )}
         </div>
       )}
-
-      {isLoggedIn && (
+      {isLoggedIn ? (
         <div className="flex items-center gap-2 mt-2">
           <input
             className="flex-1 border border-gray-400 rounded-md p-3 text-xs"
@@ -193,6 +190,10 @@ export default function Announcement({ announcement }: AnnouncementProps) {
             <IoArrowUpCircleSharp className="w-7 h-7" />
           </button>
         </div>
+      ) : (
+        <p className="text-xs text-gray-400 mt-2">
+          Log in or sign up to write a comment!
+        </p>
       )}
     </div>
   );

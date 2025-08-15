@@ -40,7 +40,7 @@ export default function MainSideBar({
   };
 
   return (
-    <div className="mt-0 md:mt-4 rounded-lg text-white bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20">
+    <div className="mt-0 md:mt-4 rounded-lg text-white bg-gray-900/70 border border-gray-700/20">
       <div className="flex justify-between items-center py-3 pr-2 border-gray-700/50">
         <Link
           to={"/"}
@@ -69,8 +69,8 @@ export default function MainSideBar({
             )}
           </Link>
         ) : (
-          <Link to="/login" className="text-xs">
-            Log in
+          <Link to="/login" className="text-sm hover:text-blue-500 transition duration-300 capitalize">
+            Log In
           </Link>
         )}
       </div>

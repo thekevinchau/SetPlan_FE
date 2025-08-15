@@ -25,14 +25,14 @@ export default function ProfileEdit({
 
   if (!currentUser) {
     return (
-      <div className="h-[95.75vh] rounded-lg mt-4 bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 flex items-center justify-center">
+      <div className="h-[95.75vh] rounded-lg mt-4 bg-gray-900/70 border border-gray-700/20 flex items-center justify-center">
         <div className="text-white">Loading profile...</div>
       </div>
     );
   }
 
   return (
-    <div className="h-[95.75vh] rounded-lg mt-4 bg-gradient-to-b from-gray-900 to-slate-900 border border-gray-700/20 p-6 flex items-center justify-center">
+    <div className="h-[95.75vh] rounded-lg mt-4 bg-gray-900/70 border border-gray-700/20 p-6 flex items-center justify-center">
       <div className="w-full max-w-md mx-auto">
         {/* Profile Card */}
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-2xl">
