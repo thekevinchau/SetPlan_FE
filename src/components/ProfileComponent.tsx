@@ -36,7 +36,7 @@ export default function ProfileComponent({
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h1 className="font-extrabold text-3xl">{currentUser?.displayName}</h1>
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-3/4">
           <span className="mx-4 text-xs font-semibold tracking-widest text-gray-300 uppercase mb-2">
             Biography
           </span>

@@ -10,6 +10,7 @@ const api = axios.create({
 export async function getFutureEvents(): Promise<Event[]>{
     try {
         const response = await api.get('/events?page=0&size=10&isFuture=true')
+        console.log('fetched');
         return response.data;
     } catch (error) {
         console.error(error);

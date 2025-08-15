@@ -15,7 +15,7 @@ export default function EventCard({ event }: EventCardProps) {
     <Link to={`/events/${event.id}`}>
     <div className="mr-1 p-2 flex flex-col justify-between transition duration-300 rounded-md hover:scale-103 transform h-98 w-66 shadow-2xl hover:bg-white/15">
       <img
-        src="src/assets/SetPlan.png"
+        src={event.imageUrls.avatarUrl}
         className=" flex-1 mb-2 rounded-md object-cover"
       />
       <div className="font-semibold text-white flex items-center justify-between">

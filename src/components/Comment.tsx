@@ -11,6 +11,7 @@ import {
 
 import { deleteComment } from "@/api/announcements";
 import { useQueryClient } from "@tanstack/react-query";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 interface AnnouncementCommentProps {
   comment: AnnouncementComment;
@@ -25,6 +26,10 @@ export default function Comment({
   const currentUserId: string | null | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.id
   );
+    const isAdmin: boolean | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.admin
+  );
+  console.log(isAdmin);
 
   const deleteCommentFn = async () => {
     try {
@@ -56,7 +61,7 @@ export default function Comment({
         </div>
       </div>
 
-      {currentUserId === comment.commenter.id && (
+      {(currentUserId === comment.commenter.id || isAdmin === true)&& (
         <Tooltip>
           <TooltipTrigger>
             {" "}
