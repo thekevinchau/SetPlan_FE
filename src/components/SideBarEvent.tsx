@@ -3,6 +3,11 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { favoriteEvent } from "@/api/events";
+import type { UserProfile } from "@/types/userTypes";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
+import { updateUser } from "@/redux/currentUserSlice";
 interface SideBarEventProps {
   id: string;
   name: string;
@@ -18,7 +23,25 @@ export default function SideBarEvent({
 }: SideBarEventProps) {
   const startDay: Date = new Date(startDate);
   const endDay: Date = new Date(endDate);
-  const [isFavorited, setIsFavorited] = useState(false);
+  const dispatch = useDispatch();
+  const currentUser: UserProfile | null = useSelector(
+    (state: RootState) => state.currentUser.userProfile
+  );
+  const [isFavorited, setIsFavorited] = useState<boolean>(false);
+
+  const favoriteEventFn = async () => {
+    if (!currentUser) return;
+    try {
+      const newProfile: UserProfile | void = await favoriteEvent(id);
+      if (newProfile) {
+        dispatch(updateUser(newProfile));
+      }
+      setIsFavorited(true);
+    } catch (error) {
+      console.error(error);
+      setIsFavorited(false);
+    }
+  };
   return (
     <div className="group flex items-center gap-2 text-xs w-full transition-colors duration-300 cursor-pointer mt-1 rounded-md h-12">
       {/* Favorite Icon */}
@@ -31,7 +54,7 @@ export default function SideBarEvent({
         ) : (
           <CiHeart
             className="text-base sm:text-lg md:text-xl hover:text-pink-500 transition-colors"
-            onClick={() => setIsFavorited(true)}
+            onClick={favoriteEventFn}
           />
         )}
       </div>

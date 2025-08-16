@@ -23,13 +23,15 @@ const currentUserSlice = createSlice({
       state.userProfile = action.payload;
       state.isLoggedIn = true;
     },
+    updateUser: (state, action: PayloadAction<UserProfile>) => {
+      state.userProfile = action.payload;
+    },
     clearUser: (state) => {
       state.userProfile = null;
       state.isLoggedIn = false;
-      localStorage.removeItem("currentUser");
     },
   },
 });
 
-export const { setUser, clearUser } = currentUserSlice.actions;
+export const { setUser, clearUser, updateUser } = currentUserSlice.actions;
 export default currentUserSlice.reducer;

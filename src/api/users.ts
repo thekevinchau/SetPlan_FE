@@ -22,6 +22,7 @@ export async function login(email: string, password: string): Promise<UserProfil
 export async function logout(){
     try {
         const response = await api.post('/auth/logout');
+        localStorage.removeItem("currentUser");
         console.log(response.data);
     } catch (error) {
         console.error(error);

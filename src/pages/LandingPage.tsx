@@ -13,7 +13,6 @@ export default function LandingPage() {
     queryKey: ["events"],
     queryFn: getFutureEvents,
     staleTime: 300000,
-    refetchOnWindowFocus: true,
   });
 
   return (
