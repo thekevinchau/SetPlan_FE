@@ -31,13 +31,19 @@ export function UserLogin({ setPageType }: UserLoginProps) {
     setPassword(event.target.value);
   };
   const submitForm = async (email: string, password: string) => {
-    const userProfile = await login(email, password);
-    dispatch(setUser(userProfile));
-    navigate("/");
+    try {
+      const userProfile = await login(email, password);
+      dispatch(setUser(userProfile));
+      localStorage.setItem("sidebar-selected", "1");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+      return;
+    }
   };
 
   useEffect(() => {
-    if (isLoggedIn) navigate('/')
+    if (isLoggedIn) navigate("/");
   }, [navigate, isLoggedIn]);
 
   return (
