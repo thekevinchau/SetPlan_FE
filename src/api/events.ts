@@ -1,6 +1,5 @@
     import axios from "axios";
     import type { Event } from "../types/eventTypes";
-    import { type UserProfile } from "@/types/userTypes";
 
     const api = axios.create({
         baseURL: 'http://localhost:8080',
