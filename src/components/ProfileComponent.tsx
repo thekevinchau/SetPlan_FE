@@ -1,4 +1,4 @@
-import type { SimpleEvent } from "@/types/eventTypes";
+import type { Event, SimpleEvent } from "@/types/eventTypes";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { CiLogout, CiEdit } from "react-icons/ci";
 import { RiCalendarScheduleLine } from "react-icons/ri";
@@ -24,6 +24,10 @@ export default function ProfileComponent({
 
   const currentUserAvatar: string | undefined | null = useSelector(
     (state: RootState) => state.currentUser.userProfile?.avatarUrl
+  );
+
+  const favoriteEvents: Event[] = useSelector(
+    (state: RootState) => state.favoriteEvents.favoriteEvents
   );
 
   const logoutFn = async () => {
@@ -85,7 +89,7 @@ export default function ProfileComponent({
               Favorite Festivals
             </h3>
 
-            {!currentUser.favoriteEvents?.length ? (
+            {!favoriteEvents?.length ? (
               <div className="text-center py-6">
                 <p className="text-gray-400 text-sm">No favorite events yet</p>
                 <p className="text-gray-500 text-xs mt-1">
@@ -94,24 +98,22 @@ export default function ProfileComponent({
               </div>
             ) : (
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {currentUser.favoriteEvents.map(
-                  (event: SimpleEvent, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                {favoriteEvents.map((event: Event, idx: number) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
+                  >
+                    <span className="text-xs text-gray-100 truncate flex-1">
+                      {event.details.eventName}
+                    </span>
+                    <Link
+                      to={`/schedules/${event.id}`}
+                      className="ml-2 p-1 hover:text-blue-400 transition-colors"
                     >
-                      <span className="text-xs text-gray-100 truncate flex-1">
-                        {event.name}
-                      </span>
-                      <Link
-                        to={`/schedules/${event.id}`}
-                        className="ml-2 p-1 hover:text-blue-400 transition-colors"
-                      >
-                        <RiCalendarScheduleLine className="w-4 h-4 text-gray-400" />
-                      </Link>
-                    </div>
-                  )
-                )}
+                      <RiCalendarScheduleLine className="w-4 h-4 text-gray-400" />
+                    </Link>
+                  </div>
+                ))}
               </div>
             )}
           </div>

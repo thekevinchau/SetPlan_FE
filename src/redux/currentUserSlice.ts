@@ -1,4 +1,3 @@
-
 import type { UserProfile } from "@/types/userTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
@@ -9,7 +8,9 @@ interface UserState {
 
 // Safely load user from localStorage
 const savedUser = localStorage.getItem("currentUser");
-const initialUser: UserProfile | null = savedUser ? JSON.parse(savedUser) : null;
+const initialUser: UserProfile | null = savedUser
+  ? JSON.parse(savedUser)
+  : null;
 
 const initialState: UserState = {
   isLoggedIn: initialUser !== null,

@@ -1,14 +1,13 @@
 import { HiOutlineArrowLongRight } from "react-icons/hi2";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { favoriteEvent, unfavoriteEvent } from "@/api/events";
-import type { UserProfile } from "@/types/userTypes";
-import {useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { useQueryClient } from "@tanstack/react-query";
-import type { SimpleEvent } from "@/types/eventTypes";
+import type { Event } from "@/types/eventTypes";
+import { unfavoriteEventRedux } from "@/redux/favoriteEventSlice";
 interface SideBarEventProps {
   id: string;
   name: string;
@@ -25,27 +24,23 @@ export default function SideBarEvent({
   const startDay: Date = new Date(startDate);
   const endDay: Date = new Date(endDate);
   const queryClient = useQueryClient();
-  const currentUser: UserProfile | null = useSelector(
-    (state: RootState) => state.currentUser.userProfile
+  const dispatch = useDispatch();
+  const favoriteEvents: Event[] | null = useSelector(
+    (state: RootState) => state.favoriteEvents.favoriteEvents
   );
-  const favoriteEvents: SimpleEvent[] | null | undefined =
-    currentUser?.favoriteEvents;
-  const isIncluded: boolean | undefined = favoriteEvents?.some(
-    (event: SimpleEvent) => event.id === id
+  const isIncluded: boolean = favoriteEvents?.some(
+    (event: Event) => event.id === id
   );
-  const [isFavorited, setIsFavorited] = useState<boolean>(
-    isIncluded ? isIncluded : false
+  const isLoggedIn: boolean = useSelector(
+    (state: RootState) => state.currentUser.isLoggedIn
   );
 
   const favoriteEventFn = async () => {
-    if (!currentUser) return;
     try {
       await favoriteEvent(id);
-        setIsFavorited(true);
-        queryClient.invalidateQueries({
-          queryKey: ["favorited-events"] as const,
-        });
-
+      queryClient.invalidateQueries({
+        queryKey: ["favorited-events"] as const,
+      });
     } catch (error) {
       console.error(error);
     }
@@ -57,7 +52,7 @@ export default function SideBarEvent({
       queryClient.invalidateQueries({
         queryKey: ["favorited-events"] as const,
       });
-      setIsFavorited(false);
+      dispatch(unfavoriteEventRedux(id));
     } catch (error) {
       console.error(error);
     }
@@ -65,19 +60,21 @@ export default function SideBarEvent({
   return (
     <div className="group flex items-center gap-2 text-xs w-full transition-colors duration-300 cursor-pointer mt-1 rounded-md h-12">
       {/* Favorite Icon */}
-      <div className="flex-shrink-0">
-        {isFavorited ? (
-          <FaHeart
-            className="text-base sm:text-lg md:text-xl text-pink-500 transition-colors"
-            onClick={unfavoriteEventFn}
-          />
-        ) : (
-          <CiHeart
-            className="text-base sm:text-lg md:text-xl hover:text-pink-500 transition-colors"
-            onClick={favoriteEventFn}
-          />
-        )}
-      </div>
+      {isLoggedIn && (
+        <div className="flex-shrink-0">
+          {isIncluded ? (
+            <FaHeart
+              className="text-base sm:text-md md:text-lg text-pink-500 transition-colors"
+              onClick={unfavoriteEventFn}
+            />
+          ) : (
+            <CiHeart
+              className="text-base sm:text-md md:text-lg hover:text-pink-500 transition-colors"
+              onClick={favoriteEventFn}
+            />
+          )}
+        </div>
+      )}
 
       {/* Text content */}
       <Link

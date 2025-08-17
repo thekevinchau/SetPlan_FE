@@ -7,8 +7,11 @@ import type { UserProfile } from "@/types/userTypes";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { Input } from "./ui/input";
-import type { SimpleEvent } from "@/types/eventTypes";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { useQueryClient } from "@tanstack/react-query";
+import { unfavoriteEvent } from "@/api/events";
+import type { Event } from "@/types/eventTypes";
+import { useEffect } from "react";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
@@ -22,6 +25,19 @@ export default function ProfileEdit({
   const currentUserAvatar: string | undefined | null = useSelector(
     (state: RootState) => state.currentUser.userProfile?.avatarUrl
   );
+  const favoriteEvents: Event[] = useSelector((state: RootState) => state.favoriteEvents.favoriteEvents)
+  const queryClient = useQueryClient();
+
+  const unfavoriteEventFn = async (id: string) => {
+    try {
+      await unfavoriteEvent(id);
+      queryClient.invalidateQueries({
+        queryKey: ["favorited-events"] as const,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (!currentUser) {
     return (
@@ -72,7 +88,7 @@ export default function ProfileEdit({
               Favorite Festivals
             </h3>
 
-            {!currentUser.favoriteEvents?.length ? (
+            {!favoriteEvents?.length ? (
               <div className="text-center py-6">
                 <p className="text-gray-400 text-sm">No favorite events yet</p>
                 <p className="text-gray-500 text-xs mt-1">
@@ -81,16 +97,16 @@ export default function ProfileEdit({
               </div>
             ) : (
               <div className="space-y-2 max-h-32 overflow-y-auto">
-                {currentUser.favoriteEvents.map(
-                  (event: SimpleEvent, idx: number) => (
+                {favoriteEvents.map(
+                  (event: Event, idx: number) => (
                     <div
                       key={idx}
                       className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
                     >
                       <span className="text-xs text-gray-100 truncate flex-1">
-                        {event.name}
+                        {event.details.eventName}
                       </span>
-                      <FaRegTrashCan className="text-white hover:text-red-500 transition duration-300 cursor-pointer"/>
+                      <FaRegTrashCan className="text-white hover:text-red-500 transition duration-300 cursor-pointer" onClick={() => unfavoriteEventFn(event.id)} />
                     </div>
                   )
                 )}
