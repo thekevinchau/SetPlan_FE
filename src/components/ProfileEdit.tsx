@@ -2,29 +2,37 @@ import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { CiLogout } from "react-icons/ci";
 
 import { Button } from "./ui/button";
-import type { UserProfile } from "@/types/userTypes";
+import type { profileExternalLink, UserProfile } from "@/types/userTypes";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { Input } from "./ui/input";
 import type { Event } from "@/types/eventTypes";
 import FavoriteEvents from "./FavoriteEvents";
+import ExternalLinks from "./ExternalLinks";
+import { useState } from "react";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
   setEditMode: () => void;
-  isEditMode: boolean
+  isEditMode: boolean;
 }
 
 export default function ProfileEdit({
   currentUser,
   setEditMode,
-  isEditMode
+  isEditMode,
 }: ProfileComponentProps) {
   const currentUserAvatar: string | undefined | null = useSelector(
     (state: RootState) => state.currentUser.userProfile?.avatarUrl
   );
-  const favoriteEvents: Event[] = useSelector((state: RootState) => state.favoriteEvents.favoriteEvents)
+  const favoriteEvents: Event[] = useSelector(
+    (state: RootState) => state.favoriteEvents.favoriteEvents
+  );
+  const externalLinks: profileExternalLink[] | null | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.externalLinks
+  );
+  const [biography, setBiography] = useState<string>(currentUser?.bio ?? "");
   if (!currentUser) {
     return (
       <div className="h-[95.75vh] rounded-lg mt-4 bg-gray-900/70 border border-gray-700/20 flex items-center justify-center">
@@ -64,12 +72,17 @@ export default function ProfileEdit({
                 Biography
               </h3>
               <p className="text-gray-100 text-sm leading-relaxed">
-                <Input className="mb-6" value={currentUser.bio} />
+                <Input className="mb-6" value={biography} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBiography(e.target.value)} />
               </p>
             </div>
           )}
 
-          <FavoriteEvents favoriteEvents={favoriteEvents} isEditMode={isEditMode}/>
+          <ExternalLinks externalLinks={externalLinks} isEditMode={isEditMode} />
+
+          <FavoriteEvents
+            favoriteEvents={favoriteEvents}
+            isEditMode={isEditMode}
+          />
           <div className="flex gap-3">
             <Button
               variant="ghost"
@@ -77,7 +90,7 @@ export default function ProfileEdit({
               onClick={setEditMode}
             >
               <CiLogout className="mr-2 h-4 w-4" />
-              Cancel
+              Exit Edit Mode
             </Button>
           </div>
         </div>
