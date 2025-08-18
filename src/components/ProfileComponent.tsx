@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import FavoriteEvents from "./FavoriteEvents";
 import ExternalLinksListing from "./ExternalLinks";
+import { clearFavoriteEvents } from "@/redux/favoriteEventSlice";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
@@ -40,6 +41,7 @@ export default function ProfileComponent({
   const logoutFn = async () => {
     await logout();
     dispatch(clearUser());
+    dispatch(clearFavoriteEvents());
     navigate("/");
   };
 

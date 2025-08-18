@@ -11,6 +11,7 @@ import type { Event } from "@/types/eventTypes";
 import FavoriteEvents from "./FavoriteEvents";
 import ExternalLinks from "./ExternalLinks";
 import { useState } from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
@@ -41,18 +42,31 @@ export default function ProfileEdit({
     );
   }
 
+  interface EditableAvatarProps {
+    currentUserAvatar: string;
+  }
+  function EditableAvatar({ currentUserAvatar }: EditableAvatarProps) {
+    return (
+      <Avatar className="relative w-24 h-24 mb-4">
+        <AvatarImage
+          src={currentUserAvatar}
+          className="rounded-full object-cover w-full h-full border-2 border-white/20"
+        />
+        <button className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow-md border border-gray-200">
+          <FaPencilAlt className="w-4 h-4 text-gray-700" />
+        </button>
+        <input type="file" accept="image/*" className="hidden" />
+      </Avatar>
+    );
+  }
+
   return (
     <div className="h-[95.75vh] rounded-lg mt-4 bg-gray-900/70 border border-gray-700/20 p-6 flex items-center justify-center">
       <div className="w-full max-w-md mx-auto">
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-2xl">
           <div className="flex flex-col items-center mb-8">
             {currentUserAvatar ? (
-              <Avatar className="w-24 h-24 mb-4">
-                <AvatarImage
-                  src={currentUserAvatar}
-                  className="rounded-full object-cover w-full h-full border-2 border-white/20"
-                />
-              </Avatar>
+              <EditableAvatar currentUserAvatar={currentUserAvatar} />
             ) : (
               <div className="w-24 h-24 mb-4 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center rounded-full border-2 border-white/20 shadow-lg">
                 <span className="text-2xl font-bold text-white">
@@ -72,12 +86,21 @@ export default function ProfileEdit({
                 Biography
               </h3>
               <p className="text-gray-100 text-sm leading-relaxed">
-                <Input className="mb-6" value={biography} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setBiography(e.target.value)} />
+                <Input
+                  className="mb-6"
+                  value={biography}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setBiography(e.target.value)
+                  }
+                />
               </p>
             </div>
           )}
 
-          <ExternalLinks externalLinks={externalLinks} isEditMode={isEditMode} />
+          <ExternalLinks
+            externalLinks={externalLinks}
+            isEditMode={isEditMode}
+          />
 
           <FavoriteEvents
             favoriteEvents={favoriteEvents}

@@ -19,9 +19,12 @@ const favoriteEventSlice = createSlice({
         },
         unfavoriteEventRedux: (state, action: PayloadAction<string>) => {
             state.favoriteEvents = state.favoriteEvents.filter((event: Event) => event.id !== action.payload);
+        },
+        clearFavoriteEvents: (state) => {
+            state.favoriteEvents = [];
         }
     }
 })
 
-export const { setFavoriteEvents, unfavoriteEventRedux } = favoriteEventSlice.actions;
+export const { setFavoriteEvents, unfavoriteEventRedux, clearFavoriteEvents } = favoriteEventSlice.actions;
 export default favoriteEventSlice.reducer;

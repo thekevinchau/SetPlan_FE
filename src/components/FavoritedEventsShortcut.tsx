@@ -15,7 +15,7 @@ export default function FavoritedEventsShortcut(){
     queryFn: () => getUserFavoriteEvents(currentUserId != null ? currentUserId : '')
   })
   useEffect(() => {
-    dispatch(setFavoriteEvents(data));
+    dispatch(setFavoriteEvents(data ?? []));
   }, [data, dispatch])
     return (
         <div className="mb-2">
