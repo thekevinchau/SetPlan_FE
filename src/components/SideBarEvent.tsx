@@ -64,12 +64,12 @@ export default function SideBarEvent({
         <div className="flex-shrink-0">
           {isIncluded ? (
             <FaHeart
-              className="text-base sm:text-md md:text-lg text-pink-500 transition-colors"
+              className="text-base sm:text-lg md:text-xl text-blue-500 cursor-pointer hover:bg-white/20 rounded-sm p-1"
               onClick={unfavoriteEventFn}
             />
           ) : (
             <CiHeart
-              className="text-base sm:text-md md:text-lg hover:text-pink-500 transition-colors"
+              className="text-base sm:text-md md:text-lg hover:text-blue-500 transition-colors"
               onClick={favoriteEventFn}
             />
           )}
@@ -84,8 +84,13 @@ export default function SideBarEvent({
         <h1 className="text-xs text-gray-400 group-hover:text-white transition-colors truncate">
           {name}
         </h1>
-        <p className="sm:text-xs text-gray-400 group-hover:text-gray-300 truncate">
-          {startDay.toDateString()} -{" "}
+        <p className="sm:text-xs text-gray-400/85 group-hover:text-gray-300 truncate">
+          {startDay.toLocaleDateString(undefined, {
+            month: "short",
+            day: "numeric",
+            weekday: "short",
+          })}{" "}
+          -{" "}
           {endDay.toLocaleDateString(undefined, {
             month: "short",
             day: "numeric",

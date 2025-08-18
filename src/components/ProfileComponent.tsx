@@ -1,23 +1,26 @@
-import type { Event, SimpleEvent } from "@/types/eventTypes";
+import type { Event} from "@/types/eventTypes";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { CiLogout, CiEdit } from "react-icons/ci";
-import { RiCalendarScheduleLine } from "react-icons/ri";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
-import type { UserProfile } from "@/types/userTypes";
+import type { profileExternalLink, UserProfile } from "@/types/userTypes";
 import { logout } from "@/api/users";
 import { clearUser } from "@/redux/currentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
+import FavoriteEvents from "./FavoriteEvents";
+import ExternalLinksListing from "./ExternalLinks";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
   setEditMode: () => void;
+  isEditMode: boolean
 }
 
 export default function ProfileComponent({
   currentUser,
   setEditMode,
+  isEditMode
 }: ProfileComponentProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,6 +31,10 @@ export default function ProfileComponent({
 
   const favoriteEvents: Event[] = useSelector(
     (state: RootState) => state.favoriteEvents.favoriteEvents
+  );
+
+  const externalLinks: profileExternalLink[] | null | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.externalLinks
   );
 
   const logoutFn = async () => {
@@ -83,40 +90,9 @@ export default function ProfileComponent({
             </div>
           )}
 
-          {/* Favorite Events Section */}
-          <div className="mb-8">
-            <h3 className="text-xs font-semibold tracking-wider text-gray-300 uppercase mb-3">
-              Favorite Festivals
-            </h3>
+          <ExternalLinksListing  externalLinks={externalLinks} isEditMode={isEditMode}/>
 
-            {!favoriteEvents?.length ? (
-              <div className="text-center py-6">
-                <p className="text-gray-400 text-sm">No favorite events yet</p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Start exploring festivals to add favorites!
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-h-32 overflow-y-auto">
-                {favoriteEvents.map((event: Event, idx: number) => (
-                  <div
-                    key={idx}
-                    className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
-                  >
-                    <span className="text-xs text-gray-100 truncate flex-1">
-                      {event.details.eventName}
-                    </span>
-                    <Link
-                      to={`/schedules/${event.id}`}
-                      className="ml-2 p-1 hover:text-blue-400 transition-colors"
-                    >
-                      <RiCalendarScheduleLine className="w-4 h-4 text-gray-400" />
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <FavoriteEvents favoriteEvents={favoriteEvents} isEditMode={isEditMode}/>
 
           {/* Action Buttons */}
           <div className="flex gap-3">

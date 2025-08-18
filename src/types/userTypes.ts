@@ -1,5 +1,3 @@
-import type { SimpleEvent } from "./eventTypes";
-
 export const emptyProfile: UserProfile = {
     id: null,
     displayName: null,
@@ -8,7 +6,6 @@ export const emptyProfile: UserProfile = {
     admin: false,
     avatarUrl: null,
     personalDetails: null,
-    favoriteEvents: null,
     externalLinks: null,
     createdAt: null,
     updatedAt:null
@@ -47,7 +44,6 @@ export type UserProfile = {
   bio: string | null,
   avatarUrl: string | null | undefined
   personalDetails: personalDetailsDTO | null,
-  favoriteEvents: SimpleEvent[] | null,
   admin: boolean,
   externalLinks: profileExternalLink[] | null,
   createdAt: string | null,

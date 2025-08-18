@@ -32,10 +32,11 @@ export default function UserPage() {
       {/* Main content */}
       <div className="w-full md:w-3/5 md:flex-1">
         {isEditMode ? (
-          <ProfileEdit currentUser={currentUser} setEditMode={() => setEditMode(!isEditMode)} />
+          <ProfileEdit currentUser={currentUser} setEditMode={() => setEditMode(!isEditMode)} isEditMode={isEditMode} />
         ) : (
           <ProfileComponent
             currentUser={currentUser}
+            isEditMode={isEditMode}
             setEditMode={() => setEditMode(!isEditMode)}
           />
         )}

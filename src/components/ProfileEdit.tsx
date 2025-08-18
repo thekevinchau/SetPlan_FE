@@ -7,38 +7,24 @@ import type { UserProfile } from "@/types/userTypes";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import { Input } from "./ui/input";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { useQueryClient } from "@tanstack/react-query";
-import { unfavoriteEvent } from "@/api/events";
 import type { Event } from "@/types/eventTypes";
-import { useEffect } from "react";
+import FavoriteEvents from "./FavoriteEvents";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
   setEditMode: () => void;
+  isEditMode: boolean
 }
 
 export default function ProfileEdit({
   currentUser,
   setEditMode,
+  isEditMode
 }: ProfileComponentProps) {
   const currentUserAvatar: string | undefined | null = useSelector(
     (state: RootState) => state.currentUser.userProfile?.avatarUrl
   );
   const favoriteEvents: Event[] = useSelector((state: RootState) => state.favoriteEvents.favoriteEvents)
-  const queryClient = useQueryClient();
-
-  const unfavoriteEventFn = async (id: string) => {
-    try {
-      await unfavoriteEvent(id);
-      queryClient.invalidateQueries({
-        queryKey: ["favorited-events"] as const,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   if (!currentUser) {
     return (
       <div className="h-[95.75vh] rounded-lg mt-4 bg-gray-900/70 border border-gray-700/20 flex items-center justify-center">
@@ -83,36 +69,7 @@ export default function ProfileEdit({
             </div>
           )}
 
-          <div className="mb-8">
-            <h3 className="text-xs font-semibold tracking-wider text-gray-300 uppercase mb-3">
-              Favorite Festivals
-            </h3>
-
-            {!favoriteEvents?.length ? (
-              <div className="text-center py-6">
-                <p className="text-gray-400 text-sm">No favorite events yet</p>
-                <p className="text-gray-500 text-xs mt-1">
-                  Start exploring festivals to add favorites!
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-2 max-h-32 overflow-y-auto">
-                {favoriteEvents.map(
-                  (event: Event, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-2 bg-white/5 rounded-lg hover:bg-white/10 transition-colors"
-                    >
-                      <span className="text-xs text-gray-100 truncate flex-1">
-                        {event.details.eventName}
-                      </span>
-                      <FaRegTrashCan className="text-white hover:text-red-500 transition duration-300 cursor-pointer" onClick={() => unfavoriteEventFn(event.id)} />
-                    </div>
-                  )
-                )}
-              </div>
-            )}
-          </div>
+          <FavoriteEvents favoriteEvents={favoriteEvents} isEditMode={isEditMode}/>
           <div className="flex gap-3">
             <Button
               variant="ghost"
