@@ -42,8 +42,8 @@ export default function AnnouncementEditModal({
   const saveAnnouncement = async () => {
     try {
       const edits: AnnouncementPayload = {
-        header: newHeader,
-        content: newContent,
+        header: newHeader === "" ? announcement.header : newHeader,
+        content: newContent === "" ? announcement.content : newContent,
       };
       await editAnnouncement(announcement.id, edits);
       queryClient.invalidateQueries({

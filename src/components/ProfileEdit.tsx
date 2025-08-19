@@ -6,12 +6,12 @@ import type { profileExternalLink, UserProfile } from "@/types/userTypes";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
-import { Input } from "./ui/input";
 import type { Event } from "@/types/eventTypes";
 import FavoriteEvents from "./FavoriteEvents";
 import ExternalLinks from "./ExternalLinks";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
+import { debounce } from "lodash";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;
@@ -24,16 +24,32 @@ export default function ProfileEdit({
   setEditMode,
   isEditMode,
 }: ProfileComponentProps) {
-  const currentUserAvatar: string | undefined | null = useSelector(
-    (state: RootState) => state.currentUser.userProfile?.avatarUrl
-  );
   const favoriteEvents: Event[] = useSelector(
     (state: RootState) => state.favoriteEvents.favoriteEvents
   );
-  const externalLinks: profileExternalLink[] | null | undefined = useSelector(
-    (state: RootState) => state.currentUser.userProfile?.externalLinks
+  const externalLinks: profileExternalLink[] | null | undefined =
+    currentUser?.externalLinks;
+  const [status, setStatus] = useState<string>("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setBiography(event.target.value);
+    setStatus("Saving...");
+    if (biography !== "") {
+      saveValueDebounced(event.target.value); // debounce API call / save
+    }
+  };
+
+  // create a debounced save function once
+  const saveValueDebounced = useMemo(
+    () =>
+      debounce((val: string) => {
+        console.log("Saving:", val); // Replace with API call
+        setStatus("Saved");
+      }, 2000),
+    []
   );
   const [biography, setBiography] = useState<string>(currentUser?.bio ?? "");
+
   if (!currentUser) {
     return (
       <div className="h-[95.75vh] rounded-lg mt-4 bg-gray-900/70 border border-gray-700/20 flex items-center justify-center">
@@ -65,8 +81,8 @@ export default function ProfileEdit({
       <div className="w-full max-w-md mx-auto">
         <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-8 shadow-2xl">
           <div className="flex flex-col items-center mb-8">
-            {currentUserAvatar ? (
-              <EditableAvatar currentUserAvatar={currentUserAvatar} />
+            {currentUser.avatarUrl ? (
+              <EditableAvatar currentUserAvatar={currentUser.avatarUrl} />
             ) : (
               <div className="w-24 h-24 mb-4 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center rounded-full border-2 border-white/20 shadow-lg">
                 <span className="text-2xl font-bold text-white">
@@ -86,14 +102,13 @@ export default function ProfileEdit({
                 Biography
               </h3>
               <p className="text-gray-100 text-sm leading-relaxed">
-                <Input
-                  className="mb-6"
+                <textarea
+                  className="mb-6 p-1 border w-full rounded-sm h-full"
                   value={biography}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setBiography(e.target.value)
-                  }
+                  onChange={handleChange}
                 />
               </p>
+              {status}
             </div>
           )}
 

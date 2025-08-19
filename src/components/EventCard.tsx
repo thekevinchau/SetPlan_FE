@@ -60,24 +60,28 @@ export default function EventCard({ event }: EventCardProps) {
         />
         <div className="font-semibold text-white flex items-center justify-between">
           <h2 className="w-full truncate">{event.details.eventName} </h2>
-          {isIncluded ? (
-            <FaHeart
-              className="text-base sm:text-xl md:text-2xl text-blue-500 cursor-pointer hover:bg-white/20 p-1 rounded-sm"
-              onClick={(e) => {
-                e.preventDefault(); // prevents <Link> navigation
-                e.stopPropagation(); // stops bubbling to parent
-                unfavoriteEventFn();
-              }}
-            />
-          ) : (
-            <CiHeart
-              className="text-base sm:text-xl md:text-2xl hover:text-blue-500 transition-colors cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                favoriteEventFn();
-              }}
-            />
+          {isLoggedIn && (
+            <div>
+              {isIncluded ? (
+                <FaHeart
+                  className="text-base sm:text-xl md:text-2xl text-blue-500 cursor-pointer hover:bg-white/20 p-1 rounded-sm"
+                  onClick={(e) => {
+                    e.preventDefault(); // prevents <Link> navigation
+                    e.stopPropagation(); // stops bubbling to parent
+                    unfavoriteEventFn();
+                  }}
+                />
+              ) : (
+                <CiHeart
+                  className="text-base sm:text-xl md:text-2xl hover:text-blue-500 transition-colors cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    favoriteEventFn();
+                  }}
+                />
+              )}
+            </div>
           )}
         </div>
 
