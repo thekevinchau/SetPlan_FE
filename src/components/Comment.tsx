@@ -12,6 +12,7 @@ import {
 import { deleteComment } from "@/api/announcements";
 import { useQueryClient } from "@tanstack/react-query";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { getWeeksBetweenDates, isWithinWeek } from "@/utils/dateUtils";
 
 interface AnnouncementCommentProps {
   comment: AnnouncementComment;
@@ -26,7 +27,7 @@ export default function Comment({
   const currentUserId: string | null | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.id
   );
-    const isAdmin: boolean | undefined = useSelector(
+  const isAdmin: boolean | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.admin
   );
   console.log(isAdmin);
@@ -43,7 +44,7 @@ export default function Comment({
   };
   return (
     <div className="bg-gray-800/60 rounded-sm p-3 shadow-sm hover:bg-gray-700 transition-colors duration-200 flex items-center justify-between">
-      <div className="flex">
+      <div className="flex items-center">
         <Link to={"/users"} className="mr-2">
           <img
             className="w-8 h-8 rounded-full"
@@ -51,26 +52,32 @@ export default function Comment({
             alt="SetPlan Logo"
           />
         </Link>
-        <div>
-          <p className="font-semibold text-gray-100 text-sm">
-            {comment.commenter.name || "Unknown User"}
-          </p>
-          <p className="text-xs text-gray-300 break-words whitespace-pre-wrap">
-            {comment.content || "No content"}
-          </p>
+        <div className="flex flex-col">
+          <div className="flex items-center">
+            <p className="text-sm font-semibold mr-1">
+              {comment.commenter.name}
+            </p>
+            {isWithinWeek(new Date(), new Date(comment.createdAt)) ? (
+              <p className="text-xs text-gray-400">
+                {new Date(comment.createdAt).toLocaleDateString()}
+              </p>
+            ) : (
+              <p className="text-xs text-gray-400">
+                {getWeeksBetweenDates(new Date(), new Date(comment.createdAt))}w
+              </p>
+            )}
+          </div>
+          <p className="text-xs text-white/80">{comment.content}</p>
         </div>
       </div>
 
-      {(currentUserId === comment.commenter.id || isAdmin === true)&& (
+      {(currentUserId === comment.commenter.id || isAdmin === true) && (
         <Tooltip>
-          <TooltipTrigger>
-            {" "}
-            <button
-              className="hover:text-red-500 transition duration-300 cursor-pointer"
-              onClick={deleteCommentFn}
-            >
-              <FaRegTrashCan />
-            </button>
+          <TooltipTrigger
+            onClick={deleteCommentFn}
+            className="hover:text-red-500 transition duration-300 cursor-pointer"
+          >
+            <FaRegTrashCan />
           </TooltipTrigger>
           <TooltipContent>
             <p>Delete Comment</p>
