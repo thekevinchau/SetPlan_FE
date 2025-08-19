@@ -11,7 +11,7 @@ import FavoriteEvents from "./FavoriteEvents";
 import ExternalLinks from "./ExternalLinks";
 import { useMemo, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
-import { debounce } from "lodash";
+import  debounce  from "lodash/debounce";
 
 interface ProfileComponentProps {
   currentUser: UserProfile | null;

@@ -1,12 +1,15 @@
 import MainSideBar from "@/components/MainSideBar";
 import Shortcuts from "@/components/Shortcuts";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import type { UserProfile } from "@/types/userTypes";
 import type { RootState } from "@/redux/store";
 import ProfileComponent from "@/components/ProfileComponent";
 import ProfileEdit from "@/components/ProfileEdit";
+import { useQuery } from "@tanstack/react-query";
+import { getMyProfile } from "@/api/users";
+import { setUser } from "@/redux/currentUserSlice";
 
 export default function UserPage() {
   const [selected, setSelected] = React.useState<number>(4);
@@ -16,6 +19,17 @@ export default function UserPage() {
   const currentUser: UserProfile | null = useSelector(
     (state: RootState) => state.currentUser.userProfile
   );
+  const dispatch = useDispatch();
+  const { data } = useQuery({
+    queryKey: ["current-user"],
+    queryFn: getMyProfile,
+    enabled: !isEditMode,
+  });
+  useEffect(() => {
+    if (data) {
+      dispatch(setUser(data));
+    }
+  }, [data, dispatch]);
   useEffect(() => {
     if (currentUser === null || currentUser === undefined) {
       navigate("/");
@@ -32,7 +46,11 @@ export default function UserPage() {
       {/* Main content */}
       <div className="w-full md:w-3/5 md:flex-1">
         {isEditMode ? (
-          <ProfileEdit currentUser={currentUser} setEditMode={() => setEditMode(!isEditMode)} isEditMode={isEditMode} />
+          <ProfileEdit
+            currentUser={currentUser}
+            setEditMode={() => setEditMode(!isEditMode)}
+            isEditMode={isEditMode}
+          />
         ) : (
           <ProfileComponent
             currentUser={currentUser}

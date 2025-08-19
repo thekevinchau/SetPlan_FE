@@ -53,7 +53,7 @@ export default function MainSideBar({
             alt="SetPlan Logo"
           />
         </Link>
-        {isLoggedIn ? (
+        {isLoggedIn === true ? (
           <Link to={`/users/me`}>
             {currentUserAvatar !== null ? (
               <Avatar>

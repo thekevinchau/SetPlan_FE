@@ -55,19 +55,22 @@ export async function updateExternalLink(
     const response = await api.patch(`/profiles/links/${profileId}`, {
       externalLink: payload,
     });
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error(error);
-    return {...emptyProfile};
+    return { ...emptyProfile };
   }
 }
 
-export async function getMyProfile(): Promise<UserProfile>{
-    try {
-        const response = await api.get('/profiles/me');
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return {...emptyProfile}
-    }
+export async function getMyProfile(): Promise<UserProfile> {
+  try {
+    const response = await api.get("/profiles/me");
+    localStorage.setItem("currentUser", JSON.stringify(response.data));
+    console.log("getting my profile");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return { ...emptyProfile };
+  }
 }

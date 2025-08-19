@@ -24,20 +24,17 @@ import { Input } from "./ui/input";
 import { useState } from "react";
 import { Button } from "./ui/button";
 
-export default function AnnouncementStorage() {
-  const { data, isPending } = useQuery<AnnouncementResponse>({
-    queryKey: ["announcements"],
-    queryFn: getAnnouncements,
-  });
-  const isAdmin: boolean | undefined = useSelector(
-    (state: RootState) => state.currentUser.userProfile?.admin
-  );
+interface AnnouncementCreationProps {
+  isOpen: boolean;
+  setModalOpen: (isOpen: boolean) => void;
+}
+function AnnouncementCreationModal({
+  isOpen,
+  setModalOpen,
+}: AnnouncementCreationProps) {
   const queryClient = useQueryClient();
   const [header, setHeader] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const announcements: AnnouncementDetails[] | undefined = data?.content;
-
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const payload: AnnouncementPayload = { header: header, content: content };
@@ -49,6 +46,61 @@ export default function AnnouncementStorage() {
     setContent("");
     setModalOpen(false);
   };
+  return (
+    <Dialog open={isOpen} onOpenChange={() => setModalOpen(!isOpen)}>
+      <DialogTrigger className="flex items-center cursor-pointer hover:text-green-500 transition duration-300 text-sm">
+        Add Announcement <IoCreateOutline className="ml-2 text-xl" />
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Create an Announcement</DialogTitle>
+          <DialogDescription>
+            Create an announcement for any site updates or new features!
+          </DialogDescription>
+          <form className="flex flex-col" onSubmit={submitForm}>
+            <Label className="mb-1">Header</Label>
+            <Input
+              type="text"
+              className="mb-2"
+              id="announcementHeader"
+              required
+              value={header}
+              onChange={(event) => setHeader(event.target.value)}
+            />
+
+            <Label className="mb-1">Content</Label>
+            <Input
+              type="text"
+              className="mb-3"
+              id="announcementContent"
+              required
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+            />
+            <Button
+              className="bg-blue-500 text-white hover:bg-green-500 cursor-pointer"
+              type="submit"
+            >
+              Create
+            </Button>
+          </form>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export default function AnnouncementStorage() {
+  const { data, isPending } = useQuery<AnnouncementResponse>({
+    queryKey: ["announcements"],
+    queryFn: getAnnouncements,
+  });
+  const isAdmin: boolean | undefined = useSelector(
+    (state: RootState) => state.currentUser.userProfile?.admin
+  );
+  console.log(isAdmin);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const announcements: AnnouncementDetails[] | undefined = data?.content;
 
   return (
     <div className="w-full h-[95.75vh] rounded-lg mt-4 text-white bg-gray-900/50 border border-gray-700/20 p-3 flex flex-col">
@@ -58,50 +110,10 @@ export default function AnnouncementStorage() {
           <div className="flex justify-between items-center">
             <p className="text-gray-400 mb-1 text-sm">Announcements</p>
             {isAdmin && (
-              <Dialog
-                open={isModalOpen}
-                onOpenChange={() => setModalOpen(!isModalOpen)}
-              >
-                <DialogTrigger className="flex items-center cursor-pointer hover:text-green-500 transition duration-300 text-sm">
-                  Add Announcement <IoCreateOutline className="ml-2 text-xl" />
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Create an Announcement</DialogTitle>
-                    <DialogDescription>
-                      Create an announcement for any site updates or new
-                      features!
-                    </DialogDescription>
-                    <form className="flex flex-col" onSubmit={submitForm}>
-                      <Label className="mb-1">Header</Label>
-                      <Input
-                        type="text"
-                        className="mb-2"
-                        id="announcementHeader"
-                        required
-                        value={header}
-                        onChange={(event) => setHeader(event.target.value)}
-                      />
-
-                      <Label className="mb-1">Content</Label>
-                      <Input
-                        type="text"
-                        className="mb-3"
-                        id="announcementContent"
-                        required
-                        value={content}
-                        onChange={(event) => setContent(event.target.value)}
-                      />
-                      <Button
-                        className="bg-blue-500 text-white hover:bg-green-500 cursor-pointer"
-                        type="submit"
-                      >
-                        Create
-                      </Button>
-                    </form>
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
+              <AnnouncementCreationModal
+                isOpen={isModalOpen}
+                setModalOpen={setModalOpen}
+              />
             )}
           </div>
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold flex flex-wrap items-center leading-tight">
@@ -126,7 +138,7 @@ export default function AnnouncementStorage() {
         <div>Loading announcements...</div>
       ) : (
         // Scrollable announcement list
-        <div className="mt-4 overflow-y-auto flex-1 space-y-4 pr-1 flex flex-col items-center">
+        <div className="mt-4 w-full overflow-y-auto flex-1 space-y-4 pr-1 flex flex-col items-center">
           {announcements?.map((announcement: AnnouncementDetails, idx) => (
             <Announcement key={idx} announcement={announcement} />
           ))}

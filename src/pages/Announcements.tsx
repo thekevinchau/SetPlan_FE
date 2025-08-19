@@ -13,7 +13,7 @@ export default function Announcements() {
         <MainSideBar selected={selected} setSelected={setSelected} />
         <Shortcuts />
       </div>
-      <div className="w-full sm:w-3/5 md:w-3/5 md:flex-1">
+      <div className="w-full md:flex-1">
         <AnnouncementStorage/>
       </div>
     </div>

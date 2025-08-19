@@ -32,7 +32,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
   const comments: AnnouncementComment[] | undefined = data;
 
   return (
-    <div className="w-full flex flex-col p-3 rounded-lg mb-4 bg-gray-900/80">
+    <div className="w-full sm:w-4/5 md:w-2/3 lg:w-1/2 flex flex-col p-3 rounded-lg mb-4 bg-gray-900/80">
       <div className="border-b-1 border-b-gray-700">
         <div id="header" className="mb-2 flex items-center justify-between">
           <div className="flex">

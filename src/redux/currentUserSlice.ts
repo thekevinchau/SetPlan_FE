@@ -1,4 +1,4 @@
-import type { profileExternalLink, UserProfile } from "@/types/userTypes";
+import type { UserProfile } from "@/types/userTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
@@ -25,21 +25,13 @@ const currentUserSlice = createSlice({
       state.userProfile = action.payload;
       state.isLoggedIn = true;
     },
-    updateSocialLink: (state, action: PayloadAction<profileExternalLink>) => {
-      const link = state.userProfile?.externalLinks?.find((link: profileExternalLink) => 
-        link.id === action.payload.id
-      )
-      if (link === undefined){
-        return;
-      }
-      link.link = action.payload.link;
-    },
     clearUser: (state) => {
       state.userProfile = null;
       state.isLoggedIn = false;
+      localStorage.removeItem("currentUser"); // <-- clear persisted user
     },
   },
 });
 
-export const { setUser, clearUser, updateSocialLink } = currentUserSlice.actions;
+export const { setUser, clearUser} = currentUserSlice.actions;
 export default currentUserSlice.reducer;
