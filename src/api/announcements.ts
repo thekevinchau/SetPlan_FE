@@ -47,6 +47,16 @@ export async function deleteAnnouncement(announcementId: string): Promise<void>{
   }
 }
 
+export async function editAnnouncement(announcementId: string, edits: AnnouncementPayload): Promise<void>{
+  try {
+    const response = await api.patch(`/announcements/${announcementId}`, edits)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return;
+  }
+}
+
 export async function getCommentsByAnnouncement(id: string): Promise<AnnouncementComment[]> {
   try {
     const response = await api.get(

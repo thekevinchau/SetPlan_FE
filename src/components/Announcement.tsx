@@ -1,79 +1,35 @@
 import { Link } from "react-router-dom";
-import { TfiCommentAlt } from "react-icons/tfi";
-import { IoArrowUpCircleSharp } from "react-icons/io5";
 import type {
   AnnouncementComment,
   AnnouncementDetails,
 } from "../types/announcementTypes";
 import { useState } from "react";
-import React from "react";
 import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
 import {
-  commentOnPost,
-  deleteAnnouncement,
   getCommentsByAnnouncement,
 } from "../api/announcements";
-import Comment from "./Comment";
 import type { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
-import { FaRegTrashCan } from "react-icons/fa6";
-import { Button } from "./ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import CommentListing from "./CommentListing";
+import AnnouncementEditModal from "./AnnouncementEditModal";
 
 interface AnnouncementProps {
   announcement: AnnouncementDetails;
 }
 
+
 export default function Announcement({ announcement }: AnnouncementProps) {
-  const [comment, setComment] = useState("");
-  const [commentsVisible, setCommentsVisible] = useState<boolean>(false);
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isEditModalOpen, setEditModalOpen] = useState<boolean>(false);
   const isAnnouncer: boolean =
     useSelector((state: RootState) => state.currentUser.userProfile?.id) ===
     announcement.announcer.id;
-  const isLoggedIn: boolean = useSelector(
-    (state: RootState) => state.currentUser.isLoggedIn
-  );
   const { data } = useQuery({
     queryKey: ["announcementComments", announcement.id],
     queryFn: () => getCommentsByAnnouncement(announcement.id),
     refetchOnMount: true,
   });
-  const queryClient = useQueryClient();
   const comments: AnnouncementComment[] | undefined = data;
-  const handleCommentInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(event.target.value);
-  };
-  const submitComment = async () => {
-    if (comment.trim() === "") return;
-
-    try {
-      await commentOnPost(announcement.id, { content: comment }); // wait for backend
-      queryClient.invalidateQueries({
-        queryKey: ["announcementComments", announcement.id] as const,
-      });
-      setComment(""); // clear input
-      setCommentsVisible(true);
-    } catch (error) {
-      console.error("Failed to post comment:", error);
-    }
-  };
-
-  const deleteAnnouncementFn = async () => {
-    await deleteAnnouncement(announcement.id);
-    queryClient.invalidateQueries({
-      queryKey: ["announcements"] as const,
-    });
-    setModalOpen(false);
-  };
 
   return (
     <div className="w-full flex flex-col p-3 rounded-lg mb-4 bg-gray-900/80">
@@ -92,6 +48,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
               {isWithinWeek(new Date(), new Date(announcement.createdAt)) ? (
                 <p className="text-gray-400 pb-[0.1rem]">
                   {new Date(announcement.createdAt).toLocaleDateString()}
+                  {announcement.updatedAt !== null && " (Edited)"}
                 </p>
               ) : (
                 <p className="text-gray-400 pb-[0.1rem]">
@@ -104,32 +61,15 @@ export default function Announcement({ announcement }: AnnouncementProps) {
               )}
             </div>
           </div>
-          {isAnnouncer && (
-            <Dialog
-              onOpenChange={() => setModalOpen(!isModalOpen)}
-              open={isModalOpen}
-            >
-              <DialogTrigger className="hover:text-red-500 transition duration-300">
-                {" "}
-                <FaRegTrashCan className="text-xl" />
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Are you absolutely sure?</DialogTitle>
-                  <DialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    the announcement and remove it from the database.
-                  </DialogDescription>
-                  <Button
-                    className="bg-red-500 hover:text-red-500 hover:bg-white hover:border hover:border-red-500 transition duration-300 cursor-pointer w-1/4"
-                    onClick={deleteAnnouncementFn}
-                  >
-                    <FaRegTrashCan className="text-xl" />
-                  </Button>
-                </DialogHeader>
-              </DialogContent>
-            </Dialog>
-          )}
+          <div>
+            {isAnnouncer && (
+              <AnnouncementEditModal
+                announcement={announcement}
+                isOpen={isEditModalOpen}
+                setIsOpen={setEditModalOpen}
+              />
+            )}
+          </div>
         </div>
         <h2 className="font-extrabold text-gray-100 mb-2">
           {" "}
@@ -140,61 +80,7 @@ export default function Announcement({ announcement }: AnnouncementProps) {
           {announcement.content}
         </p>
       </div>
-      <button
-        className={`flex items-center text-sm mt-3 w-1/2 mb-1 transition duration-300 ${
-          comments?.length === 0
-            ? "text-gray-500 cursor-not-allowed"
-            : "text-gray-400 hover:text-white cursor-pointer"
-        }`}
-        onClick={() => setCommentsVisible(!commentsVisible)}
-        disabled={comments?.length === 0}
-      >
-        <TfiCommentAlt className="mr-2" />
-
-        {comments?.length === 0 ? (
-          <span className="pb-1">No comments yet</span>
-        ) : commentsVisible ? (
-          <span className="pb-1">Hide comments</span>
-        ) : (
-          <span className="pb-1">Show {comments?.length} comments</span>
-        )}
-      </button>
-      {commentsVisible && comments && (
-        <div className="transition duration-300 ease-out">
-          {comments?.length ? (
-            comments.map((comment: AnnouncementComment) => (
-              <Comment
-                key={comment.id}
-                comment={comment}
-                announcementId={announcement.id}
-              />
-            ))
-          ) : (
-            <p className="text-gray-500 text-sm">No comments yet</p>
-          )}
-        </div>
-      )}
-      {isLoggedIn ? (
-        <div className="flex items-center gap-2 mt-2">
-          <input
-            className="flex-1 border border-gray-400 rounded-md p-3 text-xs"
-            placeholder="Write a comment..."
-            value={comment}
-            onChange={handleCommentInput}
-          />
-          <button
-            disabled={comment.trim() === ""}
-            className="text-blue-500 hover:text-blue-600 transition duration-200 cursor-pointer"
-            onClick={submitComment}
-          >
-            <IoArrowUpCircleSharp className="w-7 h-7" />
-          </button>
-        </div>
-      ) : (
-        <p className="text-xs text-gray-400 mt-2">
-          Log in or sign up to write a comment!
-        </p>
-      )}
+      <CommentListing comments={comments} announcement={announcement} />
     </div>
   );
 }
