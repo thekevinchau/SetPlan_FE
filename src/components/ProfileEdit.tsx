@@ -11,10 +11,11 @@ import FavoriteEvents from "./FavoriteEvents";
 import ExternalLinks from "./ExternalLinks";
 import { useMemo, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
-import  debounce  from "lodash/debounce";
+import debounce from "lodash/debounce";
+import { editUser } from "@/api/users";
 
 interface ProfileComponentProps {
-  currentUser: UserProfile | null;
+  currentUser: UserProfile;
   setEditMode: () => void;
   isEditMode: boolean;
 }
@@ -43,7 +44,7 @@ export default function ProfileEdit({
   const saveValueDebounced = useMemo(
     () =>
       debounce((val: string) => {
-        console.log("Saving:", val); // Replace with API call
+        editUser(currentUser?.id, { biography: val });
         setStatus("Saved");
       }, 2000),
     []

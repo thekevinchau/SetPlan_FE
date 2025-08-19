@@ -1,23 +1,22 @@
 export const emptyProfile: UserProfile = {
-    id: null,
-    displayName: null,
-    gender: null,
-    bio: null,
-    admin: false,
-    avatarUrl: null,
-    personalDetails: null,
-    externalLinks: null,
-    createdAt: null,
-    updatedAt:null
-
-}
+  id: null,
+  displayName: null,
+  gender: null,
+  bio: null,
+  admin: false,
+  avatarUrl: null,
+  personalDetails: null,
+  externalLinks: null,
+  createdAt: null,
+  updatedAt: null,
+};
 
 export interface UserRegistration {
-  email: string,
-  password: string,
-  displayName: string,
-  birthday: string,
-  phoneNumber: string
+  email: string;
+  password: string;
+  displayName: string;
+  birthday: string;
+  phoneNumber: string;
 }
 
 export type SimpleUserProfile = {
@@ -27,25 +26,33 @@ export type SimpleUserProfile = {
 };
 
 interface personalDetailsDTO {
-  birthday: string,
-  phoneNumber: string
+  birthday: string;
+  phoneNumber: string;
 }
 
 export interface profileExternalLink {
-  id: string,
-  platform: string,
-  link: string,
+  id: string;
+  platform: string;
+  link: string;
 }
 
 export type UserProfile = {
-  id: string | null,
-  displayName: string | null,
-  gender: string | null,
-  bio: string | null,
-  avatarUrl: string | null | undefined
-  personalDetails: personalDetailsDTO | null,
-  admin: boolean,
-  externalLinks: profileExternalLink[] | null,
-  createdAt: string | null,
-  updatedAt: string | null
+  id: string | null;
+  displayName: string | null;
+  gender: string | null;
+  bio: string | null;
+  avatarUrl: string | null | undefined;
+  personalDetails: personalDetailsDTO | null;
+  admin: boolean;
+  externalLinks: profileExternalLink[] | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export interface UserProfileEdit {
+  displayName?: string;
+  gender?: string;
+  biography?: string;
+  avatarUrl?: string;
+  personalDetails?: personalDetailsDTO;
 }

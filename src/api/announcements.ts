@@ -1,20 +1,24 @@
-import axios from 'axios';
-import type { AnnouncementComment, AnnouncementPayload, AnnouncementResponse } from '../types/announcementTypes';
+import axios from "axios";
+import type {
+  AnnouncementComment,
+  AnnouncementPayload,
+  AnnouncementResponse,
+} from "../types/announcementTypes";
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080',
-    withCredentials: true
-})
+  baseURL: "http://localhost:8080",
+  withCredentials: true,
+});
 
 export async function getAnnouncements(): Promise<AnnouncementResponse> {
-  console.log('fetching')
+  console.log("fetching");
   try {
     const response = await api.get<AnnouncementResponse>(
-      '/announcements/all?page=0&size=10'
+      "/announcements/all?page=0&size=10"
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching announcements:', error);
+    console.error("Error fetching announcements:", error);
     return {
       content: [],
       page: {
@@ -27,29 +31,34 @@ export async function getAnnouncements(): Promise<AnnouncementResponse> {
   }
 }
 
-export async function createAnnouncement(payload: AnnouncementPayload){
-  try{
-    const response = await api.post('/announcements', payload);
-    return response.data;
-  }catch(err){
-    console.error(err);
-    return;
-  }
-}
-
-export async function deleteAnnouncement(announcementId: string): Promise<void>{
-  try{
-    const response = await api.delete(`/announcements/${announcementId}`)
-    return response.data;
-  }catch(err){
-    console.error(err);
-    return;
-  }
-}
-
-export async function editAnnouncement(announcementId: string, edits: AnnouncementPayload): Promise<void>{
+export async function createAnnouncement(payload: AnnouncementPayload) {
   try {
-    const response = await api.patch(`/announcements/${announcementId}`, edits)
+    const response = await api.post("/announcements", payload);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+}
+
+export async function deleteAnnouncement(
+  announcementId: string
+): Promise<void> {
+  try {
+    const response = await api.delete(`/announcements/${announcementId}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    return;
+  }
+}
+
+export async function editAnnouncement(
+  announcementId: string,
+  edits: AnnouncementPayload
+): Promise<void> {
+  try {
+    const response = await api.patch(`/announcements/${announcementId}`, edits);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -57,11 +66,11 @@ export async function editAnnouncement(announcementId: string, edits: Announceme
   }
 }
 
-export async function getCommentsByAnnouncement(id: string): Promise<AnnouncementComment[]> {
+export async function getCommentsByAnnouncement(
+  id: string
+): Promise<AnnouncementComment[]> {
   try {
-    const response = await api.get(
-      `/announcements/${id}/comments`
-    );
+    const response = await api.get(`/announcements/${id}/comments`);
     return response.data;
   } catch (err) {
     console.error("Error fetching comments", err);
@@ -69,9 +78,15 @@ export async function getCommentsByAnnouncement(id: string): Promise<Announcemen
   }
 }
 
-export async function commentOnPost(postId: string, payload: {content: string}){
+export async function commentOnPost(
+  postId: string,
+  payload: { content: string }
+) {
   try {
-    const response = await api.post(`/announcements/${postId}/comments`, payload);
+    const response = await api.post(
+      `/announcements/${postId}/comments`,
+      payload
+    );
     return response.data;
   } catch (error) {
     console.error("Error creating a comment ", error);
@@ -79,12 +94,12 @@ export async function commentOnPost(postId: string, payload: {content: string}){
   }
 }
 
-export async function deleteComment(commentId: string){
+export async function deleteComment(commentId: string) {
   try {
-    const response = await api.delete(`/announcements/comments/${commentId}`)
-    return response.data;
+    await api.delete(`/announcements/comments/${commentId}`);
+    return;
   } catch (error) {
-    console.error("Error deleting a comment", error)
+    console.error("Error deleting a comment", error);
     return;
   }
 }

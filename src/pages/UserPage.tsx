@@ -19,6 +19,12 @@ export default function UserPage() {
   const currentUser: UserProfile | null = useSelector(
     (state: RootState) => state.currentUser.userProfile
   );
+  useEffect(() => {
+    if (currentUser === null || currentUser === undefined) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
+
   const dispatch = useDispatch();
   const { data } = useQuery({
     queryKey: ["current-user"],
@@ -30,11 +36,6 @@ export default function UserPage() {
       dispatch(setUser(data));
     }
   }, [data, dispatch]);
-  useEffect(() => {
-    if (currentUser === null || currentUser === undefined) {
-      navigate("/");
-    }
-  }, [currentUser, navigate]);
   return (
     <div className="min-h-screen w-full bg-slate-950 flex flex-col md:flex-row items-start pl-3 pr-3">
       {/* Sidebar */}
