@@ -48,8 +48,8 @@ export default function Comment({
         <Link to={"/users"} className="mr-2">
           <img
             className="w-8 h-8 rounded-full"
-            src="src/assets/SetPlan.png"
-            alt="SetPlan Logo"
+            src={comment.commenter.avatarUrl ?? ""}
+            alt={`${comment.commenter} Avatar`}
           />
         </Link>
         <div className="flex flex-col">

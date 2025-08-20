@@ -39,8 +39,8 @@ export default function Announcement({ announcement }: AnnouncementProps) {
             <Link to={"/users"} className="flex items-center gap-3">
               <img
                 className="w-7 h-7 rounded-full mr-2"
-                src="src/assets/SetPlan.png"
-                alt="SetPlan Logo"
+                src={announcement.announcer.avatarUrl ?? ""}
+                alt={`${announcement.announcer.name} avatar`}
               />
             </Link>
             <div className="text-[0.75rem]">

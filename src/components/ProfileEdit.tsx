@@ -15,7 +15,7 @@ import debounce from "lodash/debounce";
 import { editUser } from "@/api/users";
 
 interface ProfileComponentProps {
-  currentUser: UserProfile;
+  currentUser: UserProfile | null;
   setEditMode: () => void;
   isEditMode: boolean;
 }
@@ -100,7 +100,7 @@ export default function ProfileEdit({
           {currentUser.bio && (
             <div>
               <h3 className="text-xs font-semibold tracking-wider text-gray-300 uppercase mb-3">
-                Biography
+                Biography {status}
               </h3>
               <p className="text-gray-100 text-sm leading-relaxed">
                 <textarea
@@ -109,7 +109,6 @@ export default function ProfileEdit({
                   onChange={handleChange}
                 />
               </p>
-              {status}
             </div>
           )}
 

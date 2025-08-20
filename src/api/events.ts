@@ -29,7 +29,10 @@
         }
     }
 
-    export async function getUserFavoriteEvents(userId: string): Promise<Event[]> {
+    export async function getUserFavoriteEvents(userId: string | null | undefined): Promise<Event[]> {
+        if (userId === null || userId === undefined){
+            return [];
+        }
         try {
             const response = await api.get(`/profiles/favorite-events/${userId}`)
             return response.data;

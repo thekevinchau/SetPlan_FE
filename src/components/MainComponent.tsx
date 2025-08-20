@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import type { Event } from "../types/eventTypes";
 import EventCard from "./EventCard";
+import { IoCreateOutline } from "react-icons/io5";
 
 interface MainComponentProps {
   events: Event[] | undefined;
@@ -16,7 +18,12 @@ export default function MainComponent({
     <div className="w-full h-[95.75vh] rounded-lg mt-4 text-white bg-gray-900/70 border border-gray-700/50 p-3 overflow-scroll">
       <div className="pb-4 border-b border-gray-600/50 space-y-4">
         <div>
-          <p className="text-gray-400 mb-1 text-sm">Festivals</p>
+          <div className="flex justify-between items-center">
+            <p className="text-gray-400 mb-1 text-sm">Festivals</p>
+            <Link to="/events/create" className="text-sm flex hover:text-blue-500 transition duration-300">
+              Create Event<IoCreateOutline className="ml-2 text-xl" />
+            </Link>
+          </div>
           <h1 className="text-3xl font-bold">
             🥳 Explore {isFuture ? "new " : "past "}
             <span className="bg-gradient-to-r from-yellow-500 via-red-500 via-pink-500 to-blue-500 text-transparent bg-clip-text">

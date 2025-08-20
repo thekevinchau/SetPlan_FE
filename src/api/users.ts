@@ -72,8 +72,8 @@ export async function getMyProfile(): Promise<UserProfile> {
   }
 }
 
-export async function editUser(userId: string | null, edits: UserProfileEdit) {
-  if (userId === null) {
+export async function editUser(userId: string | null | undefined, edits: UserProfileEdit) {
+  if (userId === null || userId === undefined) {
     return;
   }
   try {

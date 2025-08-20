@@ -16,7 +16,7 @@ function FavoritedEventsShortcut() {
   const { data, isPending } = useQuery({
     queryKey: ["favorited-events"],
     queryFn: () =>
-      getUserFavoriteEvents(currentUserId != null ? currentUserId : ""),
+      getUserFavoriteEvents(currentUserId),
   });
   useEffect(() => {
     dispatch(setFavoriteEvents(data ?? []));

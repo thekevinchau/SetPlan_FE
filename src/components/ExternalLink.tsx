@@ -55,27 +55,22 @@ export function ExternalLink({ link, isEditMode }: ExternalLinkProps) {
       debounce((val: string) => {
         //If the value is empty, set it back to whatever it was before and clear the status.
         //If the value doesn't equal the original handle, then we can fire the change :)
-        if (val === "") {
-          setCurrentHandle(String(parsedHandle.path));
-          setStatus("");
+        const updatedLink = {
+          ...link,
+          link: parsedHandle.baseUrl + "/" + val,
+        };
+        if (
+          currentUserId === "" ||
+          currentUserId === undefined ||
+          currentUserId === null
+        ) {
+          return;
         } else {
-          const updatedLink = {
-            ...link,
-            link: parsedHandle.baseUrl + "/" + val,
-          };
-          if (
-            currentUserId === "" ||
-            currentUserId === undefined ||
-            currentUserId === null
-          ) {
-            return;
-          } else {
-            updateExternalLink(currentUserId, updatedLink);
-            setStatus("Saved");
-          }
+          updateExternalLink(currentUserId, updatedLink);
+          setStatus("Saved");
         }
       }, 2000),
-    [parsedHandle.baseUrl, parsedHandle.path, link, currentUserId]
+    [parsedHandle.baseUrl, link, currentUserId]
   );
 
   if (isEditMode) {

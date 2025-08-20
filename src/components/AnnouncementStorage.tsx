@@ -98,7 +98,6 @@ export default function AnnouncementStorage() {
   const isAdmin: boolean | undefined = useSelector(
     (state: RootState) => state.currentUser.userProfile?.admin
   );
-  console.log(isAdmin);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const announcements: AnnouncementDetails[] | undefined = data?.content;
 
