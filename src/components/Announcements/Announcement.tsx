@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import type {
   AnnouncementComment,
   AnnouncementDetails,
-} from "../types/announcementTypes";
+} from "../../types/announcementTypes";
 import { useState } from "react";
-import { isWithinWeek, getWeeksBetweenDates } from "../utils/dateUtils";
+import { isWithinWeek, getWeeksBetweenDates } from "../../utils/dateUtils";
 import { useQuery} from "@tanstack/react-query";
 import {
   getCommentsByAnnouncement,
-} from "../api/announcements";
+} from "../../api/announcements";
 import type { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
 import CommentListing from "./CommentListing";

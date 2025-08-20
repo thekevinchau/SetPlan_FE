@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Shortcuts from '../components/Shortcuts';
 import MainSideBar from '../components/MainSideBar';
-import MainComponent from '@/components/MainComponent';
+import MainComponent from '@/components/PrimaryComponents/MainComponent';
 import { useQuery } from '@tanstack/react-query';
 import { getPastEvents } from '@/api/events';
 

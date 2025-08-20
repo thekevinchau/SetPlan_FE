@@ -1,4 +1,4 @@
-type eventLocation = {
+export type EventLocation = {
     venueName: string,
     address: string,
     city: string,
@@ -6,7 +6,7 @@ type eventLocation = {
     zipcode: number
 }
 
-type details = {
+export type EventDetails = {
     eventName: string,
     description: string,
     eventType: string,
@@ -17,9 +17,18 @@ type details = {
 
 export type Event = {
     id: string,
-    location: eventLocation,
-    details: details,
+    location: EventLocation,
+    details: EventDetails,
     imageUrls: {
+        bannerUrl: string,
+        avatarUrl: string
+    }
+}
+
+export type EventCreation = {
+    location: EventLocation,
+    eventDetails: EventDetails,
+    imageURLs: {
         bannerUrl: string,
         avatarUrl: string
     }

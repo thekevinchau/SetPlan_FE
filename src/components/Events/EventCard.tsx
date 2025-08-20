@@ -1,4 +1,4 @@
-import type { Event } from "../types/eventTypes";
+import type { Event } from "src/types/eventTypes.ts"
 import { GrMapLocation } from "react-icons/gr";
 import { HiOutlineCalendarDateRange } from "react-icons/hi2";
 import { CiHeart } from "react-icons/ci";

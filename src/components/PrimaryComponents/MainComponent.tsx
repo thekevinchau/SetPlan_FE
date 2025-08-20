@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import type { Event } from "../types/eventTypes";
-import EventCard from "./EventCard";
+import type { Event } from "../../types/eventTypes";
+import EventCard from "../Events/EventCard";
 import { IoCreateOutline } from "react-icons/io5";
 
 interface MainComponentProps {

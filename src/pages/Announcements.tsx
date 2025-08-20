@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Shortcuts from "../components/Shortcuts";
 import MainSideBar from "../components/MainSideBar";
-import AnnouncementStorage from "../components/AnnouncementStorage";
+import AnnouncementStorage from "../components/Announcements/AnnouncementStorage";
 
 export default function Announcements() {
   const [selected, setSelected] = useState<number>(

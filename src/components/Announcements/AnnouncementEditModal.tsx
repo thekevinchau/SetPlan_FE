@@ -8,16 +8,16 @@ import {
 } from "@/components/ui/dialog";
 import { FaPencilAlt } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
-import { Button } from "./ui/button";
-import { deleteAnnouncement, editAnnouncement } from "../api/announcements";
+import { Button } from "../ui/button";
 import type {
   AnnouncementDetails,
   AnnouncementPayload,
 } from "@/types/announcementTypes";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 import { Label } from "@radix-ui/react-label";
+import { deleteAnnouncement, editAnnouncement } from "@/api/announcements";
 
 interface AnnouncementEditProps {
   announcement: AnnouncementDetails;

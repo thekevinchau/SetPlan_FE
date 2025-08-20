@@ -1,11 +1,11 @@
 import { FaBullhorn } from "react-icons/fa";
-import { createAnnouncement, getAnnouncements } from "../api/announcements";
+import { createAnnouncement, getAnnouncements } from "../../api/announcements";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import type {
   AnnouncementDetails,
   AnnouncementPayload,
   AnnouncementResponse,
-} from "../types/announcementTypes";
+} from "../../types/announcementTypes";
 import Announcement from "./Announcement";
 import type { RootState } from "@/redux/store";
 import { useSelector } from "react-redux";
@@ -19,10 +19,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { IoCreateOutline } from "react-icons/io5";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 interface AnnouncementCreationProps {
   isOpen: boolean;

@@ -1,4 +1,4 @@
-import CreateEvent from "@/components/CreateEvent";
+import CreateEvent from "@/components/Events/CreateEvent";
 import MainSideBar from "@/components/MainSideBar";
 import Shortcuts from "@/components/Shortcuts";
 import React from "react";

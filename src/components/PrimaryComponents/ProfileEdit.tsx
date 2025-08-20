@@ -1,14 +1,14 @@
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { CiLogout } from "react-icons/ci";
 
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import type { profileExternalLink, UserProfile } from "@/types/userTypes";
 
 import { useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
 import type { Event } from "@/types/eventTypes";
-import FavoriteEvents from "./FavoriteEvents";
-import ExternalLinks from "./ExternalLinks";
+import FavoriteEvents from "../Events/FavoriteEvents";
+import ExternalLinks from "../ExternalLinks";
 import { useMemo, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import debounce from "lodash/debounce";

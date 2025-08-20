@@ -2,14 +2,14 @@ import type { Event} from "@/types/eventTypes";
 import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
 import { CiLogout, CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import type { profileExternalLink, UserProfile } from "@/types/userTypes";
 import { logout } from "@/api/users";
 import { clearUser } from "@/redux/currentUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/redux/store";
-import FavoriteEvents from "./FavoriteEvents";
-import ExternalLinksListing from "./ExternalLinks";
+import FavoriteEvents from "../Events/FavoriteEvents";
+import ExternalLinksListing from "../ExternalLinks";
 import { clearFavoriteEvents } from "@/redux/favoriteEventSlice";
 
 interface ProfileComponentProps {

@@ -4,7 +4,7 @@ import { getUserFavoriteEvents } from "@/api/events";
 import { useEffect } from "react";
 import { setFavoriteEvents } from "@/redux/favoriteEventSlice";
 import { useQuery } from "@tanstack/react-query";
-import SideBarEvent from "./SideBarEvent";
+import SideBarEvent from "./Events/SideBarEvent";
 import {getFutureEvents } from "../api/events";
 import type { Event } from "../types/eventTypes";
 
