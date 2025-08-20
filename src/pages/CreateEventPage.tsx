@@ -13,9 +13,9 @@ export default function CreateEventPage() {
         <MainSideBar selected={selected} setSelected={setSelected} />
         <Shortcuts />
       </div>
-            <div className="w-full md:w-3/5 md:flex-1">
-            <CreateEvent/>
-            </div>
+      <div className="w-full md:w-3/5 md:flex-1">
+        <CreateEvent />
+      </div>
     </div>
   );
 }

@@ -19,80 +19,90 @@ export default function EventDetailsAccordionItem({
 }: EventDetailsAccordionProps) {
   return (
     <AccordionItem value="item-1">
-      <AccordionTrigger>Event Details</AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-4 text-balance">
-        <Label>Event Name</Label>
-        <Input
-          placeholder="Event name..."
-          value={eventDetails.eventName}
-          onChange={(e) =>
-            setEventDetails({
-              ...eventDetails,
-              eventName: e.target.value,
-            })
-          }
-        />
-        <Label>Event Description</Label>
-        <textarea
-          placeholder="Describe this awesome event!"
-          className="w-full h-3/4 border rounded-md mt-2 p-2"
-          value={eventDetails.description}
-          onChange={(e) =>
-            setEventDetails({
-              ...eventDetails,
-              description: e.target.value,
-            })
-          }
-        />
-        <Label>Event Type</Label>
-        <div className="flex">
-          <Button
-            type="button"
-            onClick={() =>
-              setEventDetails({ ...eventDetails, eventType: "Solo" })
+      <AccordionTrigger className="text-lg font-semibold">
+        Event Details
+      </AccordionTrigger>
+      <AccordionContent className="flex flex-col gap-6 p-4">
+        {/* Event Name */}
+        <div className="flex flex-col gap-2">
+          <Label className="text-sm font-medium">Event Name</Label>
+          <Input
+            placeholder="Event name..."
+            value={eventDetails.eventName}
+            onChange={(e) =>
+              setEventDetails({
+                ...eventDetails,
+                eventName: e.target.value,
+              })
             }
-          >
-            Solo
-          </Button>
-          <Button
-            type="button"
-            onClick={() =>
-              setEventDetails({ ...eventDetails, eventType: "Festival" })
-            }
-          >
-            Festival
-          </Button>
-          <Button
-            type="button"
-            onClick={() =>
-              setEventDetails({ ...eventDetails, eventType: "Tour" })
-            }
-          >
-            Tour
-          </Button>
+            required
+          />
         </div>
-        <div className="flex">
-          <span>
-            {" "}
-            <Label>Start Date</Label>
+
+        {/* Description */}
+        <div className="flex flex-col gap-2">
+          <Label className="text-sm font-medium">Event Description</Label>
+          <textarea
+            placeholder="Describe this awesome event!"
+            className="w-full min-h-[120px] rounded-xl border p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            value={eventDetails.description}
+            onChange={(e) =>
+              setEventDetails({
+                ...eventDetails,
+                description: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        {/* Event Type */}
+        <div className="flex flex-col gap-2">
+          <Label className="text-sm font-medium">Event Type</Label>
+          <div className="flex justify-evenly">
+            {["Solo", "Festival", "Tour"].map((type) => (
+              <Button
+                key={type}
+                type="button"
+                onClick={() =>
+                  setEventDetails({ ...eventDetails, eventType: type })
+                }
+                className={`bg-white border-3 border-blue-500 rounded-xl px-4 py-2 text-black w-1/4 h-48 ${eventDetails.eventType === type && "border border-white"}`}
+              >
+                {type}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        {/* Dates */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <Label className="text-sm font-medium">Start Date</Label>
             <Input
               type="datetime-local"
+              value={eventDetails.startDate}
               onChange={(e) =>
-                setEventDetails({ ...eventDetails, startDate: e.target.value })
+                setEventDetails({
+                  ...eventDetails,
+                  startDate: e.target.value,
+                })
               }
             />
-          </span>
-          <span>
-            <Label>End Date</Label>
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="text-sm font-medium">End Date</Label>
             <Input
               type="datetime-local"
+              value={eventDetails.endDate}
               onChange={(e) =>
-                setEventDetails({ ...eventDetails, endDate: e.target.value })
+                setEventDetails({
+                  ...eventDetails,
+                  endDate: e.target.value,
+                })
               }
             />
-          </span>
+          </div>
         </div>
-        {eventDetails.eventName}
       </AccordionContent>
     </AccordionItem>
   );

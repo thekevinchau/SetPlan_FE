@@ -19,54 +19,77 @@ export default function EventLocationAccordionItem({
 }: EventDetailsAccordionProps) {
   return (
     <AccordionItem value="item-2">
-      <AccordionTrigger>Event Location</AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-4 text-balance">
-        <Label>Event Address</Label>
-        <Input
-          placeholder="Event name..."
-          value={location.address}
-          onChange={(e) =>
-            setEventLocation({
-              ...location,
-              address: e.target.value,
-            })
-          }
-        />
-        <Label>Event City</Label>
-        <Input
-          placeholder="Event name..."
-          value={location.city}
-          onChange={(e) =>
-            setEventLocation({
-              ...location,
-              city: e.target.value,
-            })
-          }
-        />
-        <Label>Event State</Label>
-        <select
-          value={location.state}
-          onChange={(e) =>
-            setEventLocation({ ...location, state: e.target.value })
-          }
-          className="border w-1/4"
-        >
-          {US_STATE_CODES.map((code: USStateCode) => (
-            <option key={code} value={code}>
-              {code}
-            </option>
-          ))}
-        </select>
-
-        <span>
-          <Label>Zip Code</Label>
+      <AccordionTrigger className="text-lg font-semibold">
+        Event Location
+      </AccordionTrigger>
+      <AccordionContent className="flex flex-col gap-6 p-4">
+        {/* Address */}
+        <div className="flex flex-col gap-2">
+          <Label className="text-sm font-medium">Address</Label>
           <Input
-            type="number"
+            placeholder="123 Main St..."
+            value={location.address}
             onChange={(e) =>
-              setEventLocation({ ...location, zipcode: Number(e.target.value) })
+              setEventLocation({
+                ...location,
+                address: e.target.value,
+              })
             }
           />
-        </span>
+        </div>
+
+        {/* City */}
+        <div className="flex flex-col gap-2">
+          <Label className="text-sm font-medium">City</Label>
+          <Input
+            placeholder="Enter city..."
+            value={location.city}
+            onChange={(e) =>
+              setEventLocation({
+                ...location,
+                city: e.target.value,
+              })
+            }
+          />
+        </div>
+
+        {/* State + Zip in a row */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="flex flex-col gap-2">
+            <Label className="text-sm font-medium">State</Label>
+            <select
+              value={location.state}
+              onChange={(e) =>
+                setEventLocation({ ...location, state: e.target.value })
+              }
+              className="rounded-xl border p-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+            >
+              <option value="" disabled>
+                Select a state
+              </option>
+              {US_STATE_CODES.map((code: USStateCode) => (
+                <option key={code} value={code}>
+                  {code}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Label className="text-sm font-medium">Zip Code</Label>
+            <Input
+              type="number"
+              placeholder="e.g. 90210"
+              value={location.zipcode || ""}
+              onChange={(e) =>
+                setEventLocation({
+                  ...location,
+                  zipcode: Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        </div>
       </AccordionContent>
     </AccordionItem>
   );

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Accordion } from "../ui/accordion";
 import EventDetailsAccordionItem from "./EventDetailsAccordionItem";
 import EventLocationAccordionItem from "./EventLocationAccordionItem";
+import { Input } from "../ui/input";
 
 /*
 TODO LIST FOR EVENT CREATION
@@ -38,7 +39,7 @@ export default function CreateEvent() {
         <Accordion
           type="single"
           collapsible
-          className="w-full"
+          className="w-full bg-gray-800/40 rounded-md pl-2 pr-2"
           defaultValue="item-1"
         >
           <EventDetailsAccordionItem
@@ -50,6 +51,7 @@ export default function CreateEvent() {
             setEventLocation={setEventLocation}
           />
         </Accordion>
+        <p>{eventDetails.description}</p>
 
         <div></div>
       </div>
