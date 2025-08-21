@@ -8,7 +8,11 @@ import FavoriteEvents from "../Events/FavoriteEvents";
 import ExternalLinks from "../ExternalLinks";
 import { useMemo, useState } from "react";
 import debounce from "lodash/debounce";
-import { editUser } from "@/api/users";
+import {
+  editUser,
+  getUserAvatarPresignedUrl,
+  uploadAvatarToS3,
+} from "@/api/users";
 import EditableAvatar from "./EditableAvatar";
 
 interface ProfileComponentProps {
@@ -16,6 +20,16 @@ interface ProfileComponentProps {
   setEditMode: () => void;
   isEditMode: boolean;
 }
+/*
+How to handle avatar file upload to s3.
+1. Our EditableAvatar component accepts a file upload of image type
+    - Via props, that will set the avatarFile.
+2. Next, we generate a presigned URL from our server by including the contentType
+as a query parameter. Once we get that URL from our server, we can feed it into another function
+that consumes the presigned URL, as well as the file, and sends a PUT request to the S3 Endpoint.
+3. Because the presigned URL code is designed to just replace the object in the bucket, we don't need
+to make a separate request to the backend for the new URL.
+*/
 
 export default function ProfileEdit({
   currentUser,
@@ -29,6 +43,7 @@ export default function ProfileEdit({
     currentUser?.externalLinks;
   const [status, setStatus] = useState<string>("");
   const [biography, setBiography] = useState<string>(currentUser?.bio ?? "");
+  const [errorMsg, setErrorMsg] = useState<string>("");
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -48,6 +63,23 @@ export default function ProfileEdit({
       }, 2000),
     []
   );
+
+  const saveAvatar = async () => {
+    try {
+      if (!avatarFile) {
+        return;
+      }
+      const presignedUrl = await getUserAvatarPresignedUrl(avatarFile.type);
+      console.log("Got presigned URL! ", presignedUrl);
+
+      if (presignedUrl) {
+        await uploadAvatarToS3(presignedUrl, avatarFile);
+        console.log("Successfully uploaded to s3!");
+      }
+    } catch (error) {
+      setErrorMsg(String(error));
+    }
+  };
 
   if (!currentUser) {
     return (
@@ -73,6 +105,12 @@ export default function ProfileEdit({
                 </span>
               </div>
             )}
+            {avatarFile && (
+              <button className="text-white" onClick={saveAvatar}>
+                Save Avatar
+              </button>
+            )}
+            {avatarFile?.type}
 
             <h1 className="text-2xl font-bold text-white mb-2">
               {currentUser.displayName}

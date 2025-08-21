@@ -72,7 +72,10 @@ export async function getMyProfile(): Promise<UserProfile> {
   }
 }
 
-export async function editUser(userId: string | null | undefined, edits: UserProfileEdit) {
+export async function editUser(
+  userId: string | null | undefined,
+  edits: UserProfileEdit
+) {
   if (userId === null || userId === undefined) {
     return;
   }
@@ -80,5 +83,32 @@ export async function editUser(userId: string | null | undefined, edits: UserPro
     await api.patch(`/profiles/${userId}`, edits);
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function getUserAvatarPresignedUrl(imageType: string | null | undefined): Promise<string>{
+  if (imageType === null || imageType === undefined){
+    return "There is no file.";
+  }
+  try {
+    const response = await api.get(`profiles/upload-image-url?contentType=${imageType}`)
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return "Unable to upload avatar!";
+  }
+}
+
+export async function uploadAvatarToS3(presignedUrl: string, file: File) {
+  try {
+    await axios.put(presignedUrl, file, {
+      headers: {
+        'Content-Type': file.type, // must match what was signed
+      },
+    });
+    console.log('Upload successful!');
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    return "Error uploading image!";
   }
 }
