@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
 import type { Event } from "../../types/eventTypes";
 import EventCard from "../Events/EventCard";
 import { IoCreateOutline } from "react-icons/io5";
+import CreateEvent from "../Events/CreateEvent";
+import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
+import { DialogContent, DialogHeader } from "../ui/dialog";
 
 interface MainComponentProps {
   events: Event[] | undefined;
@@ -20,9 +22,16 @@ export default function MainComponent({
         <div>
           <div className="flex justify-between items-center">
             <p className="text-gray-400 mb-1 text-sm">Festivals</p>
-            <Link to="/events/create" className="text-sm flex hover:text-blue-500 transition duration-300">
-              Create Event<IoCreateOutline className="ml-2 text-xl" />
-            </Link>
+            <Dialog>
+              <DialogTrigger className="flex items-center">
+                Create Event
+                <IoCreateOutline className="ml-2 text-xl" />
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>Create Event</DialogHeader>
+                <CreateEvent />
+              </DialogContent>
+            </Dialog>
           </div>
           <h1 className="text-3xl font-bold">
             🥳 Explore {isFuture ? "new " : "past "}

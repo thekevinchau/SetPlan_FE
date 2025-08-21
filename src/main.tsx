@@ -11,12 +11,10 @@ import { Provider } from "react-redux";
 import LoginPage from "./pages/LoginPage.tsx";
 import UserPage from "./pages/UserPage.tsx";
 import store from "./redux/store.ts";
-import CreateEventPage from "./pages/CreateEventPage.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/login", element: <LoginPage />},
-  { path: "/events/create", element: <CreateEventPage/>},
   { path: "/users/:userId", element: <UserPage /> },
   { path: "/announcements", element: <Announcements /> },
   { path: "/past-events", element: <PastEvents /> },
