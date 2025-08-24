@@ -4,9 +4,10 @@ import type {
   AnnouncementPayload,
   AnnouncementResponse,
 } from "../types/announcementTypes";
+import { serverBaseURL } from "@/config";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: serverBaseURL,
   withCredentials: true,
 });
 

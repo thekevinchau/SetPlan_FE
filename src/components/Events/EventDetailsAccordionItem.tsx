@@ -66,7 +66,9 @@ export default function EventDetailsAccordionItem({
                 onClick={() =>
                   setEventDetails({ ...eventDetails, eventType: type })
                 }
-                className={`bg-white border-3 border-blue-500 rounded-xl px-4 py-2 text-black w-1/4 h-48 ${eventDetails.eventType === type && "border border-white"}`}
+                className={`bg-white border-3 border-blue-500 rounded-xl px-4 py-2 text-black w-1/4 h-48 ${
+                  eventDetails.eventType === type && "border border-white"
+                }`}
               >
                 {type}
               </Button>
@@ -80,26 +82,36 @@ export default function EventDetailsAccordionItem({
             <Label className="text-sm font-medium">Start Date</Label>
             <Input
               type="datetime-local"
-              value={eventDetails.startDate}
-              onChange={(e) =>
+              value={
+                eventDetails.startDate
+                  ? eventDetails.startDate.slice(0, 16)
+                  : ""
+              }
+              onChange={(e) => {
+                const localDateTime = e.target.value; // "2025-08-27T07:18"
+                const isoString = new Date(localDateTime).toISOString(); // "2025-08-27T11:18:00.000Z"
                 setEventDetails({
                   ...eventDetails,
-                  startDate: e.target.value,
-                })
-              }
+                  startDate: isoString,
+                });
+              }}
             />
           </div>
           <div className="flex flex-col gap-2">
             <Label className="text-sm font-medium">End Date</Label>
             <Input
               type="datetime-local"
-              value={eventDetails.endDate}
-              onChange={(e) =>
+              value={
+                eventDetails.endDate ? eventDetails.endDate.slice(0, 16) : ""
+              }
+              onChange={(e) => {
+                const localDateTime = e.target.value;
+                const isoString = new Date(localDateTime).toISOString();
                 setEventDetails({
                   ...eventDetails,
-                  endDate: e.target.value,
-                })
-              }
+                  endDate: isoString, // ✅ fixed!
+                });
+              }}
             />
           </div>
         </div>

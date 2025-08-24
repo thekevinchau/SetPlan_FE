@@ -26,10 +26,11 @@ export type Event = {
 }
 
 export type EventCreation = {
+    id?: string,
     location: EventLocation,
     eventDetails: EventDetails,
     imageURLs: {
-        bannerUrl: string,
-        avatarUrl: string
+        bannerUrl?: string,
+        avatarUrl?: string
     }
 }

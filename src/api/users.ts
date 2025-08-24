@@ -1,5 +1,5 @@
+import { serverBaseURL } from "@/config";
 import {
-  emptyProfile,
   type profileExternalLink,
   type UserProfile,
   type UserProfileEdit,
@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: serverBaseURL,
   withCredentials: true,
 });
 
@@ -23,7 +23,7 @@ export async function login(
     return response.data;
   } catch (error) {
     console.error(error);
-    return { ...emptyProfile };
+    throw error;
   }
 }
 
@@ -33,6 +33,7 @@ export async function logout() {
     localStorage.removeItem("currentUser");
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
@@ -57,7 +58,7 @@ export async function updateExternalLink(
     return response.data;
   } catch (error) {
     console.error(error);
-    return { ...emptyProfile };
+    throw error;
   }
 }
 
@@ -68,7 +69,7 @@ export async function getMyProfile(): Promise<UserProfile> {
     return response.data;
   } catch (error) {
     console.error(error);
-    return { ...emptyProfile };
+    throw error;
   }
 }
 
@@ -83,19 +84,22 @@ export async function editUser(
     await api.patch(`/profiles/${userId}`, edits);
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
-export async function getUserAvatarPresignedUrl(imageType: string | null | undefined): Promise<string>{
-  if (imageType === null || imageType === undefined){
-    return "There is no file.";
-  }
+export async function getUserAvatarPresignedUrl(
+  imageType: string | null | undefined
+): Promise<string> {
+  if (!imageType) throw new Error("No image type provided");
   try {
-    const response = await api.get(`profiles/upload-image-url?contentType=${imageType}`)
+    const response = await api.get(
+      `profiles/upload-image-url?contentType=${imageType}`
+    );
     return response.data;
   } catch (error) {
-    console.error(error);
-    return "Unable to upload avatar!";
+    console.error("Failed to get presigned URL:", error);
+    throw error;
   }
 }
 
@@ -103,12 +107,12 @@ export async function uploadAvatarToS3(presignedUrl: string, file: File) {
   try {
     await axios.put(presignedUrl, file, {
       headers: {
-        'Content-Type': file.type, // must match what was signed
+        "Content-Type": file.type,
       },
     });
-    console.log('Upload successful!');
+    console.log("Upload successful!");
   } catch (error) {
-    console.error('Error uploading image:', error);
-    return "Error uploading image!";
+    console.error("Error uploading image:", error);
+    throw error;
   }
 }

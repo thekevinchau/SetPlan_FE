@@ -2,8 +2,8 @@ import type { Event } from "../../types/eventTypes";
 import EventCard from "../Events/EventCard";
 import { IoCreateOutline } from "react-icons/io5";
 import CreateEvent from "../Events/CreateEvent";
-import { Dialog, DialogTrigger } from "@radix-ui/react-dialog";
-import { DialogContent, DialogHeader } from "../ui/dialog";
+import { Dialog, DialogDescription, DialogTrigger } from "@radix-ui/react-dialog";
+import { DialogContent,  DialogTitle } from "../ui/dialog";
 
 interface MainComponentProps {
   events: Event[] | undefined;
@@ -28,7 +28,8 @@ export default function MainComponent({
                 <IoCreateOutline className="ml-2 text-xl" />
               </DialogTrigger>
               <DialogContent>
-                <DialogHeader>Create Event</DialogHeader>
+                <DialogTitle>Create an event below!</DialogTitle>
+                <DialogDescription>Your one stop shop to creating events for the website!</DialogDescription>
                 <CreateEvent />
               </DialogContent>
             </Dialog>

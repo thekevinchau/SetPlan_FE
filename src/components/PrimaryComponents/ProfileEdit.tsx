@@ -152,6 +152,7 @@ export default function ProfileEdit({
             </Button>
           </div>
         </div>
+        {errorMsg}
       </div>
     </div>
   );

@@ -1,21 +1,21 @@
-import type { EventDetails, EventLocation } from "@/types/eventTypes";
 import { useState, type ChangeEvent } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { Accordion } from "../ui/accordion";
 import EventDetailsAccordionItem from "./EventDetailsAccordionItem";
 import EventLocationAccordionItem from "./EventLocationAccordionItem";
 import EventImgUploadAccordion from "./EventImgUploadAccordion";
+import {
+  createEvent,
+  generateEventPresignedUrl,
+  uploadEventImageToS3,
+} from "@/api/events";
+import { cloudfront_url } from "@/config";
+import type {
+  EventCreation,
+  EventDetails,
+  EventLocation,
+} from "@/types/eventTypes";
 
-/*
-TODO LIST FOR EVENT CREATION
-
-1. Create an accordion that opens up each component when they're clicked
-    - Event Details should by default, be open, and the rest closed
-2. Create each component
-    - One for event details and event location and eventually imageURLs
-3. Effectively manage the state for each section and then combine them together
-into a request object to send to our backend
-
-*/
 export default function CreateEvent() {
   const [eventDetails, setEventDetails] = useState<EventDetails>({
     eventName: "",
@@ -24,6 +24,7 @@ export default function CreateEvent() {
     startDate: "",
     endDate: "",
   });
+
   const [eventLocation, setEventLocation] = useState<EventLocation>({
     venueName: "",
     address: "",
@@ -34,17 +35,66 @@ export default function CreateEvent() {
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleAvatarFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setAvatarFile(e.target.files[0]);
+  const handleFileChange =
+    (setter: React.Dispatch<React.SetStateAction<File | null>>) =>
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files?.[0]) {
+        setter(e.target.files[0]);
+      }
+    };
+
+  async function generatePresignedUrls(
+    id: string
+  ): Promise<{ avatarUrl?: string; bannerUrl?: string }> {
+    const urls: { avatarUrl?: string; bannerUrl?: string } = {};
+
+    if (avatarFile) {
+      urls.avatarUrl = await generateEventPresignedUrl(id, "Avatar", avatarFile.type);
     }
-  };
-  const handleBannerFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setBannerFile(e.target.files[0]);
+    if (bannerFile) {
+      urls.bannerUrl = await generateEventPresignedUrl(id, "Banner", bannerFile.type);
     }
-  };
+
+    return urls;
+  }
+
+  async function submitEvent() {
+    setIsSubmitting(true);
+    setError(null);
+
+    const id = uuidv4();
+
+    try {
+      const presignedUrls = await generatePresignedUrls(id);
+
+      if (presignedUrls.avatarUrl && avatarFile) {
+        await uploadEventImageToS3(presignedUrls.avatarUrl, avatarFile);
+      }
+      if (presignedUrls.bannerUrl && bannerFile) {
+        await uploadEventImageToS3(presignedUrls.bannerUrl, bannerFile);
+      }
+
+      const eventRequest: EventCreation = {
+        id,
+        eventDetails,
+        location: eventLocation,
+        imageURLs: {
+          avatarUrl: `${cloudfront_url}/events/avatars/${id}`,
+          bannerUrl: `${cloudfront_url}/events/banners/${id}`, // ✅ fixed
+        },
+      };
+
+      await createEvent(eventRequest);
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong creating your event. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="w-full flex flex-col items-center">
@@ -62,15 +112,20 @@ export default function CreateEvent() {
           setEventLocation={setEventLocation}
         />
         <EventImgUploadAccordion
-          handleAvatarFileChange={handleAvatarFileChange}
-          handleBannerFileChange={handleBannerFileChange}
+          handleAvatarFileChange={handleFileChange(setAvatarFile)}
+          handleBannerFileChange={handleFileChange(setBannerFile)}
         />
-        <p>{avatarFile?.type}</p>
-        <p>{bannerFile?.type}</p>
       </Accordion>
-      <p>{eventDetails.description}</p>
 
-      <div></div>
+      {error && <p className="text-red-500 mt-2">{error}</p>}
+
+      <button
+        onClick={submitEvent}
+        disabled={isSubmitting}
+        className="mt-4 px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+      >
+        {isSubmitting ? "Submitting..." : "Submit"}
+      </button>
     </div>
   );
 }
