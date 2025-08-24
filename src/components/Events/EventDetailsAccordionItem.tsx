@@ -22,7 +22,7 @@ export default function EventDetailsAccordionItem({
       <AccordionTrigger className="text-lg font-semibold">
         Event Details
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-6 p-4">
+      <AccordionContent className="flex flex-col gap-6">
         {/* Event Name */}
         <div className="flex flex-col gap-2">
           <Label className="text-sm font-medium">Event Name</Label>
@@ -58,7 +58,7 @@ export default function EventDetailsAccordionItem({
         {/* Event Type */}
         <div className="flex flex-col gap-2">
           <Label className="text-sm font-medium">Event Type</Label>
-          <div className="flex justify-evenly">
+          <div className="flex justify-between">
             {["Solo", "Festival", "Tour"].map((type) => (
               <Button
                 key={type}
@@ -66,7 +66,7 @@ export default function EventDetailsAccordionItem({
                 onClick={() =>
                   setEventDetails({ ...eventDetails, eventType: type })
                 }
-                className={`bg-white border-3 border-blue-500 rounded-xl px-4 py-2 text-black w-1/4 h-48 ${
+                className={`bg-white border-3 border-blue-500 rounded-xl px-4 py-2 text-black w-1/4 h-32 ${
                   eventDetails.eventType === type && "border border-white"
                 }`}
               >

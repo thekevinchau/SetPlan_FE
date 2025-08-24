@@ -37,6 +37,7 @@ export default function CreateEvent() {
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
   const handleFileChange =
     (setter: React.Dispatch<React.SetStateAction<File | null>>) =>
@@ -93,6 +94,7 @@ export default function CreateEvent() {
       setError("Something went wrong creating your event. Please try again.");
     } finally {
       setIsSubmitting(false);
+      setModalOpen(false);
     }
   }
 
@@ -101,7 +103,9 @@ export default function CreateEvent() {
       <Accordion
         type="single"
         collapsible
-        className="w-full bg-gray-800/40 rounded-md pl-2 pr-2"
+        defaultValue="item-1"
+        defaultChecked={isModalOpen}
+        className="w-full  rounded-md pl-2 pr-2"
       >
         <EventDetailsAccordionItem
           eventDetails={eventDetails}

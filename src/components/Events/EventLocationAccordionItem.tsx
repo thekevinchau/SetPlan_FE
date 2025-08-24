@@ -22,7 +22,23 @@ export default function EventLocationAccordionItem({
       <AccordionTrigger className="text-lg font-semibold">
         Event Location
       </AccordionTrigger>
-      <AccordionContent className="flex flex-col gap-6 p-4">
+      <AccordionContent className="flex flex-col gap-6">
+        {/*Venue */}
+        <div className="flex flex-col gap-2">
+          <Label className="text-sm font-medium">Venue Name</Label>
+          <Input
+            placeholder="123 Main St..."
+            value={location.venueName}
+            onChange={(e) =>
+              setEventLocation({
+                ...location,
+                venueName: e.target.value,
+              })
+            }
+          />
+        </div>
+
+
         {/* Address */}
         <div className="flex flex-col gap-2">
           <Label className="text-sm font-medium">Address</Label>
